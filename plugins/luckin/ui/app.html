@@ -6,83 +6,301 @@
   <title>Luckin 商品与订单</title>
   <script>document.documentElement.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";</script>
   <style>
-    :root {
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
-      color-scheme: light;
-      --canvas: #f5f5f5;
-      --surface: #fff;
-      --field: #f7f7f7;
-      --text: #262626;
-      --muted: #737373;
-      --line: #e6e6e6;
-      --brand: #232773;
-      --brand-hover: #191e65;
-      --error: #b42331;
-      --success: #176b46;
-      background: var(--canvas);
-      color: var(--text);
-    }
-    :root[data-theme="dark"] {
-      color-scheme: dark;
-      --canvas: #101113;
-      --surface: #1b1c1f;
-      --field: #242529;
-      --text: #f4f4f4;
-      --muted: #aaaeb5;
-      --line: #393a3e;
-      --error: #ffa7ad;
-      --success: #9bd2ae;
-    }
-    * { box-sizing: border-box; }
-    html, body { min-height: 100%; }
-    body { margin: 0; padding: 12px; background: var(--canvas); color: var(--text); font-size: 13px; line-height: 1.45; }
-    main { width: min(100%, 420px); margin: auto; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-    header { padding: 18px 20px 16px; border-bottom: 1px solid var(--line); }
-    .brand-logo { display: block; width: 125px; height: 35px; margin-bottom: 12px; object-fit: contain; object-position: left center; }
-    .brand-logo-dark { display: none; }
-    :root[data-theme="dark"] .brand-logo-light { display: none; }
-    :root[data-theme="dark"] .brand-logo-dark { display: block; }
-    .eyebrow { margin: 0 0 7px; color: var(--muted); font-size: 11px; font-weight: 600; }
-    h1 { margin: 0; color: var(--text); font-size: 18px; line-height: 1.3; }
-    .intro { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
-    section { padding: 16px 20px 3px; }
-    .label { margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
-    .shop { font-size: 14px; font-weight: 700; }
-    .address { margin-top: 5px; color: var(--muted); font-size: 12px; }
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
-    li:last-child { border: 0; }
-    .product-art { display: grid; place-items: center; flex: 0 0 60px; width: 60px; height: 60px; overflow: hidden; border-radius: 8px; background: var(--field); color: var(--muted); font-size: 18px; }
-    .product-art img { width: 100%; height: 100%; object-fit: contain; }
-    .product-description { min-width: 0; flex: 1; }
-    .product-name { font-size: 13px; font-weight: 700; line-height: 1.35; }
-    .options { margin-top: 4px; color: var(--muted); font-size: 12px; }
-    .amount { align-self: center; white-space: nowrap; font-weight: 700; }
-    .total { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 12px; padding: 12px 20px; background: var(--field); font-size: 13px; }
-    .total strong { color: var(--brand); font-size: 18px; white-space: nowrap; }
-    :root[data-theme="dark"] .total strong { color: var(--text); }
-    .note { margin: 14px 20px 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
-    .actions { display: flex; gap: 8px; padding: 15px 20px 18px; }
-    button { min-height: 38px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 7px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
-    button.secondary { background: var(--surface); color: var(--brand); }
-    :root[data-theme="dark"] button.secondary { color: var(--text); }
-    button.primary { flex: 1; border-color: var(--brand); background: var(--brand); color: #fff; }
-    button.primary:hover:not(:disabled) { border-color: var(--brand-hover); background: var(--brand-hover); }
-    button:disabled { opacity: .55; cursor: default; }
-    button:focus-visible { outline: 2px solid #4656b5; outline-offset: 2px; }
-    #status { min-height: 1.5em; margin: 0 20px 16px; color: var(--muted); font-size: 12px; line-height: 1.5; }
-    #status[data-tone="error"] { color: var(--error); }
-    #status[data-tone="success"] { color: var(--success); }
-    [hidden] { display: none !important; }
-    @media (pointer: coarse) { button { min-height: 44px; } }
-  </style>
+:root {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    "Segoe UI",
+    sans-serif;
+  color-scheme: light;
+  --canvas: #f5f5f5;
+  --surface: #fff;
+  --field: #f7f7f7;
+  --text: #262626;
+  --muted: #737373;
+  --line: #e6e6e6;
+  --brand: #232773;
+  --brand-hover: #191e65;
+  --error: #b42331;
+  --success: #176b46;
+  --price: #d74620;
+  --soft: #f1f2fc;
+  --selected: #232773;
+  background: var(--canvas);
+  color: var(--text);
+}
+:root[data-theme=dark] {
+  color-scheme: dark;
+  --canvas: #101113;
+  --surface: #1b1c1f;
+  --field: #242529;
+  --text: #f4f4f4;
+  --muted: #aaaeb5;
+  --line: #393a3e;
+  --error: #ffa7ad;
+  --success: #9bd2ae;
+  --price: #ff956e;
+  --soft: #23263b;
+  --selected: #c1c8ff;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  padding: 12px;
+  background: var(--canvas);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+main {
+  width: min(100%, 400px);
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+header {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.brand-logo {
+  display: block;
+  width: 100px;
+  height: 28px;
+  margin-bottom: 12px;
+  object-fit: contain;
+  object-position: left center;
+}
+.brand-logo-dark {
+  display: none;
+}
+:root[data-theme=dark] .brand-logo-light {
+  display: none;
+}
+:root[data-theme=dark] .brand-logo-dark {
+  display: block;
+}
+.eyebrow {
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.3;
+}
+.intro {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+section {
+  padding: 16px 20px 3px;
+}
+.label {
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+.shop {
+  font-size: 14px;
+  font-weight: 700;
+}
+.address {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+li:last-child {
+  border: 0;
+}
+.product-art {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--field);
+  color: var(--muted);
+  font-size: 10px;
+}
+.product-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.product-description {
+  min-width: 0;
+  flex: 1;
+}
+.product-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.options {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.amount {
+  align-self: center;
+  white-space: nowrap;
+  font-weight: 700;
+}
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px 20px;
+  background: var(--field);
+  font-size: 13px;
+}
+.total strong {
+  color: var(--price);
+  font-size: 20px;
+  white-space: nowrap;
+}
+.note {
+  margin: 14px 20px 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 15px 20px 18px;
+}
+button {
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+button.secondary {
+  background: var(--surface);
+  color: var(--brand);
+}
+:root[data-theme=dark] button.secondary {
+  color: var(--text);
+}
+button.primary {
+  flex: 1;
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+button.primary:hover:not(:disabled) {
+  border-color: var(--brand-hover);
+  background: var(--brand-hover);
+}
+button:disabled {
+  opacity: .55;
+  cursor: default;
+}
+button:focus-visible {
+  outline: 2px solid #4656b5;
+  outline-offset: 2px;
+}
+#status {
+  min-height: 1.5em;
+  margin: 0 20px 16px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+#status[data-tone=error] {
+  color: var(--error);
+}
+#status[data-tone=success] {
+  color: var(--success);
+}
+[hidden] {
+  display: none !important;
+}
+@media (pointer: coarse) {
+  button {
+    min-height: 44px;
+  }
+}
+.stage {
+  display: inline-block;
+  margin: 0 0 9px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--soft);
+  color: var(--selected);
+  font-size: 11px;
+}
+.stage.pending {
+  color: var(--price);
+  background: var(--field);
+}
+.product-art:has(img) {
+  background: #fff;
+}
+.amount {
+  text-align: right;
+}
+.amount small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 4px;
+}
+#receipt {
+  margin: 12px 20px 16px;
+}
+#order-number {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+</style>
 </head>
 <body>
   <main>
     <header>
       <img class="brand-logo brand-logo-light" src="https://s2.luckincoffeecdn.com/luckyweb/public/assets/82fc225c29de0a222f9dcc6844ecd2d1.png" alt="luckin coffee">
       <img class="brand-logo brand-logo-dark" src="https://web.luckincdn.com/default/assets/logo2-9d412147.svg" alt="luckin coffee">
-      <p class="eyebrow">社区项目 · 非瑞幸官方插件</p>
+      <div class="stage" id="stage">等待订单预览</div>
       <h1 id="title">等待订单预览</h1>
       <p class="intro" id="intro">请核对实时返回的信息，确认后才会向瑞幸提交。</p>
     </header>
@@ -95,169 +313,221 @@
       <div class="label" id="products-label">商品</div>
       <ul id="products"></ul>
     </section>
-    <div class="total" id="total-row" hidden><span>预估实付金额</span><strong id="total">—</strong></div>
+    <div class="total" id="total-row" hidden><span id="total-label">订单预览金额</span><strong id="total">—</strong></div>
     <p class="note" id="note">确认有效期 5 分钟。最终金额和状态以瑞幸官方结果为准。</p>
     <div class="actions" id="actions">
       <button class="secondary" id="dismiss" type="button">暂不操作</button>
       <button class="primary" id="confirm" type="button" disabled>确认</button>
     </div>
+    <div id="receipt" hidden><p id="order-number"></p><button class="secondary" id="refresh" type="button">刷新状态</button></div>
     <p id="status" role="status" aria-live="polite"></p>
   </main>
   <script type="module">
-    const $ = (selector) => document.querySelector(selector);
-    let review = null;
-    let busy = false;
-    let rpcId = 0;
-    const waiting = new Map();
-    let hostTheme = null;
-    const systemTheme = matchMedia("(prefers-color-scheme: dark)");
-    function updateTheme(theme) { if (theme === "light" || theme === "dark") { hostTheme = theme; document.documentElement.dataset.theme = theme; } }
-    updateTheme(window.openai?.theme);
-    systemTheme.addEventListener("change", event => { if (!hostTheme) document.documentElement.dataset.theme = event.matches ? "dark" : "light"; });
-
-    function notify(method, params) {
-      window.parent.postMessage({ jsonrpc: "2.0", method, params }, "*");
-    }
-    function request(method, params) {
-      return new Promise((resolve, reject) => {
-        const id = ++rpcId;
-        waiting.set(id, { resolve, reject });
-        window.parent.postMessage({ jsonrpc: "2.0", id, method, params }, "*");
-      });
-    }
-    function status(message, tone = "") {
-      $("#status").textContent = message;
-      $("#status").dataset.tone = tone;
-    }
-    function money(value) {
-      return value !== null && value !== undefined && Number.isFinite(Number(value))
-        ? `¥${Number(value).toFixed(2)}` : "以瑞幸结果为准";
-    }
-    function appendProduct(product, catalog) {
-      const li = document.createElement("li");
-      const art = document.createElement("div");
-      art.className = "product-art";
-      art.textContent = "☕";
-      if (product.imageUrl) {
-        const image = document.createElement("img");
-        image.alt = String(product.name ?? "商品");
-        image.loading = "lazy";
-        image.decoding = "async";
-        image.referrerPolicy = "no-referrer";
-        image.addEventListener("error", () => { art.textContent = "☕"; });
-        art.replaceChildren(image);
-        image.src = product.imageUrl;
-      }
-      const description = document.createElement("div");
-      description.className = "product-description";
-      const name = document.createElement("div");
-      name.className = "product-name";
-      name.textContent = catalog ? String(product.name ?? "商品") : `${String(product.name ?? "商品")} × ${Number(product.amount) || 1}`;
-      const options = document.createElement("div");
-      options.className = "options";
-      options.textContent = catalog
-        ? [`商品 ID ${String(product.productId ?? "—")}`, String(product.tags ?? "")].filter(Boolean).join(" · ")
-        : String(product.options ?? "");
-      const price = document.createElement("span");
-      price.className = "amount";
-      price.textContent = money(product.price);
-      description.append(name, options);
-      li.append(art, description, price);
-      $("#products").append(li);
-    }
-    function render(result) {
-      if (!result || !["catalog", "order", "cancel"].includes(result.kind)) return;
-      review = result.kind === "catalog" ? null : result;
-      const isOrder = result.kind === "order";
-      const isCatalog = result.kind === "catalog";
-      const summary = result.summary || {};
-      $("#title").textContent = isCatalog ? "瑞幸商品" : isOrder ? "确认创建订单" : "确认取消订单";
-      $("#intro").textContent = isCatalog ? "查看商品图片与预估价格，再选择需要的商品和规格。" : isOrder ? "请核对门店、商品和金额后再创建订单。" : "取消后可能无法恢复，请先核对订单。";
-      $("#shop-section").hidden = isCatalog;
-      $("#section-label").textContent = isOrder ? "自提门店" : "订单";
-      $("#shop").textContent = isOrder ? String(summary.shop?.name ?? "未知门店") : String(summary.orderId ?? "未知订单");
-      $("#address").textContent = isOrder ? String(summary.shop?.address ?? "") : `当前状态：${String(summary.status ?? "未知")}　${String(summary.shop ?? "")}`;
-      $("#products-section").hidden = !isOrder && !isCatalog;
-      $("#products-label").textContent = isCatalog ? "搜索结果" : "商品";
-      $("#total-row").hidden = !isOrder;
-      $("#actions").hidden = isCatalog;
-      $("#products").replaceChildren();
-      if (isCatalog || isOrder) {
-        const products = isCatalog ? result.products : summary.products;
-        for (const product of Array.isArray(products) ? products : []) appendProduct(product, isCatalog);
-      }
-      if (isCatalog && !$("#products").childElementCount) {
-        const empty = document.createElement("li");
-        empty.textContent = "暂无匹配商品，请换个描述再试。";
-        $("#products").append(empty);
-      }
-      if (isOrder) {
-        $("#total").textContent = money(summary.total);
-      }
-      $("#note").textContent = isCatalog
-        ? "价格为瑞幸返回的预估值；请按商品 ID 查询详情并选择规格，最终金额以订单预览为准。"
-        : isOrder ? "确认仅创建订单，不会自动付款。若瑞幸要求支付，请在官方支付渠道完成。确认有效期 5 分钟。"
-        : "点击确认后会向瑞幸提交取消请求。请随后查询订单状态确认结果。确认有效期 5 分钟。";
-      $("#confirm").textContent = isOrder ? "确认创建订单" : "确认取消订单";
-      $("#confirm").disabled = isCatalog;
+const $ = (selector) => document.querySelector(selector);
+let review = null, busy = false, rpcId = 0, expiryTimer, hostTheme = null, createdOrderId = null;
+const waiting = /* @__PURE__ */ new Map(), systemTheme = matchMedia("(prefers-color-scheme: dark)");
+const finite = (value) => value !== null && value !== void 0 && value !== "" && Number.isFinite(Number(value));
+const money = (value) => finite(value) ? `¥${Number(value).toFixed(2)}` : "待确认";
+function updateTheme(theme) {
+  if (["light", "dark"].includes(theme)) {
+    hostTheme = theme;
+    document.documentElement.dataset.theme = theme;
+  }
+}
+updateTheme(window.openai?.theme);
+systemTheme.addEventListener("change", (event) => {
+  if (!hostTheme) document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+});
+function notify(method, params) {
+  window.parent.postMessage({ jsonrpc: "2.0", method, params }, "*");
+}
+function request(method, params) {
+  return new Promise((resolve, reject) => {
+    const id = ++rpcId;
+    const timer = setTimeout(() => {
+      waiting.delete(id);
+      reject(new Error("宿主响应超时，请先查询订单状态。"));
+    }, 2e4);
+    waiting.set(id, { resolve, reject, timer });
+    window.parent.postMessage({ jsonrpc: "2.0", id, method, params }, "*");
+  });
+}
+function status(message, tone = "") {
+  $("#status").textContent = message;
+  $("#status").dataset.tone = tone;
+}
+function appendProduct(product, catalog) {
+  const li = document.createElement("li"), art = document.createElement("div");
+  art.className = "product-art";
+  art.textContent = "暂无图片";
+  let url;
+  try {
+    const parsed = new URL(product.imageUrl);
+    if (parsed.protocol === "https:" && parsed.hostname.endsWith(".luckincoffeecdn.com")) url = parsed.href;
+  } catch {
+  }
+  if (url) {
+    const image = document.createElement("img");
+    image.alt = String(product.name ?? "商品");
+    image.loading = "lazy";
+    image.referrerPolicy = "no-referrer";
+    image.onerror = () => {
+      art.textContent = "暂无图片";
+    };
+    art.replaceChildren(image);
+    image.src = url;
+  }
+  const description = document.createElement("div");
+  description.className = "product-description";
+  const name = document.createElement("div");
+  name.className = "product-name";
+  name.textContent = String(product.name ?? "商品");
+  const options = document.createElement("div");
+  options.className = "options";
+  options.textContent = catalog ? String(product.tags ?? "") : String(product.options ?? "");
+  const price = document.createElement("div");
+  price.className = "amount";
+  price.textContent = money(product.price);
+  if (!catalog) {
+    const quantity = document.createElement("small");
+    quantity.textContent = `×${Number(product.amount) || 1}`;
+    price.append(quantity);
+  }
+  description.append(name, options);
+  li.append(art, description, price);
+  $("#products").append(li);
+}
+function render(result) {
+  if (!result || !["catalog", "order", "cancel"].includes(result.kind) || busy) return;
+  clearTimeout(expiryTimer);
+  createdOrderId = null;
+  review = result.kind === "catalog" ? null : result;
+  const isOrder = result.kind === "order", isCatalog = result.kind === "catalog", summary = result.summary || {};
+  $("#stage").textContent = isCatalog ? "瑞幸商品" : isOrder ? "待确认 · 尚未下单" : "待确认取消";
+  $("#stage").classList.remove("pending");
+  $("#title").textContent = isCatalog ? "找到喜欢的那一杯" : isOrder ? "核对订单" : "确认取消订单";
+  $("#intro").textContent = isCatalog ? "选择商品后，可继续调整规格。" : isOrder ? "门店、规格和金额确认无误后再下单。" : "取消后可能无法恢复，请先核对订单。";
+  $("#shop-section").hidden = isCatalog;
+  $("#section-label").textContent = isOrder ? "到店取" : "订单";
+  $("#shop").textContent = isOrder ? String(summary.shop?.name ?? "未知门店") : String(summary.orderId ?? "未知订单");
+  $("#address").textContent = isOrder ? String(summary.shop?.address ?? "") : `${String(summary.status ?? "状态未知")} · ${String(summary.shop ?? "")}`;
+  $("#products-section").hidden = !isOrder && !isCatalog;
+  $("#products-label").textContent = isCatalog ? "搜索结果" : "已选商品";
+  $("#total-row").hidden = !isOrder;
+  $("#total-label").textContent = "订单预览金额";
+  $("#actions").hidden = isCatalog;
+  $("#receipt").hidden = true;
+  $("#products").replaceChildren();
+  for (const item of (isCatalog ? result.products : summary.products) || []) appendProduct(item, isCatalog);
+  if (isOrder) $("#total").textContent = money(summary.total);
+  $("#note").textContent = isCatalog ? "商品价格以瑞幸返回为准，最终优惠和金额将在订单预览中核对。" : isOrder ? "确认后创建订单。如需付款，请在瑞幸官方渠道完成。此次预览 5 分钟内有效。" : "确认后提交取消请求，结果以瑞幸最新订单状态为准。此次预览 5 分钟内有效。";
+  $("#dismiss").textContent = isOrder ? "返回修改" : "暂不取消";
+  $("#dismiss").disabled = false;
+  $("#confirm").textContent = isOrder ? "确认创建订单" : "确认取消订单";
+  $("#confirm").disabled = isCatalog;
+  status("");
+  if (!isCatalog) expiryTimer = setTimeout(() => {
+    if (review !== result || busy) return;
+    review = null;
+    $("#stage").textContent = "预览已过期";
+    $("#confirm").disabled = true;
+    status("请重新预览，获取最新金额和状态。", "error");
+  }, Math.max(0, finite(result.expiresInSeconds) ? Number(result.expiresInSeconds) : 300) * 1e3);
+}
+window.addEventListener("message", (event) => {
+  if (event.source !== window.parent || event.data?.jsonrpc !== "2.0") return;
+  const message = event.data;
+  if (message.method === "ui/notifications/host-context-changed") {
+    updateTheme(message.params?.theme);
+    return;
+  }
+  if (typeof message.id === "number" && !message.method) {
+    const pending = waiting.get(message.id);
+    if (!pending) return;
+    clearTimeout(pending.timer);
+    waiting.delete(message.id);
+    message.error ? pending.reject(new Error(message.error.message || "请求失败")) : pending.resolve(message.result);
+  } else if (message.method === "ui/notifications/tool-result") render(message.params?.structuredContent);
+});
+const ready = request("ui/initialize", { appInfo: { name: "luckin-review", version: "0.1.8" }, appCapabilities: {}, protocolVersion: "2026-01-26" }).then((result) => {
+  updateTheme(result.hostContext?.theme);
+  notify("ui/notifications/initialized", {});
+  return true;
+}).catch(() => {
+  status("当前宿主无法连接确认界面。", "error");
+  return false;
+});
+async function call(name, args) {
+  if (!await ready) throw new Error("当前宿主未连接，请重新打开预览。");
+  const result = await request("tools/call", { name, arguments: args });
+  if (result?.isError) throw new Error(result.content?.find((part) => part.type === "text")?.text || "提交失败");
+  return result?.structuredContent?.data || {};
+}
+$("#dismiss").onclick = () => {
+  if (busy) return;
+  clearTimeout(expiryTimer);
+  const isOrder = review?.kind === "order";
+  review = null;
+  $("#confirm").disabled = true;
+  $("#stage").textContent = "已暂缓";
+  status(isOrder ? "请返回购物车修改，再重新预览订单。" : "已暂缓取消。订单保持原状态。");
+};
+function showOrderResult(data) {
+  const pending = data.needPay === true || /^(待付款|待支付|未支付)$/.test(data.orderStatusName || "");
+  $("#stage").textContent = data.orderStatusName || (data.orderStatus === 100 ? "已取消" : pending ? "待付款" : data.orderStatus != null ? `订单状态：${data.orderStatus}` : "已创建 · 请查询状态");
+  $("#stage").classList.toggle("pending", pending);
+  $("#title").textContent = data.orderStatus === 100 ? "订单已取消" : pending ? "订单已创建，待付款" : "订单详情";
+  $("#intro").textContent = pending ? "请在瑞幸官方渠道查看支付时限并完成付款。" : "下方可查询瑞幸返回的最新订单状态。";
+  $("#total-label").textContent = pending ? "待支付金额" : "订单金额";
+  const total = data.discountPrice ?? data.total;
+  $("#total-row").hidden = !finite(total);
+  if (finite(total)) $("#total").textContent = money(total);
+  $("#note").textContent = "订单状态和取餐信息以瑞幸官方实时返回为准。";
+  $("#order-number").textContent = `订单号：${createdOrderId || "暂未返回，请在官方渠道查询"}`;
+  $("#receipt").hidden = false;
+  $("#refresh").disabled = !createdOrderId;
+  $("#actions").hidden = true;
+}
+$("#refresh").onclick = async () => {
+  if (!createdOrderId) return;
+  $("#refresh").disabled = true;
+  status("正在刷新订单状态…");
+  try {
+    showOrderResult(await call("order_detail", { orderId: createdOrderId }));
+    status("订单状态已更新。", "success");
+  } catch (error) {
+    status(error.message, "error");
+  } finally {
+    $("#refresh").disabled = false;
+  }
+};
+$("#confirm").onclick = async () => {
+  if (!review || busy) return;
+  const current = review;
+  busy = true;
+  clearTimeout(expiryTimer);
+  $("#confirm").disabled = $("#dismiss").disabled = true;
+  status("正在向瑞幸提交，请稍候…");
+  try {
+    const data = await call(current.kind === "order" ? "confirm_order" : "confirm_cancel", { reviewId: current.reviewId });
+    if (current.kind === "order") {
+      createdOrderId = data.orderId;
+      showOrderResult(data);
       status("");
+    } else {
+      $("#stage").textContent = "取消请求已提交";
+      $("#actions").hidden = true;
+      status(data.cancelled ? "请查询订单状态确认取消结果。" : "取消结果尚未确认，请查询订单状态。");
     }
-
-    window.addEventListener("message", (event) => {
-      if (event.source !== window.parent) return;
-      const message = event.data;
-      if (!message || message.jsonrpc !== "2.0") return;
-      if (message.method === "ui/notifications/host-context-changed") { updateTheme(message.params?.theme); return; }
-      if (typeof message.id === "number") {
-        const pending = waiting.get(message.id);
-        if (!pending) return;
-        waiting.delete(message.id);
-        if (message.error) pending.reject(message.error);
-        else pending.resolve(message.result);
-      } else if (message.method === "ui/notifications/tool-result") {
-        render(message.params?.structuredContent);
-      }
-    });
-
-    const ready = request("ui/initialize", {
-      appInfo: { name: "luckin-review", version: "0.1.7" },
-      appCapabilities: {},
-      protocolVersion: "2026-01-26",
-    }).then((result) => {
-      updateTheme(result.hostContext?.theme);
-      notify("ui/notifications/initialized", {});
-    }).catch(() => status("当前宿主无法连接确认界面。", "error"));
-
-    $("#dismiss").addEventListener("click", () => {
-      review = null;
-      $("#confirm").disabled = true;
-      status("已暂缓。未向瑞幸提交任何操作。", "success");
-    });
-    $("#confirm").addEventListener("click", async () => {
-      if (!review || busy) return;
-      busy = true;
-      $("#confirm").disabled = true;
-      status("正在向瑞幸提交，请稍候…");
-      try {
-        await ready;
-        const result = await request("tools/call", {
-          name: review.kind === "order" ? "confirm_order" : "confirm_cancel",
-          arguments: { reviewId: review.reviewId },
-        });
-        if (result?.isError) throw new Error(result.content?.[0]?.text || "提交失败");
-        const data = result?.structuredContent?.data || {};
-        if (review.kind === "order") {
-          status(`订单已创建：${String(data.orderId || "请查询订单详情")}。${data.needPay ? "请在瑞幸官方渠道完成支付。" : "请查询订单确认状态。"}`, "success");
-        } else {
-          status(data.cancelled ? "已提交取消，请查询订单状态确认。" : "取消结果未确认，请查询订单状态。", "success");
-        }
-        review = null;
-      } catch (error) {
-        status(error instanceof Error ? error.message : "提交失败，请查询订单状态后再试。", "error");
-      } finally {
-        busy = false;
-      }
-    });
-  </script>
+  } catch (error) {
+    $("#stage").textContent = "提交结果待核实";
+    status(`${error.message} 请先查询订单状态，避免重复提交。`, "error");
+  } finally {
+    review = null;
+    busy = false;
+    $("#dismiss").disabled = false;
+  }
+};
+</script>
 </body>
 </html>

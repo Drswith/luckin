@@ -84,6 +84,7 @@ dist
 !release/luckin/dist/
 !release/luckin/dist/server.mjs
 .codegraph/
+research-private/
 .output
 
 # Gatsby files

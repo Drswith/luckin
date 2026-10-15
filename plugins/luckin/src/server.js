@@ -45,7 +45,7 @@ function safe(handler) {
 export function createLuckinServer({ upstream = new LuckinUpstream(), reviews = new ReviewStore() } = {}) {
   const server = new McpServer({
     name: "luckin",
-    version: "0.1.7",
+    version: "0.1.8",
     icons: [{ src: serverIcon, mimeType: "image/png", sizes: ["256x256"] }],
   });
 
@@ -161,7 +161,7 @@ export function createLuckinServer({ upstream = new LuckinUpstream(), reviews = 
     return dataResult({
       orderId: String(data.orderIdStr ?? data.orderId ?? ""),
       needPay: Boolean(data.needPay),
-      total: Number(data.discountPrice ?? 0),
+      total: data.discountPrice != null && data.discountPrice !== "" && Number.isFinite(Number(data.discountPrice)) && Number(data.discountPrice) >= 0 ? Number(data.discountPrice) : null,
       payOrderUrl: typeof data.payOrderUrl === "string" ? data.payOrderUrl : null,
     }, "订单已创建。若需支付，请在瑞幸提供的官方支付渠道完成；本插件不会自动付款。");
   }));

@@ -73,7 +73,7 @@ test("shop entrypoints and product search expose official images", async () => {
     assert.equal(entry._meta.ui.resourceUri, `ui://luckin/shop-${contentHash}.html`);
     assert.deepEqual(resource.contents[0]._meta.ui.csp.resourceDomains, ["https://*.luckincoffeecdn.com", "https://web.luckincdn.com"]);
     assert.deepEqual(resource.contents[0]._meta["openai/ui"].availableDisplayModes, ["fullscreen", "inline"]);
-    assert.match(resource.contents[0].text, /在对话中预览订单/);
+    assert.match(resource.contents[0].text, /预览订单/);
     assert.match(resource.contents[0].text, /luckincoffeecdn\.com/);
   } finally { await h.close(); }
 });
@@ -191,5 +191,18 @@ test("cancel result is not reported as successful when Luckin returns false", as
     const result = await h.client.callTool({ name: "confirm_cancel", arguments: { reviewId: reviewed.structuredContent.reviewId } });
     assert.equal(result.isError, true);
     assert.match(result.content[0].text, /未确认/);
+  } finally { await h.close(); }
+});
+
+test("created orders preserve an unknown amount instead of showing zero", async () => {
+  const h = await harness({ now: { value: 1000 }, responses: {
+    previewOrder: preview,
+    createOrder: { orderIdStr: "mock-order", needPay: true },
+  } });
+  try {
+    const reviewed = await h.client.callTool({ name: "review_order", arguments: orderInput });
+    const created = await h.client.callTool({ name: "confirm_order", arguments: { reviewId: reviewed.structuredContent.reviewId } });
+    assert.equal(created.structuredContent.data.total, null);
+    assert.equal(created.structuredContent.data.needPay, true);
   } finally { await h.close(); }
 });

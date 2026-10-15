@@ -30495,7 +30495,7 @@ var LuckinUpstream = class {
   async connect() {
     if (!this.token) throw new Error("\u7F3A\u5C11 LUCKIN_MCP_TOKEN\u3002\u8BF7\u5148\u5728\u745E\u5E78 AI \u5F00\u653E\u5E73\u53F0\u521B\u5EFA Token \u5E76\u914D\u7F6E\u5230\u672C\u5730\u8FDB\u7A0B\u73AF\u5883\u3002");
     if (this.client) return this.client;
-    const client = new Client({ name: "luckin", version: "0.1.7" });
+    const client = new Client({ name: "luckin", version: "0.1.8" });
     const transport2 = new StreamableHTTPClientTransport(new URL(this.url), {
       requestInit: { headers: { Authorization: `Bearer ${this.token}` } }
     });
@@ -30640,7 +30640,7 @@ function safe(handler) {
 function createLuckinServer({ upstream = new LuckinUpstream(), reviews = new ReviewStore() } = {}) {
   const server2 = new McpServer({
     name: "luckin",
-    version: "0.1.7",
+    version: "0.1.8",
     icons: [{ src: serverIcon, mimeType: "image/png", sizes: ["256x256"] }]
   });
   cD(server2, "luckin-review", REVIEW_UI_URI, {}, async () => ({
@@ -30746,7 +30746,7 @@ function createLuckinServer({ upstream = new LuckinUpstream(), reviews = new Rev
     return dataResult({
       orderId: String(data.orderIdStr ?? data.orderId ?? ""),
       needPay: Boolean(data.needPay),
-      total: Number(data.discountPrice ?? 0),
+      total: data.discountPrice != null && data.discountPrice !== "" && Number.isFinite(Number(data.discountPrice)) && Number(data.discountPrice) >= 0 ? Number(data.discountPrice) : null,
       payOrderUrl: typeof data.payOrderUrl === "string" ? data.payOrderUrl : null
     }, "\u8BA2\u5355\u5DF2\u521B\u5EFA\u3002\u82E5\u9700\u652F\u4ED8\uFF0C\u8BF7\u5728\u745E\u5E78\u63D0\u4F9B\u7684\u5B98\u65B9\u652F\u4ED8\u6E20\u9053\u5B8C\u6210\uFF1B\u672C\u63D2\u4EF6\u4E0D\u4F1A\u81EA\u52A8\u4ED8\u6B3E\u3002");
   }));

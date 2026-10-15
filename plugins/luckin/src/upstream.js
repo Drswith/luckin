@@ -31,7 +31,7 @@ export class LuckinUpstream {
   async connect() {
     if (!this.token) throw new Error("缺少 LUCKIN_MCP_TOKEN。请先在瑞幸 AI 开放平台创建 Token 并配置到本地进程环境。");
     if (this.client) return this.client;
-    const client = new Client({ name: "luckin", version: "0.1.7" });
+    const client = new Client({ name: "luckin", version: "0.1.8" });
     const transport = new StreamableHTTPClientTransport(new URL(this.url), {
       requestInit: { headers: { Authorization: `Bearer ${this.token}` } },
     });

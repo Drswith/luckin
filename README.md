@@ -34,5 +34,6 @@
 - [架构与信任边界](docs/architecture.md)：组件、数据流与确认机制。
 - [官方能力与实现映射](docs/reference.md)：已核对的入口、工具与参数。
 - [开发和验证](docs/development.md)：模拟测试、打包检查及仍需真实验证的环节。
+- [iPhone App 实机设计调研](docs/native-app-design.md)：真实界面的场景、视觉规律与开放能力边界。
 
 本项目代码使用 MIT 许可证，见[插件许可证](plugins/luckin/LICENSE)；瑞幸品牌 Logo 的权利归其权利人所有，不随本项目代码许可证授权。

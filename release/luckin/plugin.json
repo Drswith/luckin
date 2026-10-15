@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "luckin",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Community-made coffee ordering assistant using the official Luckin Coffee MCP service. Not affiliated with Luckin Coffee.",
   "author": {
     "name": "Drswith"
