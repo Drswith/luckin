@@ -1,0 +1,32 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "luckin",
+  "version": "0.1.7",
+  "description": "Community-made coffee ordering assistant using the official Luckin Coffee MCP service. Not affiliated with Luckin Coffee.",
+  "author": {
+    "name": "Drswith"
+  },
+  "repository": "https://github.com/Drswith/luckin",
+  "license": "MIT",
+  "keywords": ["coffee", "luckin", "mcp-apps"],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/setup/SKILL.md",
+      "interface": {
+        "displayName": "Luckin",
+        "shortDescription": "查询瑞幸门店、商品与订单",
+        "longDescription": "社区制作的瑞幸咖啡助手。通过瑞幸官方 MCP 查询门店、商品和订单；在支持 MCP Apps 界面的宿主中可核对并确认创建或取消订单。需要用户自行提供瑞幸开放平台 Token；本项目与瑞幸咖啡无关联。",
+        "developerName": "Drswith",
+        "category": "Lifestyle",
+        "brandColor": "#232773",
+        "capabilities": ["查询门店和商品", "预览订单", "兼容界面中的订单确认与取消"],
+        "logo": "./assets/luckin-icon.png",
+        "composerIcon": "./assets/luckin-icon.png",
+        "defaultPrompt": [
+          "帮我找附近的瑞幸门店，看看有哪些冰美式。",
+          "帮我预览一杯冰美式的订单。"
+        ]
+      }
+    }
+  }
+}

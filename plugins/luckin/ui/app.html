@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luckin 商品与订单</title>
+  <script>document.documentElement.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";</script>
+  <style>
+    :root {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+      color-scheme: light;
+      --canvas: #f5f5f5;
+      --surface: #fff;
+      --field: #f7f7f7;
+      --text: #262626;
+      --muted: #737373;
+      --line: #e6e6e6;
+      --brand: #232773;
+      --brand-hover: #191e65;
+      --error: #b42331;
+      --success: #176b46;
+      background: var(--canvas);
+      color: var(--text);
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --canvas: #101113;
+      --surface: #1b1c1f;
+      --field: #242529;
+      --text: #f4f4f4;
+      --muted: #aaaeb5;
+      --line: #393a3e;
+      --error: #ffa7ad;
+      --success: #9bd2ae;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body { margin: 0; padding: 12px; background: var(--canvas); color: var(--text); font-size: 13px; line-height: 1.45; }
+    main { width: min(100%, 420px); margin: auto; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    header { padding: 18px 20px 16px; border-bottom: 1px solid var(--line); }
+    .brand-logo { display: block; width: 125px; height: 35px; margin-bottom: 12px; object-fit: contain; object-position: left center; }
+    .brand-logo-dark { display: none; }
+    :root[data-theme="dark"] .brand-logo-light { display: none; }
+    :root[data-theme="dark"] .brand-logo-dark { display: block; }
+    .eyebrow { margin: 0 0 7px; color: var(--muted); font-size: 11px; font-weight: 600; }
+    h1 { margin: 0; color: var(--text); font-size: 18px; line-height: 1.3; }
+    .intro { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    section { padding: 16px 20px 3px; }
+    .label { margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .shop { font-size: 14px; font-weight: 700; }
+    .address { margin-top: 5px; color: var(--muted); font-size: 12px; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    li:last-child { border: 0; }
+    .product-art { display: grid; place-items: center; flex: 0 0 60px; width: 60px; height: 60px; overflow: hidden; border-radius: 8px; background: var(--field); color: var(--muted); font-size: 18px; }
+    .product-art img { width: 100%; height: 100%; object-fit: contain; }
+    .product-description { min-width: 0; flex: 1; }
+    .product-name { font-size: 13px; font-weight: 700; line-height: 1.35; }
+    .options { margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .amount { align-self: center; white-space: nowrap; font-weight: 700; }
+    .total { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 12px; padding: 12px 20px; background: var(--field); font-size: 13px; }
+    .total strong { color: var(--brand); font-size: 18px; white-space: nowrap; }
+    :root[data-theme="dark"] .total strong { color: var(--text); }
+    .note { margin: 14px 20px 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .actions { display: flex; gap: 8px; padding: 15px 20px 18px; }
+    button { min-height: 38px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 7px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    button.secondary { background: var(--surface); color: var(--brand); }
+    :root[data-theme="dark"] button.secondary { color: var(--text); }
+    button.primary { flex: 1; border-color: var(--brand); background: var(--brand); color: #fff; }
+    button.primary:hover:not(:disabled) { border-color: var(--brand-hover); background: var(--brand-hover); }
+    button:disabled { opacity: .55; cursor: default; }
+    button:focus-visible { outline: 2px solid #4656b5; outline-offset: 2px; }
+    #status { min-height: 1.5em; margin: 0 20px 16px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    #status[data-tone="error"] { color: var(--error); }
+    #status[data-tone="success"] { color: var(--success); }
+    [hidden] { display: none !important; }
+    @media (pointer: coarse) { button { min-height: 44px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <img class="brand-logo brand-logo-light" src="https://s2.luckincoffeecdn.com/luckyweb/public/assets/82fc225c29de0a222f9dcc6844ecd2d1.png" alt="luckin coffee">
+      <img class="brand-logo brand-logo-dark" src="https://web.luckincdn.com/default/assets/logo2-9d412147.svg" alt="luckin coffee">
+      <p class="eyebrow">社区项目 · 非瑞幸官方插件</p>
+      <h1 id="title">等待订单预览</h1>
+      <p class="intro" id="intro">请核对实时返回的信息，确认后才会向瑞幸提交。</p>
+    </header>
+    <section id="shop-section">
+      <div class="label" id="section-label">门店</div>
+      <div class="shop" id="shop">—</div>
+      <div class="address" id="address"></div>
+    </section>
+    <section id="products-section" hidden>
+      <div class="label" id="products-label">商品</div>
+      <ul id="products"></ul>
+    </section>
+    <div class="total" id="total-row" hidden><span>预估实付金额</span><strong id="total">—</strong></div>
+    <p class="note" id="note">确认有效期 5 分钟。最终金额和状态以瑞幸官方结果为准。</p>
+    <div class="actions" id="actions">
+      <button class="secondary" id="dismiss" type="button">暂不操作</button>
+      <button class="primary" id="confirm" type="button" disabled>确认</button>
+    </div>
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <script type="module">
+    const $ = (selector) => document.querySelector(selector);
+    let review = null;
+    let busy = false;
+    let rpcId = 0;
+    const waiting = new Map();
+    let hostTheme = null;
+    const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+    function updateTheme(theme) { if (theme === "light" || theme === "dark") { hostTheme = theme; document.documentElement.dataset.theme = theme; } }
+    updateTheme(window.openai?.theme);
+    systemTheme.addEventListener("change", event => { if (!hostTheme) document.documentElement.dataset.theme = event.matches ? "dark" : "light"; });
+
+    function notify(method, params) {
+      window.parent.postMessage({ jsonrpc: "2.0", method, params }, "*");
+    }
+    function request(method, params) {
+      return new Promise((resolve, reject) => {
+        const id = ++rpcId;
+        waiting.set(id, { resolve, reject });
+        window.parent.postMessage({ jsonrpc: "2.0", id, method, params }, "*");
+      });
+    }
+    function status(message, tone = "") {
+      $("#status").textContent = message;
+      $("#status").dataset.tone = tone;
+    }
+    function money(value) {
+      return value !== null && value !== undefined && Number.isFinite(Number(value))
+        ? `¥${Number(value).toFixed(2)}` : "以瑞幸结果为准";
+    }
+    function appendProduct(product, catalog) {
+      const li = document.createElement("li");
+      const art = document.createElement("div");
+      art.className = "product-art";
+      art.textContent = "☕";
+      if (product.imageUrl) {
+        const image = document.createElement("img");
+        image.alt = String(product.name ?? "商品");
+        image.loading = "lazy";
+        image.decoding = "async";
+        image.referrerPolicy = "no-referrer";
+        image.addEventListener("error", () => { art.textContent = "☕"; });
+        art.replaceChildren(image);
+        image.src = product.imageUrl;
+      }
+      const description = document.createElement("div");
+      description.className = "product-description";
+      const name = document.createElement("div");
+      name.className = "product-name";
+      name.textContent = catalog ? String(product.name ?? "商品") : `${String(product.name ?? "商品")} × ${Number(product.amount) || 1}`;
+      const options = document.createElement("div");
+      options.className = "options";
+      options.textContent = catalog
+        ? [`商品 ID ${String(product.productId ?? "—")}`, String(product.tags ?? "")].filter(Boolean).join(" · ")
+        : String(product.options ?? "");
+      const price = document.createElement("span");
+      price.className = "amount";
+      price.textContent = money(product.price);
+      description.append(name, options);
+      li.append(art, description, price);
+      $("#products").append(li);
+    }
+    function render(result) {
+      if (!result || !["catalog", "order", "cancel"].includes(result.kind)) return;
+      review = result.kind === "catalog" ? null : result;
+      const isOrder = result.kind === "order";
+      const isCatalog = result.kind === "catalog";
+      const summary = result.summary || {};
+      $("#title").textContent = isCatalog ? "瑞幸商品" : isOrder ? "确认创建订单" : "确认取消订单";
+      $("#intro").textContent = isCatalog ? "查看商品图片与预估价格，再选择需要的商品和规格。" : isOrder ? "请核对门店、商品和金额后再创建订单。" : "取消后可能无法恢复，请先核对订单。";
+      $("#shop-section").hidden = isCatalog;
+      $("#section-label").textContent = isOrder ? "自提门店" : "订单";
+      $("#shop").textContent = isOrder ? String(summary.shop?.name ?? "未知门店") : String(summary.orderId ?? "未知订单");
+      $("#address").textContent = isOrder ? String(summary.shop?.address ?? "") : `当前状态：${String(summary.status ?? "未知")}　${String(summary.shop ?? "")}`;
+      $("#products-section").hidden = !isOrder && !isCatalog;
+      $("#products-label").textContent = isCatalog ? "搜索结果" : "商品";
+      $("#total-row").hidden = !isOrder;
+      $("#actions").hidden = isCatalog;
+      $("#products").replaceChildren();
+      if (isCatalog || isOrder) {
+        const products = isCatalog ? result.products : summary.products;
+        for (const product of Array.isArray(products) ? products : []) appendProduct(product, isCatalog);
+      }
+      if (isCatalog && !$("#products").childElementCount) {
+        const empty = document.createElement("li");
+        empty.textContent = "暂无匹配商品，请换个描述再试。";
+        $("#products").append(empty);
+      }
+      if (isOrder) {
+        $("#total").textContent = money(summary.total);
+      }
+      $("#note").textContent = isCatalog
+        ? "价格为瑞幸返回的预估值；请按商品 ID 查询详情并选择规格，最终金额以订单预览为准。"
+        : isOrder ? "确认仅创建订单，不会自动付款。若瑞幸要求支付，请在官方支付渠道完成。确认有效期 5 分钟。"
+        : "点击确认后会向瑞幸提交取消请求。请随后查询订单状态确认结果。确认有效期 5 分钟。";
+      $("#confirm").textContent = isOrder ? "确认创建订单" : "确认取消订单";
+      $("#confirm").disabled = isCatalog;
+      status("");
+    }
+
+    window.addEventListener("message", (event) => {
+      if (event.source !== window.parent) return;
+      const message = event.data;
+      if (!message || message.jsonrpc !== "2.0") return;
+      if (message.method === "ui/notifications/host-context-changed") { updateTheme(message.params?.theme); return; }
+      if (typeof message.id === "number") {
+        const pending = waiting.get(message.id);
+        if (!pending) return;
+        waiting.delete(message.id);
+        if (message.error) pending.reject(message.error);
+        else pending.resolve(message.result);
+      } else if (message.method === "ui/notifications/tool-result") {
+        render(message.params?.structuredContent);
+      }
+    });
+
+    const ready = request("ui/initialize", {
+      appInfo: { name: "luckin-review", version: "0.1.7" },
+      appCapabilities: {},
+      protocolVersion: "2026-01-26",
+    }).then((result) => {
+      updateTheme(result.hostContext?.theme);
+      notify("ui/notifications/initialized", {});
+    }).catch(() => status("当前宿主无法连接确认界面。", "error"));
+
+    $("#dismiss").addEventListener("click", () => {
+      review = null;
+      $("#confirm").disabled = true;
+      status("已暂缓。未向瑞幸提交任何操作。", "success");
+    });
+    $("#confirm").addEventListener("click", async () => {
+      if (!review || busy) return;
+      busy = true;
+      $("#confirm").disabled = true;
+      status("正在向瑞幸提交，请稍候…");
+      try {
+        await ready;
+        const result = await request("tools/call", {
+          name: review.kind === "order" ? "confirm_order" : "confirm_cancel",
+          arguments: { reviewId: review.reviewId },
+        });
+        if (result?.isError) throw new Error(result.content?.[0]?.text || "提交失败");
+        const data = result?.structuredContent?.data || {};
+        if (review.kind === "order") {
+          status(`订单已创建：${String(data.orderId || "请查询订单详情")}。${data.needPay ? "请在瑞幸官方渠道完成支付。" : "请查询订单确认状态。"}`, "success");
+        } else {
+          status(data.cancelled ? "已提交取消，请查询订单状态确认。" : "取消结果未确认，请查询订单状态。", "success");
+        }
+        review = null;
+      } catch (error) {
+        status(error instanceof Error ? error.message : "提交失败，请查询订单状态后再试。", "error");
+      } finally {
+        busy = false;
+      }
+    });
+  </script>
+</body>
+</html>

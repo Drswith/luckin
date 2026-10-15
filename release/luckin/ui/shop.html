@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luckin</title>
+  <script>document.documentElement.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";</script>
+  <style>
+    :root {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-synthesis: none;
+      color-scheme: light;
+      --canvas: #f5f5f5;
+      --surface: #fff;
+      --field: #f8f8f8;
+      --text: #262626;
+      --muted: #737373;
+      --line: #e6e6e6;
+      --brand: #232773;
+      --brand-hover: #191e65;
+      --brand-soft: #f1f2fa;
+      --focus: #4656b5;
+      --error: #b42331;
+      --success: #176b46;
+      background: var(--canvas);
+      color: var(--text);
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --canvas: #101113;
+      --surface: #1b1c1f;
+      --field: #242529;
+      --text: #f4f4f4;
+      --muted: #aaaeb5;
+      --line: #393a3e;
+      --brand-soft: #25262a;
+      --focus: #a7b1fa;
+      --error: #ffa7ad;
+      --success: #9bd2ae;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body { margin: 0; background: var(--canvas); color: var(--text); font-size: 13px; line-height: 1.45; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .52; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    img { display: block; max-width: 100%; }
+    [hidden] { display: none !important; }
+    .app { min-height: 100vh; }
+    .main {
+      width: min(100%, 1600px);
+      min-height: 100vh;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(290px, .94fr) minmax(360px, 1.2fr) minmax(290px, .94fr);
+      align-items: stretch;
+      background: var(--surface);
+    }
+    .column {
+      min-width: 0;
+      padding: 24px;
+      background: var(--surface);
+    }
+    .column:first-child { background: var(--canvas); }
+    .column + .column { border-left: 1px solid var(--line); }
+    h1, h2, h3, p { margin-top: 0; }
+    .column h1, .column h2 { color: var(--text); font-size: 18px; line-height: 1.3; letter-spacing: -.01em; margin: 0 0 18px; }
+    .cart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .cart-head h2 { margin: 0; }
+    .eyebrow { display: none; }
+    .store-button {
+      display: flex; align-items: center; gap: 10px; width: 100%; min-height: 50px;
+      padding: 7px 12px; margin-bottom: 12px; text-align: left;
+      border: 1px solid var(--line); border-radius: 8px;
+      background: var(--field); color: var(--text);
+    }
+    .store-button:hover, .product:hover, .shop-option:hover { border-color: var(--brand); }
+    .store-button-copy { display: grid; gap: 1px; min-width: 0; flex: 1; }
+    .store-button-label { color: var(--muted); font-size: 11px; line-height: 1.2; }
+    .store-button-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 700; }
+    .store-chevron { width: 8px; height: 8px; flex: none; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); }
+    .search-row { display: flex; gap: 8px; }
+    .search-row input, .order-lookup input, .dialog-card input {
+      min-width: 0; min-height: 38px; padding: 8px 11px;
+      border: 1px solid var(--line); border-radius: 7px;
+      outline: 0; background: var(--field); color: var(--text);
+    }
+    .search-row input { flex: 1; }
+    input::placeholder { color: var(--muted); opacity: 1; }
+    .primary, .secondary {
+      min-height: 38px; padding: 8px 14px; border-radius: 7px;
+      font-size: 13px; font-weight: 700; line-height: 1.3;
+    }
+    .primary { border: 1px solid var(--brand); background: var(--brand); color: #fff; }
+    .primary:hover:not(:disabled) { background: var(--brand-hover); border-color: var(--brand-hover); }
+    .primary:disabled { opacity: 1; border-color: var(--field); background: var(--field); color: var(--muted); }
+    .secondary { border: 1px solid var(--line); background: var(--surface); color: var(--brand); }
+    :root[data-theme="dark"] .secondary { color: var(--text); }
+    .secondary:hover:not(:disabled) { border-color: var(--brand); }
+    .muted, .hint { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .hint { margin: 10px 0 16px; }
+    .result-list { display: grid; align-content: start; }
+    .empty { padding: 13px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .product {
+      display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px;
+      border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+      background: transparent; color: var(--text); text-align: left;
+    }
+    .product:hover, .product.active { background: var(--brand-soft); }
+    .product .art { width: 68px; height: 68px; flex: none; }
+    .product .art, .detail-art { display: grid; place-items: center; overflow: hidden; background: var(--field); color: var(--muted); border-radius: 8px; }
+    .product img, .detail-art img { width: 100%; height: 100%; object-fit: contain; }
+    .product .copy { min-width: 0; flex: 1; }
+    .product .name { display: block; font-size: 13px; font-weight: 700; line-height: 1.35; }
+    .product .tags { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+    .product .price { display: block; margin-top: 4px; color: var(--brand); font-size: 14px; font-weight: 800; }
+    :root[data-theme="dark"] .product .price { color: var(--text); }
+    .product .arrow { color: var(--muted); font-size: 21px; }
+    .brand-visual { height: 200px; overflow: hidden; margin-bottom: 14px; background: var(--field); border-radius: 8px; }
+    .brand-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .detail-art { height: 215px; margin-bottom: 18px; }
+    .detail-title { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+    .detail-title h2 { margin: 0; font-size: 18px; }
+    .detail-title strong { color: var(--brand); font-size: 18px; white-space: nowrap; }
+    :root[data-theme="dark"] .detail-title strong { color: var(--text); }
+    .detail-meta { margin: 6px 0 18px; color: var(--muted); font-size: 12px; }
+    .attribute { margin-top: 16px; }
+    .attribute h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; }
+    .choices { display: flex; flex-wrap: wrap; gap: 6px; }
+    .choice { min-height: 34px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text); font-size: 12px; }
+    .choice.active { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); font-weight: 700; opacity: 1; }
+    :root[data-theme="dark"] .choice.active { background: var(--brand); color: #fff; }
+    .detail-bottom { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .stepper { display: flex; align-items: center; gap: 10px; }
+    .stepper button { width: 32px; height: 32px; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); font-size: 19px; line-height: 1; }
+    .stepper span { min-width: 20px; text-align: center; font-weight: 700; }
+    .count { color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .cart-items { min-height: 58px; }
+    .cart-item { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+    .cart-art { display: grid; place-items: center; width: 48px; height: 48px; overflow: hidden; border-radius: 7px; background: var(--field); color: var(--muted); }
+    .cart-art img { width: 100%; height: 100%; object-fit: contain; }
+    .cart-copy { min-width: 0; }
+    .cart-item strong { display: block; font-size: 13px; }
+    .cart-item p { margin: 4px 0 10px; color: var(--muted); font-size: 12px; }
+    .cart-item .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 700; }
+    .cart-item .stepper { gap: 5px; }
+    .cart-item .stepper button { width: 28px; height: 28px; font-size: 16px; }
+    .cart-total { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 13px 0; padding-top: 15px; border-top: 1px solid var(--line); font-size: 13px; }
+    .cart-total strong { font-size: 18px; color: var(--brand); white-space: nowrap; }
+    :root[data-theme="dark"] .cart-total strong { color: var(--text); }
+    .cart-actions { margin-top: 15px; }
+    .cart-actions button { width: 100%; }
+    .order-lookup { margin-top: 22px; padding-top: 19px; border-top: 1px solid var(--line); }
+    .order-lookup h3 { margin: 0 0 10px; font-size: 14px; }
+    .order-lookup .row { display: flex; gap: 8px; }
+    .order-lookup input { width: 100%; flex: 1; }
+    .status { min-height: 18px; margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .status.error { color: var(--error); }
+    .status.success { color: var(--success); }
+    .preview { margin-top: 20px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--field); }
+    .preview h3 { margin: 0 0 10px; font-size: 17px; }
+    .preview p { margin: 7px 0; color: var(--muted); font-size: 13px; }
+    .preview .line { display: flex; justify-content: space-between; gap: 8px; margin: 9px 0; font-size: 13px; }
+    .preview .total { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-weight: 700; }
+    .preview .actions { display: flex; gap: 8px; margin-top: 16px; }
+    .preview .actions button { flex: 1; }
+    .dialog { position: fixed; inset: 0; display: grid; place-items: center; z-index: 5; padding: 20px; background: #111a3c80; }
+    :root[data-theme="dark"] .dialog { background: #000a; }
+    .dialog-card { width: min(430px, 100%); max-height: 90vh; overflow: auto; padding: 22px; border-radius: 12px; background: var(--surface); box-shadow: 0 18px 55px #0003; }
+    .dialog-card h2 { margin: 0 0 5px; font-size: 18px; }
+    .dialog-card label { display: block; margin: 16px 0 6px; font-size: 13px; font-weight: 700; }
+    .dialog-card input { width: 100%; }
+    .coordinate { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+    .shop-list { display: grid; gap: 8px; margin-top: 16px; }
+    .shop-option { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--field); color: var(--text); text-align: left; }
+    .shop-option strong { display: block; font-size: 13px; }
+    .shop-option span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 1180px) {
+      .main { grid-template-columns: minmax(280px, 1fr) minmax(360px, 1.15fr); }
+      .cart-column { grid-column: 1 / -1; border-top: 1px solid var(--line); border-left: 0 !important; }
+      .cart-items { min-height: 0; }
+    }
+    @media (max-width: 760px) {
+      .main { display: block; }
+      .column { padding: 20px 16px; border-left: 0 !important; border-bottom: 1px solid var(--line); }
+      .brand-visual { height: 175px; }
+      .detail-art { height: 200px; }
+    }
+    @media (pointer: coarse) {
+      .store-button, .search-row input, .order-lookup input, .dialog-card input, .primary, .secondary, .choice { min-height: 44px; }
+      .stepper button, .cart-item .stepper button { width: 44px; height: 44px; }
+    }
+    @media (max-width: 390px) {
+      .coordinate { grid-template-columns: 1fr; }
+      .detail-bottom { align-items: stretch; flex-direction: column; }
+      .detail-bottom .primary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <main class="main">
+      <section class="column"><h1>搜索你想喝的</h1><button class="store-button" id="store-button" type="button" aria-label="选择取餐门店"><span class="store-button-copy"><span class="store-button-label">取餐门店</span><span class="store-button-value" id="store-name">选择取餐门店</span></span><span class="store-chevron" aria-hidden="true"></span></button><form id="search-form" class="search-row"><input id="search-query" placeholder="输入商品名称或偏好" aria-label="搜索瑞幸商品"><button class="primary" type="submit">搜索</button></form><p class="muted hint">先选择门店。商品与价格以瑞幸实时返回为准。</p><div class="result-list" id="results"><div class="empty">请选择门店并搜索商品。</div></div><p class="status" id="search-status" role="status"></p></section>
+      <section class="column"><h2>商品详情</h2><div id="detail"><div class="brand-visual"><img src="https://img.luckincoffeecdn.com/luckymediaadmin/2026/05/26/12f6c42e44b140d29630ab1b77ff6160.png" alt=""></div><div class="empty">选择搜索结果中的商品，查看实时规格与图片。</div></div><p class="status" id="detail-status" role="status"></p></section>
+      <section class="column cart-column"><div class="cart-head"><h2>购物车</h2><span class="count" id="cart-count">0 件</span></div><div id="cart-items" class="cart-items"><p class="muted">还没有商品。</p></div><div class="cart-total"><span>预估小计</span><strong id="cart-total">¥0.00</strong></div><p class="muted">最终金额由瑞幸订单预览返回；确认创建订单前请再次核对。</p><div class="cart-actions"><button class="primary" id="preview-button" type="button" disabled>在对话中预览订单</button></div><p class="status" id="cart-status" role="status"></p><div id="fallback-preview"></div><div class="order-lookup"><h3>查询已有订单</h3><div class="row"><input id="order-id" placeholder="输入订单号" aria-label="订单号"><button class="secondary" id="lookup-button" type="button">查询</button></div><p class="status" id="lookup-status" role="status"></p><div id="lookup-result"></div></div></section>
+    </main>
+  </div>
+  <div class="dialog" id="store-dialog" hidden><div class="dialog-card" role="dialog" aria-modal="true" aria-label="选择瑞幸门店"><h2>选择取餐门店</h2><p class="muted">请输入你提供的位置坐标，查询附近瑞幸门店。不会读取设备定位。</p><div class="coordinate"><div><label for="longitude">经度</label><input id="longitude" inputmode="decimal" placeholder="例如 116.392435"></div><div><label for="latitude">纬度</label><input id="latitude" inputmode="decimal" placeholder="例如 39.982376"></div></div><label for="shop-name">门店名称（可选）</label><input id="shop-name" placeholder="缩小查询范围"><div class="dialog-actions"><button class="secondary" id="store-close" type="button">关闭</button><button class="primary" id="find-shops" type="button">查询门店</button></div><p class="status" id="store-status" role="status"></p><div class="shop-list" id="shop-list"></div></div></div>
+  <script type="module">
+    const $ = id => document.getElementById(id);
+    const state = { shop: null, products: [], detail: null, quantity: 1, cart: [], review: null, lastOrder: null, hostCapabilities: {} };
+    let hostTheme = null;
+    const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+    function updateTheme(theme) { if (theme === "light" || theme === "dark") { hostTheme = theme; document.documentElement.dataset.theme = theme; } }
+    updateTheme(window.openai?.theme);
+    systemTheme.addEventListener("change", event => { if (!hostTheme) document.documentElement.dataset.theme = event.matches ? "dark" : "light"; });
+    const waiting = new Map(); let nextId = 0;
+    const money = value => value !== null && value !== undefined && value !== "" && Number.isFinite(Number(value)) ? `¥${Number(value).toFixed(2)}` : "以瑞幸结果为准";
+    const el = (tag, className, value) => { const node = document.createElement(tag); if (className) node.className = className; if (value !== undefined) node.textContent = String(value); return node; };
+    function status(id, message, tone = "") { $(id).textContent = message; $(id).className = `status ${tone}`; }
+    function officialImage(value) { try { const url = new URL(value); return url.protocol === "https:" && url.hostname.endsWith(".luckincoffeecdn.com") ? url.href : null; } catch { return null; } }
+    function art(value, className) { const box = el("div", className, "☕"); const url = officialImage(value); if (url) { const img = el("img"); img.alt = "瑞幸商品图"; img.loading = "lazy"; img.referrerPolicy = "no-referrer"; img.onerror = () => box.replaceChildren("☕"); box.replaceChildren(img); img.src = url; } return box; }
+    function notify(method, params) { window.parent.postMessage({ jsonrpc: "2.0", method, params }, "*"); }
+    function request(method, params) { return new Promise((resolve, reject) => { const id = ++nextId; const timer = setTimeout(() => { waiting.delete(id); reject(new Error("宿主响应超时，请稍后重试。")); }, 20000); waiting.set(id, { resolve, reject, timer }); window.parent.postMessage({ jsonrpc: "2.0", id, method, params }, "*"); }); }
+    window.addEventListener("message", event => { if (event.source !== window.parent || event.data?.jsonrpc !== "2.0") return; const message = event.data; if (message.method === "ui/notifications/host-context-changed") { updateTheme(message.params?.theme); return; } if (typeof message.id === "number" && !message.method) { const pending = waiting.get(message.id); if (!pending) return; clearTimeout(pending.timer); waiting.delete(message.id); message.error ? pending.reject(new Error(message.error.message || "请求失败")) : pending.resolve(message.result); } });
+    const ready = request("ui/initialize", { appInfo: { name: "luckin-shop", version: "0.1.7" }, appCapabilities: { availableDisplayModes: ["fullscreen", "inline"] }, protocolVersion: "2026-01-26" }).then(result => { if (!result || typeof result !== "object") throw new Error("宿主未完成界面初始化。"); updateTheme(result.hostContext?.theme); state.hostCapabilities = result.hostCapabilities || {}; notify("ui/notifications/initialized", {}); }).catch(error => { status("search-status", error.message, "error"); throw error; });
+    async function call(name, args) { await ready; const result = await request("tools/call", { name, arguments: args }); if (result?.isError) throw new Error(result.content?.find(part => part.type === "text")?.text || "瑞幸请求失败。"); return result?.structuredContent || {}; }
+    function busy(button, value) { button.disabled = value; button.dataset.busy = value ? "true" : "false"; }
+    function closeStore() { $("store-dialog").hidden = true; }
+    $("store-button").onclick = () => { $("store-dialog").hidden = false; $("longitude").focus(); };
+    $("store-close").onclick = closeStore;
+    $("store-dialog").onclick = event => { if (event.target === $("store-dialog")) closeStore(); };
+    $("find-shops").onclick = async () => { const longitude = Number($("longitude").value), latitude = Number($("latitude").value); if (!$("longitude").value.trim() || !$("latitude").value.trim() || !Number.isFinite(longitude) || !Number.isFinite(latitude) || longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90) { status("store-status", "请输入有效的经纬度。", "error"); return; } const button = $("find-shops"); busy(button, true); status("store-status", "正在查询门店…"); $("shop-list").replaceChildren(); try { const result = await call("query_shop_list", { longitude, latitude, ...($("shop-name").value.trim() ? { deptName: $("shop-name").value.trim() } : {}) }); const shops = Array.isArray(result.data) ? result.data : []; if (!shops.length) { status("store-status", "没有找到门店，请调整位置或名称。", "error"); return; } status("store-status", `找到 ${shops.length} 家门店。`); for (const shop of shops) { const deptId = Number(shop.deptId); if (!Number.isSafeInteger(deptId) || deptId <= 0) continue; const item = el("button", "shop-option"); item.type = "button"; item.append(el("strong", "", shop.deptName || `门店 ${deptId}`), el("span", "", shop.address || "地址以瑞幸结果为准")); item.onclick = () => { state.shop = { deptId, name: String(shop.deptName || `门店 ${deptId}`), address: String(shop.address || "") }; state.products = []; state.detail = null; state.cart = []; state.review = null; $("store-name").textContent = state.shop.name; $("store-button").setAttribute("aria-label", `更换取餐门店，当前为${state.shop.name}`); $("results").replaceChildren(el("div", "empty", "请输入商品名称开始搜索。")); showEmptyDetail(); $("fallback-preview").replaceChildren(); renderCart(); closeStore(); status("search-status", "已选择门店，请搜索商品。", "success"); }; $("shop-list").append(item); } } catch (error) { status("store-status", error.message, "error"); } finally { busy(button, false); } };
+    $("search-form").onsubmit = async event => { event.preventDefault(); if (!state.shop) { $("store-button").click(); status("search-status", "请先选择取餐门店。", "error"); return; } const query = $("search-query").value.trim(); if (!query) { status("search-status", "请输入商品名称或偏好。", "error"); return; } const button = $("search-form").querySelector("button"); busy(button, true); status("search-status", "正在搜索瑞幸商品…"); try { const result = await call("search_products", { deptId: state.shop.deptId, query }); state.products = Array.isArray(result.data) ? result.data : []; state.detail = null; renderProducts(); showEmptyDetail(); status("search-status", state.products.length ? `找到 ${state.products.length} 件商品。` : "没有匹配商品，请换个描述。", state.products.length ? "success" : ""); } catch (error) { status("search-status", error.message, "error"); } finally { busy(button, false); } };
+    function showEmptyDetail() { const box = $("detail"); const visual = el("div", "brand-visual"), img = el("img"); img.src = "https://img.luckincoffeecdn.com/luckymediaadmin/2026/05/26/12f6c42e44b140d29630ab1b77ff6160.png"; img.alt = ""; visual.append(img); box.replaceChildren(visual, el("div", "empty", "选择搜索结果中的商品，查看实时规格与图片。")); }
+    function renderProducts() { const box = $("results"); box.replaceChildren(); if (!state.products.length) { box.append(el("div", "empty", "没有匹配商品，请换个描述。")); return; } for (const item of state.products) { const productId = Number(item.productId); if (!Number.isSafeInteger(productId) || productId <= 0) continue; const button = el("button", `product ${state.detail?.productId === productId ? "active" : ""}`); button.type = "button"; const copy = el("span", "copy"); copy.append(el("span", "name", item.productName || "商品"), el("span", "tags", Array.isArray(item.tags) ? item.tags.join(" · ") : ""), el("span", "price", money(item.estimatePrice ?? item.initialPrice))); button.append(art(item.pictureUrl, "art"), copy, el("span", "arrow", "›")); button.onclick = () => selectProduct(item); box.append(button); } }
+    async function selectProduct(item) { const productId = Number(item.productId); status("detail-status", "正在获取商品详情…"); try { const result = await call("product_detail", { deptId: state.shop.deptId, productId }); state.detail = { ...item, ...(result.data && typeof result.data === "object" ? result.data : {}) }; state.quantity = 1; renderProducts(); renderDetail(); status("detail-status", ""); } catch (error) { status("detail-status", error.message, "error"); } }
+    function selectedOptions(detail) { return (Array.isArray(detail.productAttrs) ? detail.productAttrs : []).map(group => { const selected = (Array.isArray(group.productSubAttrs) ? group.productSubAttrs : []).find(value => value.selected === true); return selected?.attributeName; }).filter(Boolean).join(" · "); }
+    function renderDetail() { const d = state.detail, box = $("detail"); box.replaceChildren(); if (!d) { box.append(el("div", "empty", "选择商品查看详情。")); return; } box.append(art(d.pictureUrl, "detail-art")); const heading = el("div", "detail-title"); heading.append(el("h2", "", d.productName || "商品"), el("strong", "", money(d.estimatePrice ?? d.initialPrice))); box.append(heading, el("p", "detail-meta", Array.isArray(d.tags) ? d.tags.join(" · ") : "价格与规格以瑞幸实时返回为准")); for (const group of Array.isArray(d.productAttrs) ? d.productAttrs : []) { const wrap = el("div", "attribute"), choices = el("div", "choices"); wrap.append(el("h3", "", group.attributeName || "规格")); for (const option of Array.isArray(group.productSubAttrs) ? group.productSubAttrs : []) { const choice = el("button", `choice ${option.selected === true ? "active" : ""}`, option.attributeName || "选项"); choice.type = "button"; choice.disabled = option.canSelected === 0 || option.selected === true; choice.onclick = () => switchAttribute(group, option); choices.append(choice); } wrap.append(choices); box.append(wrap); } const bottom = el("div", "detail-bottom"), stepper = el("div", "stepper"), minus = el("button", "", "−"), count = el("span", "", state.quantity), plus = el("button", "", "+"), add = el("button", "primary", "加入购物车"); minus.type = plus.type = add.type = "button"; minus.setAttribute("aria-label", "减少数量"); plus.setAttribute("aria-label", "增加数量"); minus.onclick = () => { state.quantity = Math.max(1, state.quantity - 1); renderDetail(); }; plus.onclick = () => { state.quantity++; renderDetail(); }; add.disabled = typeof d.skuCode !== "string" || !d.skuCode; add.onclick = addToCart; stepper.append(minus, count, plus); bottom.append(stepper, add); box.append(bottom); if (add.disabled) status("detail-status", "瑞幸未返回有效 SKU，暂不能加入购物车。", "error"); }
+    async function switchAttribute(group, option) { const d = state.detail, attributeId = Number(group.attributeId), subId = Number(option.attributeId); if (!d?.skuCode || !Number.isSafeInteger(attributeId) || !Number.isSafeInteger(subId) || attributeId <= 0 || subId <= 0) { status("detail-status", "规格参数不完整，无法切换。", "error"); return; } status("detail-status", "正在更新瑞幸商品规格…"); try { const result = await call("switch_product", { deptId: state.shop.deptId, productId: Number(d.productId), skuCode: d.skuCode, attrOperationParam: { attributeId, subAttr: { attributeId: subId, operation: 3 } }, amount: state.quantity }); if (!result.data || typeof result.data !== "object" || !result.data.skuCode) throw new Error("瑞幸未返回更新后的 SKU，请重新选择商品。"); state.detail = { ...d, ...result.data }; renderDetail(); status("detail-status", "规格已更新。", "success"); } catch (error) { status("detail-status", error.message, "error"); } }
+    function addToCart() { const d = state.detail; if (!state.shop || !d?.skuCode) return; const productId = Number(d.productId), key = `${productId}:${d.skuCode}`; const existing = state.cart.find(item => item.key === key); if (existing) existing.amount += state.quantity; else state.cart.push({ key, productId, skuCode: d.skuCode, name: String(d.productName || "商品"), options: selectedOptions(d), imageUrl: officialImage(d.pictureUrl), price: Number(d.estimatePrice ?? d.initialPrice), amount: state.quantity }); state.quantity = 1; renderDetail(); renderCart(); status("cart-status", "已加入购物车。", "success"); }
+    function renderCart() { const box = $("cart-items"); box.replaceChildren(); const count = state.cart.reduce((sum, item) => sum + item.amount, 0); $("cart-count").textContent = `${count} 件`; $("cart-total").textContent = money(state.cart.every(item => Number.isFinite(item.price)) ? state.cart.reduce((sum, item) => sum + item.price * item.amount, 0) : null); $("preview-button").disabled = !count; if (!count) { box.append(el("p", "muted", "还没有商品。")); return; } state.cart.forEach((item, index) => { const card = el("div", "cart-item"), row = el("div", "row"), stepper = el("div", "stepper"), minus = el("button", "", "−"), plus = el("button", "", "+"); minus.type = plus.type = "button"; minus.setAttribute("aria-label", `减少 ${item.name}`); plus.setAttribute("aria-label", `增加 ${item.name}`); minus.onclick = () => { item.amount--; if (!item.amount) state.cart.splice(index, 1); renderCart(); }; plus.onclick = () => { item.amount++; renderCart(); }; stepper.append(minus, el("span", "", item.amount), plus); row.append(el("span", "", money(Number.isFinite(item.price) ? item.price * item.amount : null)), stepper); const copy = el("div", "cart-copy"); copy.append(el("strong", "", item.name), el("p", "", item.options || "默认规格"), row); card.append(art(item.imageUrl, "cart-art"), copy); box.append(card); }); }
+    async function directReview(kind, args) { const tool = kind === "order" ? "review_order" : "review_cancel"; const result = await call(tool, args); state.review = result; renderPreview(); }
+    async function sendForReview(kind, args) { const hasMessages = Boolean(state.hostCapabilities.message?.text); if (hasMessages) { const tool = kind === "order" ? "review_order" : "review_cancel"; const description = kind === "order" ? "预览这份 Luckin 订单，并在聊天内联卡片中让我核对；不要创建订单，直到我点击确认。" : "预览这笔 Luckin 订单的取消操作，并在聊天内联卡片中让我核对；不要取消，直到我点击确认。"; await request("ui/message", { role: "user", content: [{ type: "text", text: `${description}\n请调用 ${tool}，参数：${JSON.stringify(args)}` }] }); status(kind === "order" ? "cart-status" : "lookup-status", "已将预览请求发送到当前对话，请查看实时确认卡片。", "success"); } else { await directReview(kind, args); status(kind === "order" ? "cart-status" : "lookup-status", "当前宿主不支持发送到对话，已在应用内显示实时预览。", "success"); } }
+    $("preview-button").onclick = async () => { if (!state.shop || !state.cart.length) return; const button = $("preview-button"); busy(button, true); status("cart-status", "正在准备订单预览…"); try { await sendForReview("order", { deptId: state.shop.deptId, productList: state.cart.map(({ amount, productId, skuCode }) => ({ amount, productId, skuCode })) }); } catch (error) { status("cart-status", error.message, "error"); } finally { busy(button, false); } };
+    function renderPreview() { const result = state.review, box = $("fallback-preview"); box.replaceChildren(); if (!result || !["order", "cancel"].includes(result.kind)) return; const summary = result.summary || {}, card = el("div", "preview"); card.append(el("h3", "", result.kind === "order" ? "实时订单预览" : "取消订单预览")); if (result.kind === "order") { card.append(el("p", "", `门店：${summary.shop?.name || "未知"}`)); for (const item of Array.isArray(summary.products) ? summary.products : []) { const row = el("div", "line"); row.append(el("span", "", `${item.name || "商品"} × ${item.amount || 1} ${item.options || ""}`), el("span", "", money(item.price))); card.append(row); } const total = el("div", "line total"); total.append(el("span", "", "瑞幸预览金额"), el("span", "", money(summary.total))); card.append(total, el("p", "", "确认后仅创建订单；如需支付，请在瑞幸官方渠道完成。")); } else card.append(el("p", "", `订单 ${summary.orderId || ""} · ${summary.status || "状态未知"} · ${summary.shop || ""}`), el("p", "", "取消后可能无法恢复，请先核对订单。")); const actions = el("div", "actions"), dismiss = el("button", "secondary", "暂不操作"), confirm = el("button", "primary", result.kind === "order" ? "确认创建订单" : "确认取消订单"); dismiss.type = confirm.type = "button"; dismiss.onclick = () => { state.review = null; box.replaceChildren(); }; confirm.onclick = async () => { busy(confirm, true); try { const data = await call(result.kind === "order" ? "confirm_order" : "confirm_cancel", { reviewId: result.reviewId }); state.review = null; confirm.disabled = true; const output = data.data || {}; status("cart-status", result.kind === "order" ? `订单已创建：${output.orderId || "请查询订单"}。${output.needPay ? "请在瑞幸官方渠道支付。" : "请查询订单状态。"}` : "取消请求已提交，请查询订单状态确认结果。", "success"); if (result.kind === "order") state.cart = []; renderCart(); box.replaceChildren(); } catch (error) { status("cart-status", error.message, "error"); } }; actions.append(dismiss, confirm); card.append(actions); box.append(card); }
+    $("lookup-button").onclick = async () => { const orderId = $("order-id").value.trim(); if (!orderId) { status("lookup-status", "请输入订单号。", "error"); return; } const button = $("lookup-button"); busy(button, true); status("lookup-status", "正在查询订单…"); try { const result = await call("order_detail", { orderId }); const order = result.data || {}; state.lastOrder = { orderId, order }; const box = $("lookup-result"); box.replaceChildren(); const card = el("div", "preview"); card.append(el("h3", "", `订单 ${orderId}`), el("p", "", `状态：${order.orderStatusName ?? order.orderStatus ?? "以瑞幸结果为准"}`), el("p", "", `门店：${order.shopInfo?.deptName || "以瑞幸结果为准"}`)); const cancel = el("button", "secondary", "预览取消订单"); cancel.type = "button"; cancel.onclick = async () => { cancel.disabled = true; try { await sendForReview("cancel", { orderId }); } catch (error) { status("lookup-status", error.message, "error"); } finally { cancel.disabled = false; } }; card.append(cancel); box.append(card); status("lookup-status", "已获取瑞幸订单状态。", "success"); } catch (error) { status("lookup-status", error.message, "error"); } finally { busy(button, false); } };
+    renderCart();
+  </script>
+</body>
+</html>

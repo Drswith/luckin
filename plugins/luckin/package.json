@@ -1,0 +1,21 @@
+{
+  "name": "luckin-runtime",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.4.1",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --platform=node --target=node22 --format=esm --outfile=dist/server.mjs",
+    "package": "pnpm run build && node scripts/package.mjs",
+    "test": "node --test test/*.test.js",
+    "check": "pnpm test && pnpm run package"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "1.2.0",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

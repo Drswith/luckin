@@ -1,0 +1,2 @@
+# The bundled dependency contains whitespace inside generated template strings.
+release/luckin/dist/server.mjs -whitespace
