@@ -7,7 +7,22 @@ export class ReviewStore {
   constructor({ now = () => Date.now() } = {}) {
     this.now = now;
     this.pending = new Map();
+    this.revision = 0;
   }
+
+  invalidateOrders() {
+    this.revision++;
+    for (const [id, item] of this.pending) if (item.kind === "order") this.pending.delete(id);
+  }
+
+  discard(id) { this.pending.delete(id); }
+
+  valid(id) {
+    const item = this.pending.get(id);
+    return Boolean(item && item.expiresAt > this.now());
+  }
+
+  expiresAt(id) { return this.pending.get(id)?.expiresAt; }
 
   create(kind, payload) {
     for (const [id, item] of this.pending) {
@@ -30,7 +45,7 @@ export class ReviewStore {
 
 export function orderCreateArgs(input, preview) {
   const shop = preview?.shopInfo;
-  if (!Number.isFinite(shop?.longitude) || !Number.isFinite(shop?.latitude)) {
+  if (!Number.isFinite(shop?.longitude) || Math.abs(shop.longitude) > 180 || !Number.isFinite(shop?.latitude) || Math.abs(shop.latitude) > 90 || (shop.deptId != null && Number(shop.deptId) !== input.deptId)) {
     throw new Error("预览未返回门店坐标，无法安全创建订单。请重新选择门店。");
   }
   return {
@@ -44,24 +59,27 @@ export function orderCreateArgs(input, preview) {
 
 export function orderSummary(preview) {
   const total = Number(preview?.discountPrice);
-  if (preview?.discountPrice == null || !Number.isFinite(total) || total < 0) {
-    throw new Error("瑞幸预览未返回有效实付金额，无法继续创建订单。");
+  if (preview?.discountPrice == null || preview.discountPrice === "" || !Number.isFinite(total) || total < 0) {
+    throw new Error("瑞幸预览未返回有效订单预览金额，无法继续创建订单。");
   }
   return {
     shop: {
+      deptId: preview.shopInfo?.deptId,
       name: String(preview.shopInfo?.deptName ?? "未知门店"),
       address: String(preview.shopInfo?.address ?? ""),
     },
     products: Array.isArray(preview.productInfoList)
       ? preview.productInfoList.map((p) => ({
+          productId: p.productId,
+          skuCode: p.skuCode,
           name: String(p.name ?? "商品"),
           amount: Number(p.amount ?? 1),
           options: String(p.additionDesc ?? ""),
-          price: Number(p.estimateTotalPrice ?? p.estimatePrice ?? 0),
+          price: p.estimateTotalPrice ?? p.estimatePrice ?? null,
           imageUrl: officialProductImage(p.breviaryPicUrl ?? p.bigPicUrl),
         }))
       : [],
     total,
-    pickupAt: Number(preview.aboutTime ?? 0),
+    pickupAt: preview.aboutTime ?? null,
   };
 }

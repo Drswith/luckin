@@ -1,13 +1,14 @@
 ---
 name: setup
-description: Set up the Luckin community plugin for local Codex use with a user-owned Luckin Coffee AI platform token.
+description: 为本地 Codex 配置瑞幸社区插件，指导用户在私密界面中连接自己的瑞幸开放平台账号。
 ---
 
 # 本地配置
 
-1. 告知用户这是社区项目，与瑞幸咖啡无关联。引导用户自行在 `https://open.lkcoffee.com/mcp` 登录，并创建或查看自己的 MCP Token。
-2. 让用户在自己的机器上把 Token 配置为 Codex 进程可读取的 `LUCKIN_MCP_TOKEN` 环境变量。不要要求用户把 Token 发到对话里，也不要写入仓库、插件清单或终端历史。
-3. 安装包已预构建，用户无需安装 pnpm 或重新构建。配置环境变量后重启 Codex，再做一次只读的门店或商品查询验证连接。
-4. 未取得用户在确认界面的明确操作前，不创建、取消订单或发起付款。
+1. 告知用户这是本地社区项目，与瑞幸咖啡无关联。用户自行在 [瑞幸 AI 开放平台](https://open.lkcoffee.com/mcp) 登录并获取 MCP Token。
+2. 调用 `open_luckin`，让用户点击顶部“连接账号”展开卡片，在密码框中粘贴 Token 并点击“保存并连接”。仅界面可见的 `save_token` 验证连接后保存到本机权限为 600 的文件。禁止要求用户在对话中发送 Token；模型不能调用 `save_token` 或读取凭据文件。
+3. 高级方式仍可在 Codex 进程环境中配置 `LUCKIN_MCP_TOKEN`，重启后生效。不要把 Token 写入仓库、清单、命令历史或共享日志。不自动读取官方 CLI 的凭据。
+4. 安装包已经预构建，安装者无需 pnpm。用户提供明确坐标后，做一次只读门店查询验证连接；不测试真实下单或取消。
+5. 登录失效时显示重新连接提示，由用户点击“连接账号”展开密码框，不编造剩余有效天数。客户端不支持确认界面时只查询、预览，不能由模型代替确认。
 
-本地 stdio 与固定 Token 方案不能直接满足公开提审要求。当前 Codex 不保证渲染 MCP Apps 确认界面；若界面未出现，只做查询与预览，不创建或取消订单。
+本地 stdio 与个人 Token 方案不能直接作为公开目录连接器提交。创建和取消必须由用户实际点击确认，付款留在瑞幸官方渠道。

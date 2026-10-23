@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url";
 
 const pluginRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const releaseRoot = resolve(pluginRoot, "../../release/luckin");
-const files = ["LICENSE", "plugin.json", "mcp.json", "dist/server.mjs", "ui/app.html", "ui/shop.html"];
-const directories = ["assets", "skills"];
+const files = ["LICENSE", "plugin.json", "mcp.json", "dist/server.mjs"];
+const directories = ["assets", "skills", "ui"];
 
 rmSync(releaseRoot, { recursive: true, force: true });
 mkdirSync(releaseRoot, { recursive: true });
@@ -19,4 +19,4 @@ for (const directory of directories) {
   cpSync(resolve(pluginRoot, directory), resolve(releaseRoot, directory), { recursive: true });
 }
 
-console.log(`Packaged runtime files in ${releaseRoot}`);
+console.log(`已生成运行安装包： ${releaseRoot}`);

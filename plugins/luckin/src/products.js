@@ -17,7 +17,8 @@ export function catalogSummary(products) {
     productId: product.productId,
     name: String(product.productName ?? "商品"),
     imageUrl: officialProductImage(product.pictureUrl),
-    price: Number(product.estimatePrice ?? product.initialPrice ?? NaN),
+    price: product.initialPrice ?? null,
+    estimatePrice: product.estimatePrice ?? null,
     tags: Array.isArray(product.tags) ? product.tags.map(String).join(" · ") : "",
   }));
 }

@@ -1,25 +1,33 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "luckin",
-  "version": "0.1.8",
-  "description": "Community-made coffee ordering assistant using the official Luckin Coffee MCP service. Not affiliated with Luckin Coffee.",
+  "version": "0.2.0",
+  "description": "使用瑞幸官方 MCP 的本地社区咖啡插件，与瑞幸咖啡无关联。",
   "author": {
     "name": "Drswith"
   },
   "repository": "https://github.com/Drswith/luckin",
   "license": "MIT",
-  "keywords": ["coffee", "luckin", "mcp-apps"],
+  "keywords": [
+    "coffee",
+    "luckin",
+    "mcp-apps"
+  ],
   "extensions": {
     "com.openai": {
       "onboardingSkill": "./skills/setup/SKILL.md",
       "interface": {
         "displayName": "Luckin",
         "shortDescription": "查询瑞幸门店、商品与订单",
-        "longDescription": "社区制作的瑞幸咖啡助手。通过瑞幸官方 MCP 查询门店、商品和订单；在支持 MCP Apps 界面的宿主中可核对并确认创建或取消订单。需要用户自行提供瑞幸开放平台 Token；本项目与瑞幸咖啡无关联。",
+        "longDescription": "本地社区插件：搜索瑞幸门店与商品，在界面核对并确认订单，跟进取餐状态。Token 仅在密码框输入或通过本机环境变量配置；提供仅本机记录的门店、搜索和插件订单。本项目与瑞幸咖啡无关联。",
         "developerName": "Drswith",
         "category": "Lifestyle",
-        "brandColor": "#232773",
-        "capabilities": ["查询门店和商品", "预览订单", "兼容界面中的订单确认与取消"],
+        "brandColor": "#0022AB",
+        "capabilities": [
+          "查询门店和商品",
+          "预览订单",
+          "兼容界面中的订单确认与取消"
+        ],
         "logo": "./assets/luckin-icon.png",
         "composerIcon": "./assets/luckin-icon.png",
         "defaultPrompt": [

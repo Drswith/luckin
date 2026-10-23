@@ -21,12 +21,12 @@
   --text:#252529;
   --muted:#73757c;
   --line:#e8e8eb;
-  --brand:#232773;
-  --brand-hover:#191e65;
-  --brand-soft:#f1f2fc;
-  --selected:#232773;
-  --selected-line:#232773;
-  --price:#d74620;
+  --brand:#0022AB;
+  --brand-hover:#001B88;
+  --brand-soft:#F2F4FF;
+  --selected:#0022AB;
+  --selected-line:#0022AB;
+  --price:#F95234;
   --focus:#6573cc;
   --error:#b42331;
   --success:#26714e;
@@ -35,16 +35,16 @@
 }
 :root[data-theme=dark] {
   color-scheme: dark;
-  --canvas:#111214;
-  --surface:#1a1b1e;
-  --field:#242529;
-  --text:#f1f1f3;
-  --muted:#a2a4ac;
-  --line:#323338;
-  --brand-soft:#23263b;
-  --selected:#c1c8ff;
-  --selected-line:#8792d5;
-  --price:#ff956e;
+  --canvas:#111111;
+  --surface:#1C1C1C;
+  --field:#232323;
+  --text:#F2F2F2;
+  --muted:#8A8A8A;
+  --line:#2E2E2E;
+  --brand-soft:#182044;
+  --selected:#8FA0FF;
+  --selected-line:#4A63F0;
+  --price:#FF5A36;
   --focus:#adb6ff;
   --error:#ffadb5;
   --success:#a0d8b9;
@@ -101,7 +101,7 @@ input {
   min-height: 36px;
   padding: 8px 10px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--field);
   color: var(--text);
   outline: 0;
@@ -227,7 +227,7 @@ input::placeholder {
   min-height: 36px;
   padding: 8px 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
@@ -280,7 +280,7 @@ input::placeholder {
   padding: 4px 10px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 16px;
 }
 .result-list:has(.empty) {
   padding: 0;
@@ -316,7 +316,7 @@ input::placeholder {
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: 7px;
+  border-radius: 10px;
   background: var(--field);
   color: var(--muted);
 }
@@ -378,7 +378,7 @@ del {
   place-items: center;
   flex: none;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 10px;
   color: var(--selected);
 }
 .product:hover .choose,
@@ -451,8 +451,8 @@ del {
 .attributes {
   display: grid;
   gap: 17px;
-  max-height: max(230px, calc(100dvh - 350px));
-  overflow: auto;
+  max-height: none;
+  overflow: visible;
   scrollbar-width: thin;
   padding: 2px 3px 3px;
 }
@@ -472,7 +472,7 @@ del {
   min-height: 34px;
   padding: 7px 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--surface);
   font-size: 12px;
   line-height: 1.4;
@@ -531,7 +531,7 @@ del {
   place-items: center;
   padding: 0;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 10px;
   background: var(--surface);
   font-size: 17px;
   line-height: 1;
@@ -551,7 +551,7 @@ del {
   padding: 0 14px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 16px;
 }
 .cart-store {
   padding: 12px 0;
@@ -667,7 +667,7 @@ del {
   margin-top: 16px;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 16px;
   background: var(--surface);
   overflow-wrap: anywhere;
 }
@@ -756,25 +756,8 @@ del {
   font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
 }
-.dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: #0007;
-}
-.dialog-card {
-  width: min(440px, 100%);
-  max-height: 90dvh;
-  overflow: auto;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface);
-  box-shadow: 0 14px 55px #0003;
-}
+.dialog { margin: 0 0 16px; }
+.dialog-card { padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
 .dialog-card h2 {
   font-size: 16px;
   margin-bottom: 6px;
@@ -809,7 +792,7 @@ del {
   padding: 12px;
   text-align: left;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--surface);
 }
 .shop-option strong {
@@ -861,7 +844,7 @@ del {
     flex: 1;
     min-height: 34px;
     border: 0;
-    border-radius: 7px;
+    border-radius: 10px;
     background: transparent;
     color: var(--muted);
     font-size: 12px;
@@ -942,9 +925,25 @@ del {
     width: 38px;
   }
 }
+.price,.cart-total strong,.preview .total strong{font-family:"DIN Alternate","DIN Condensed",-apple-system,sans-serif}
+.auth-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:8px 20px;background:var(--surface);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.auth-bar p{min-width:0}.auth-bar .link-button{flex:none;color:var(--selected);font-size:12px}.auth-bar [data-expired=true]{color:var(--error)}
+.auth-card{width:calc(100% - 40px);max-width:400px;margin:16px 20px;border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--surface);font-size:13px}
+.auth-card strong{font-size:15px}.auth-card p{margin:8px 0;color:var(--muted);font-size:12px}.auth-card p:empty{display:none}.auth-card form{display:flex;flex-direction:column;gap:14px;margin-top:14px}.auth-card label{min-width:0}.auth-card input{width:100%}.auth-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+#catalog-controls[inert]{opacity:.45}.recent-terms{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.recent-terms button{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:5px 9px;color:var(--muted);font-size:11px}
+.cart-actions{position:sticky;bottom:0;background:var(--canvas);padding:12px 0;z-index:1;display:flex}.cart-actions button{flex:1}.preview .actions{justify-content:flex-end}.danger{border-color:var(--error);color:var(--error);background:var(--surface)}
+.local-orders{margin-top:20px}.local-orders h3{font-size:13px}.local-order{padding:12px 0;border-bottom:1px solid var(--line)}.local-order p{font-size:11px;color:var(--muted);overflow-wrap:anywhere}.local-order .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+body[data-pickup=true] .auth-bar,body[data-pickup=true] .auth-card,body[data-pickup=true] .panel-tabs,body[data-pickup=true] .catalog-column,body[data-pickup=true] .detail-column,body[data-pickup=true] .cart-column>:not(.order-lookup),body[data-pickup=true] .order-lookup>:not(#lookup-result){display:none}
+body[data-pickup=true] .main{display:block;min-height:0}body[data-pickup=true] .cart-column{display:block;min-height:0;border:0;padding:12px}body[data-pickup=true] .order-lookup{margin:0;padding:0;border:0}
+.pickup-code{font-family:"DIN Alternate","DIN Condensed",sans-serif;font-size:42px;letter-spacing:3px}.pickup-progress{display:flex;gap:6px;list-style:none;padding:0;margin:14px 0}.pickup-progress li{flex:1;border-top:3px solid var(--line);font-size:10px;color:var(--muted);padding-top:6px}.pickup-progress li.done{border-color:var(--selected);color:var(--selected)}
+body[data-stores-only=true] .panel-tabs,body[data-stores-only=true] .detail-column,body[data-stores-only=true] .cart-column,body[data-stores-only=true] .catalog-column>:not(#catalog-controls),body[data-stores-only=true] #catalog-controls>:not(#store-dialog){display:none}
+body[data-stores-only=true] .main{display:block;min-height:0}body[data-stores-only=true] .catalog-column{display:block;padding:12px;min-height:0}body[data-stores-only=true] #store-dialog{margin:0}
+@media(max-width:959px){.cart-actions{position:fixed;bottom:0;left:0;right:0;max-width:640px;margin:auto;padding:12px 18px;border-top:1px solid var(--line)}}
 </style>
 </head>
 <body>
+  <div class="auth-bar" id="auth-bar"><p id="auth-status" role="status">正在检查连接…</p><button class="link-button" id="auth-toggle" type="button" aria-expanded="false" aria-controls="auth-card" hidden>连接账号</button></div>
+  <section class="auth-card" id="auth-card" aria-label="连接瑞幸账号" hidden></section>
   <nav class="panel-tabs" aria-label="点单步骤">
     <button type="button" data-panel="catalog" aria-pressed="true">选商品</button>
     <button type="button" data-panel="detail" aria-pressed="false">选规格</button>
@@ -953,14 +952,17 @@ del {
   <main class="main">
     <section class="column catalog-column" id="catalog-panel" data-active="true" aria-label="搜索商品">
       <div class="section-head"><h1>选一杯喜欢的</h1><span class="mode">到店取</span></div>
+      <div id="catalog-controls" inert>
       <button class="store-button" id="store-button" type="button" aria-label="选择取餐门店">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <span class="store-button-copy"><span class="store-button-value" id="store-name">选择取餐门店</span><span class="store-button-label" id="store-caption">先选门店，再查看可售商品</span></span><span class="store-chevron" aria-hidden="true"></span>
       </button>
+      <div id="recent-searches" class="recent-terms"></div>
       <form id="search-form" class="search-row"><input id="search-query" type="search" placeholder="搜商品，例如美式、拿铁" aria-label="搜索瑞幸商品" autocomplete="off"><button class="primary" type="submit">搜索</button></form>
       <div class="result-caption"><span id="result-count">当前门店的可售商品</span><span>实时查询</span></div>
       <div class="result-list" id="results"><div class="empty">选好门店，输入商品名称或口味偏好。</div></div>
       <p class="status" id="search-status" role="status" aria-live="polite"></p>
+      </div>
     </section>
     <section class="column detail-column" id="detail-panel" data-active="false" aria-label="商品规格">
       <div class="section-head"><h2>商品详情</h2><span class="muted">按你的口味</span></div>
@@ -968,26 +970,26 @@ del {
     </section>
     <section class="column cart-column" id="cart-panel" data-active="false" aria-label="购物车与订单">
       <div class="section-head"><h2>购物车 <span class="count" id="cart-count">0 件</span></h2><button class="link-button" id="clear-cart" type="button" hidden>清空</button></div>
-      <div class="cart-card"><div class="cart-store" id="cart-store">到店取 · 尚未选择门店</div><div id="cart-items"></div><div class="cart-total"><span>商品预估小计</span><strong id="cart-total">¥0.00</strong></div><p class="cart-note">优惠和最终金额将在订单预览中核对。</p></div>
+      <div class="cart-card"><div class="cart-store" id="cart-store">到店取 · 尚未选择门店</div><div id="cart-items"></div><div class="cart-total"><span>商品原价小计</span><strong id="cart-total">¥0.00</strong></div><p class="cart-note">优惠和最终金额将在订单预览中核对。</p></div>
       <div class="cart-actions"><button class="primary" id="preview-button" type="button" disabled>预览订单</button></div>
       <p class="status" id="cart-status" role="status" aria-live="polite"></p><div id="fallback-preview"></div>
+      <div class="local-orders"><h3>本插件订单 · 仅本机记录</h3><p class="hint">再来一单会替换购物车并重新预览，仍需确认。</p><div id="local-orders"></div></div>
       <div class="order-lookup"><h3>查询订单</h3><form class="row" id="lookup-form"><input id="order-id" placeholder="输入订单号" aria-label="订单号" autocomplete="off"><button class="secondary" id="lookup-button" type="submit">查询</button></form><p class="status" id="lookup-status" role="status" aria-live="polite"></p><div id="lookup-result"></div></div>
     </section>
   </main>
-  <div class="dialog" id="store-dialog" hidden><div class="dialog-card" role="dialog" aria-modal="true" aria-labelledby="store-title">
+  <div class="dialog" id="store-dialog" hidden><div class="dialog-card" role="region" aria-labelledby="store-title">
     <h2 id="store-title">选择取餐门店</h2><p class="muted">按你提供的坐标查询附近门店。</p>
-    <form id="store-form"><label for="shop-name">门店名称（可选）</label><input id="shop-name" placeholder="输入门店名称" autocomplete="off">
+    <div id="recent-shops" class="shop-list"></div><form id="store-form"><label for="shop-name">门店名称（可选）</label><input id="shop-name" placeholder="输入门店名称" autocomplete="off">
       <div class="coordinate"><div><label for="longitude">经度</label><input id="longitude" inputmode="decimal" placeholder="例如 116.39"></div><div><label for="latitude">纬度</label><input id="latitude" inputmode="decimal" placeholder="例如 39.98"></div></div>
-      <p class="hint" id="store-change-note">仅使用本次输入的位置，不读取设备定位。</p>
+      <p class="hint" id="store-change-note">最近使用的门店及其坐标仅保存在本机；更换门店会清空购物车，并使已有预览失效。</p>
       <div class="dialog-actions"><button class="secondary" id="store-close" type="button">返回</button><button class="primary" id="find-shops" type="submit">查询门店</button></div>
     </form><p class="status" id="store-status" role="status" aria-live="polite"></p><div class="shop-list" id="shop-list"></div>
   </div></div>
   <script type="module">
+/* LUCKIN_SHARED */
 const $ = (id) => document.getElementById(id);
 const state = { shop: null, products: [], detail: null, quantity: 1, cart: [], review: null, hostCapabilities: {}, shopRevision: 0, searchRevision: 0, detailRevision: 0, cartRevision: 0, detailBusy: false, previewBusy: false, submitting: false };
-const waiting = /* @__PURE__ */ new Map();
-let nextId = 0, hostTheme = null, reviewTimer;
-const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+let pickupTimer, pickupMode = false, reviewTimer, invalidatePending = Promise.resolve(), contextError = false, authRetry = null, authInfo = {};
 const finite = (value) => value !== null && value !== void 0 && value !== "" && Number.isFinite(Number(value));
 const money = (value) => finite(value) ? `¥${Number(value).toFixed(2)}` : "待确认";
 const el = (tag, className, value) => {
@@ -996,16 +998,6 @@ const el = (tag, className, value) => {
   if (value !== void 0) node.textContent = String(value);
   return node;
 };
-function updateTheme(theme) {
-  if (["light", "dark"].includes(theme)) {
-    hostTheme = theme;
-    document.documentElement.dataset.theme = theme;
-  }
-}
-updateTheme(window.openai?.theme);
-systemTheme.addEventListener("change", (event) => {
-  if (!hostTheme) document.documentElement.dataset.theme = event.matches ? "dark" : "light";
-});
 function status(id, message, tone = "") {
   $(id).textContent = message;
   $(id).className = `status ${tone}`;
@@ -1040,125 +1032,189 @@ function art(value, className, name = "商品") {
 }
 function priceLine(product) {
   const line = el("div", "price-line"), estimated = finite(product.estimatePrice), price = estimated ? product.estimatePrice : product.initialPrice;
-  line.append(el("span", "price", money(price)), el("span", "price-label", estimated ? "预估到手" : "商品价格"));
-  if (estimated && finite(product.initialPrice) && Number(product.initialPrice) > Number(price)) line.append(el("del", "", money(product.initialPrice)));
+  line.append(el("span", "price", money(price)), el("span", "price-label", estimated ? "预估到手" : "商品原价"));
+  if (estimated && finite(product.initialPrice) && Number(product.initialPrice) > Number(price)) line.append(el("del", "", `商品原价 ${money(product.initialPrice)}`));
   return line;
 }
-function notify(method, params) {
-  window.parent.postMessage({ jsonrpc: "2.0", method, params }, "*");
+const request = bridge.request;
+async function call(name, args) {
+  return bridge.call(name, args);
 }
-function request(method, params) {
-  return new Promise((resolve, reject) => {
-    const id = ++nextId;
-    const timer = setTimeout(() => {
-      waiting.delete(id);
-      reject(new Error("宿主响应超时，请稍后重试。"));
-    }, 2e4);
-    waiting.set(id, { resolve, reject, timer });
-    window.parent.postMessage({ jsonrpc: "2.0", id, method, params }, "*");
+function showAuth(info = {}) {
+  clearTimeout(pickupTimer);
+  authInfo = info;
+  authRetry = info.retry || authRetry;
+  $("catalog-controls").inert = true;
+  $("store-dialog").hidden = true;
+  $("auth-status").textContent = info.expired ? "登录已失效，请重新连接瑞幸账号" : "未连接瑞幸账号，暂时无法查询门店";
+  $("auth-status").dataset.expired = String(Boolean(info.expired));
+  $("auth-toggle").hidden = false;
+}
+function setAuthExpanded(expanded) {
+  $("auth-toggle").setAttribute("aria-expanded", String(expanded));
+  $("auth-toggle").textContent = expanded ? "收起" : "连接账号";
+  $("auth-card").hidden = !expanded;
+  $("auth-card").replaceChildren();
+  if (!expanded) return;
+  authForm($("auth-card"), authInfo, async () => {
+    const retry = authRetry;
+    await loadLocal();
+    authRetry = null;
+    if (retry?.name === "query_shop_list") $("store-form").requestSubmit();
+    else if (retry?.name === "search_products") $("search-form").requestSubmit();
+    else if (retry?.name === "product_detail" || retry?.name === "switch_product") await selectProduct({ productId: retry.args.productId });
+    else if (retry?.name === "order_detail") await lookupOrder(retry.args.orderId);
+    else if (retry?.name === "review_order") $("preview-button").click();
   });
+  $("auth-card").querySelector("input").focus();
 }
-window.addEventListener("message", (event) => {
-  if (event.source !== window.parent || event.data?.jsonrpc !== "2.0") return;
-  const message = event.data;
-  if (message.method === "ui/notifications/host-context-changed") {
-    updateTheme(message.params?.theme);
+$("auth-toggle").onclick = () => {
+  const expanded = $("auth-card").hidden;
+  setAuthExpanded(expanded);
+  if (!expanded) $("auth-toggle").focus();
+};
+bridge.onAuth = showAuth;
+async function loadLocal() {
+  const result = (await call("local_state", {})).data;
+  state.hostCapabilities = bridge.capabilities;
+  if (!result.auth.connected) {
+    showAuth(result.auth);
     return;
   }
-  if (typeof message.id === "number" && !message.method) {
-    const pending = waiting.get(message.id);
-    if (!pending) return;
-    clearTimeout(pending.timer);
-    waiting.delete(message.id);
-    message.error ? pending.reject(new Error(message.error.message || "请求失败")) : pending.resolve(message.result);
+  $("catalog-controls").inert = false;
+  setAuthExpanded(false);
+  $("auth-toggle").hidden = true;
+  $("auth-status").textContent = "已连接瑞幸";
+  $("auth-status").dataset.expired = "false";
+  if (result.selectedShop && !state.shop) applyShop(result.selectedShop);
+  else if (state.shop && result.selectedShop?.deptId !== state.shop.deptId) {
+    applyShop(result.selectedShop);
+    status("cart-status", "其他界面已切换门店，购物车和旧预览已清空。");
   }
-});
-const ready = request("ui/initialize", { appInfo: { name: "luckin-shop", version: "0.1.8" }, appCapabilities: { availableDisplayModes: ["fullscreen", "inline"] }, protocolVersion: "2026-01-26" }).then((result) => {
-  if (!result || typeof result !== "object") throw new Error("宿主未完成界面初始化。");
-  updateTheme(result.hostContext?.theme);
-  state.hostCapabilities = result.hostCapabilities || {};
-  notify("ui/notifications/initialized", {});
-  return true;
-}).catch((error) => {
-  status("search-status", error.message, "error");
-  return false;
-});
-async function call(name, args) {
-  if (!await ready) throw new Error("当前宿主未连接，请重新打开 Luckin。");
-  const result = await request("tools/call", { name, arguments: args });
-  if (result?.isError) throw new Error(result.content?.find((part) => part.type === "text")?.text || "瑞幸请求失败。");
-  return result?.structuredContent || {};
+  if (state.review && !(await call("review_status", { reviewId: state.review.reviewId })).valid) {
+    state.review.expiresAt = Date.now() - 1;
+    clearInterval(reviewTimer);
+    renderPreview();
+  }
+  renderRecent(result);
+}
+function renderRecent(data) {
+  $("recent-searches").replaceChildren();
+  for (const item of data.searches) {
+    const button = el("button", "", item.query);
+    button.type = "button";
+    button.onclick = () => {
+      $("search-query").value = item.query;
+      $("search-form").requestSubmit();
+    };
+    $("recent-searches").append(button);
+  }
+  $("recent-shops").replaceChildren();
+  if (data.shops.length) $("recent-shops").append(el("p", "muted", "最近使用 · 选择时重新核对门店"));
+  for (const shop of data.shops) {
+    const button = el("button", "shop-option");
+    button.type = "button";
+    button.append(el("strong", "", shop.deptName), el("span", "", shop.address));
+    button.onclick = () => selectShop(shop);
+    $("recent-shops").append(button);
+  }
+  $("local-orders").replaceChildren();
+  if (!data.orders.length) $("local-orders").append(el("p", "hint", "本机暂无由此插件创建的订单。"));
+  for (const order of data.orders) {
+    const row = el("div", "local-order"), actions = el("div", "actions"), refresh = el("button", "secondary", "查看状态"), again = el("button", "secondary", "再来一单");
+    row.append(el("strong", "", order.shopInfo?.deptName || "瑞幸订单"), el("p", "", `${order.orderStatusName || "请刷新状态"} · ${order.orderId}`));
+    refresh.onclick = () => lookupOrder(order.orderId);
+    again.onclick = async () => {
+      if (state.submitting || state.previewBusy) return;
+      again.disabled = true;
+      try {
+        const saved = (await call("reorder", { orderId: order.orderId })).data;
+        if (!await selectShop({ deptId: saved.input.deptId })) return;
+        invalidateReview();
+        state.cart = saved.input.productList.map((item) => {
+          const previous = saved.products.find((p) => p.productId === item.productId && p.skuCode === item.skuCode);
+          return { ...item, key: `${item.productId}:${item.skuCode}`, name: previous?.name || "商品", options: previous?.options || "", imageUrl: previous?.imageUrl, price: null };
+        });
+        renderCart();
+        showPanel("cart");
+        $("preview-button").click();
+      } catch (error) {
+        status("cart-status", error.message, "error");
+      } finally {
+        again.disabled = false;
+      }
+    };
+    actions.append(refresh, again);
+    row.append(actions);
+    $("local-orders").append(row);
+  }
 }
 function showPanel(name) {
   document.querySelectorAll("[data-panel]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.panel === name)));
   for (const panel of ["catalog", "detail", "cart"]) $(`${panel}-panel`).dataset.active = String(panel === name);
 }
 document.querySelectorAll("[data-panel]").forEach((button) => button.onclick = () => showPanel(button.dataset.panel));
-function invalidateReview() {
+function invalidateReview(remote = true) {
   state.cartRevision++;
   state.review = null;
-  clearTimeout(reviewTimer);
+  clearInterval(reviewTimer);
   $("fallback-preview").replaceChildren();
+  if (remote) invalidatePending = invalidatePending.then(() => call("invalidate_previews", {})).then(() => {
+    contextError = false;
+  }).catch(() => {
+    contextError = true;
+    status("cart-status", "旧预览失效请求未成功，请保持当前界面并重试。", "error");
+  });
 }
 function closeStore() {
   $("store-dialog").hidden = true;
   $("store-button").focus();
 }
-$("store-button").onclick = () => {
+function openStore() {
   if (state.submitting) return;
   $("store-dialog").hidden = false;
-  $("store-change-note").textContent = state.cart.length ? "更换门店后将清空购物车，按新门店重新选购。" : "仅使用本次输入的位置，不读取设备定位。";
+  $("store-change-note").textContent = "更换门店会清空购物车，并使聊天与面板中的已有预览失效。最近门店及坐标仅保存在本机。";
   $("shop-name").focus();
+}
+$("store-button").onclick = () => {
+  if ($("store-dialog").hidden) openStore();
+  else closeStore();
 };
 $("store-close").onclick = closeStore;
-$("store-dialog").onclick = (event) => {
-  if (event.target === $("store-dialog")) closeStore();
-};
-$("store-dialog").onkeydown = (event) => {
-  if (event.key === "Escape") {
-    event.preventDefault();
-    closeStore();
-  }
-  if (event.key === "Tab") {
-    const nodes = [...$("store-dialog").querySelectorAll("button:not(:disabled),input")];
-    const first = nodes[0], last = nodes.at(-1);
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
-};
-function selectShop(shop) {
-  const deptId = Number(shop.deptId);
-  if (state.submitting || !Number.isSafeInteger(deptId) || deptId <= 0) return;
-  if (state.shop?.deptId === deptId) {
-    closeStore();
-    return;
-  }
+$("search-form").before($("store-dialog"));
+function applyShop(shop) {
   state.shopRevision++;
   state.detailRevision++;
   state.detailBusy = false;
-  state.shop = { deptId, name: String(shop.deptName || `门店 ${deptId}`), address: String(shop.address || "") };
+  state.shop = shop ? { ...shop, name: shop.deptName } : null;
   state.products = [];
   state.detail = null;
   state.cart = [];
-  invalidateReview();
-  $("store-name").textContent = state.shop.name;
+  invalidateReview(false);
+  $("store-name").textContent = shop?.deptName || "选择取餐门店";
   $("store-caption").textContent = "到店取 · 点击更换门店";
-  $("store-button").setAttribute("aria-label", `更换取餐门店，当前为${state.shop.name}`);
-  $("result-count").textContent = "当前门店的可售商品";
   $("results").replaceChildren(el("div", "empty", "输入商品名称或口味偏好，查看当前门店商品。"));
   showEmptyDetail();
   renderCart();
-  closeStore();
-  showPanel("catalog");
-  $("search-query").focus();
-  status("search-status", "");
-  status("detail-status", "");
-  status("cart-status", "");
+}
+async function selectShop(shop) {
+  if (state.submitting) return false;
+  try {
+    await invalidatePending;
+    const result = await call("select_shop", { deptId: Number(shop.deptId) });
+    if (state.shop?.deptId !== result.data.deptId) applyShop(result.data);
+    closeStore();
+    showPanel("catalog");
+    if (document.body.dataset.storesOnly) {
+      $("store-dialog").hidden = false;
+      status("store-status", `已选择 ${result.data.deptName}。旧预览已失效。`, "success");
+      window.openai?.requestClose?.();
+    }
+    return true;
+  } catch (error) {
+    status("store-status", error.message, "error");
+    return false;
+  }
 }
 $("store-form").onsubmit = async (event) => {
   event.preventDefault();
@@ -1180,6 +1236,8 @@ $("store-form").onsubmit = async (event) => {
       const item = el("button", "shop-option");
       item.type = "button";
       item.append(el("strong", "", shop.deptName || `门店 ${shop.deptId}`), el("span", "", shop.address || "地址以瑞幸结果为准"));
+      item.disabled = shop.open === false;
+      if (shop.open === false) item.append(el("span", "", "未营业"));
       item.onclick = () => selectShop(shop);
       $("shop-list").append(item);
     }
@@ -1206,6 +1264,7 @@ $("search-form").onsubmit = async (event) => {
   try {
     const result = await call("search_products", { deptId: state.shop.deptId, query });
     if (shopRevision !== state.shopRevision || searchRevision !== state.searchRevision) return;
+    void loadLocal();
     state.products = (Array.isArray(result.data) ? result.data : []).filter((item) => Number.isSafeInteger(Number(item.productId)) && Number(item.productId) > 0);
     renderProducts();
     $("result-count").textContent = `当前门店 · ${state.products.length} 个相关商品`;
@@ -1326,7 +1385,7 @@ function renderDetail() {
     state.quantity--;
     renderDetail();
   }, () => {
-    state.quantity++;
+    if (state.quantity < 99) state.quantity++;
     renderDetail();
   }, d.productName, state.detailBusy, 1), add);
   box.append(attributes, summary, bottom);
@@ -1364,9 +1423,9 @@ function addToCart() {
   if (!state.shop || !d?.skuCode || state.detailBusy || state.submitting) return;
   invalidateReview();
   const productId = Number(d.productId), key = `${productId}:${d.skuCode}`, existing = state.cart.find((item) => item.key === key);
-  if (existing) existing.amount += state.quantity;
+  if (existing) existing.amount = Math.min(99, existing.amount + state.quantity);
   else {
-    const price = finite(d.estimatePrice) ? d.estimatePrice : d.initialPrice;
+    const price = d.initialPrice;
     state.cart.push({ key, productId, skuCode: d.skuCode, name: String(d.productName || "商品"), options: selectedOptions(d), imageUrl: officialImage(d.pictureUrl), price: finite(price) ? Number(price) : null, amount: state.quantity });
   }
   state.quantity = 1;
@@ -1378,7 +1437,7 @@ function addToCart() {
 function changeCart(item, delta) {
   if (state.submitting) return;
   invalidateReview();
-  item.amount += delta;
+  item.amount = Math.min(99, item.amount + delta);
   state.cart = state.cart.filter((row) => row.amount > 0);
   renderCart();
   status("cart-status", "购物车已更新，请重新预览金额。");
@@ -1415,10 +1474,25 @@ function renderCart() {
 }
 async function sendForReview(kind, args) {
   const tool = kind === "order" ? "review_order" : "review_cancel", version = state.cartRevision;
+  if (kind === "order") {
+    await invalidatePending;
+    if (contextError) {
+      await call("invalidate_previews", {});
+      contextError = false;
+    }
+    const prepared = await call("prepare_cart", args);
+    args = { ...args, cartRevision: prepared.revision };
+  }
   if (state.hostCapabilities.message?.text) {
     const description = kind === "order" ? "预览这份 Luckin 订单，并在聊天内联卡片中让我核对；不要创建订单，直到我点击确认。" : "预览这笔 Luckin 订单的取消操作，并在聊天内联卡片中让我核对；不要取消，直到我点击确认。";
-    await request("ui/message", { role: "user", content: [{ type: "text", text: `${description}
+    try {
+      const sent = await request("ui/message", { role: "user", content: [{ type: "text", text: `${description}
 请调用 ${tool}，参数：${JSON.stringify(args)}` }] });
+      if (sent?.isError) throw new Error("客户端未能发送消息。");
+    } catch {
+      state.hostCapabilities = { ...state.hostCapabilities, message: null };
+      return sendForReview(kind, kind === "order" ? { deptId: args.deptId, productList: args.productList } : args);
+    }
     status(kind === "order" ? "cart-status" : "lookup-status", "已发送到对话，请在订单卡片中核对并确认。", "success");
   } else {
     const result = await call(tool, args);
@@ -1426,7 +1500,7 @@ async function sendForReview(kind, args) {
       status("cart-status", "购物车已变化，请重新预览。");
       return;
     }
-    clearTimeout(reviewTimer);
+    clearInterval(reviewTimer);
     state.review = result;
     renderPreview();
     status(kind === "order" ? "cart-status" : "lookup-status", "请核对下方的瑞幸实时预览。");
@@ -1465,22 +1539,47 @@ function renderPreview() {
     total.append(el("span", "", "订单预览金额"), el("strong", "", money(summary.total)));
     card.append(total, el("p", "", "确认后创建订单。如需付款，请前往瑞幸官方渠道完成。"));
   } else card.append(el("p", "", `${summary.status || "状态待确认"} · ${summary.shop || ""}`), el("p", "", "取消后可能无法恢复，请核对后再操作。"));
-  const actions = el("div", "actions"), dismiss = el("button", "secondary", isOrder ? "返回修改" : "暂不取消"), confirm = el("button", "primary", isOrder ? "确认创建订单" : "确认取消订单");
+  const actions = el("div", "actions"), dismiss = el("button", isOrder ? "secondary" : "primary", isOrder ? "返回修改" : "保留订单"), confirm = el("button", isOrder ? "primary" : "danger", isOrder ? "确认创建订单" : "确认取消");
   dismiss.type = confirm.type = "button";
-  dismiss.onclick = () => {
-    invalidateReview();
+  dismiss.onclick = async () => {
+    try {
+      await call("invalidate_previews", { reviewId: result.reviewId });
+      invalidateReview(false);
+    } catch (error) {
+      status("cart-status", error.message, "error");
+    }
     if (isOrder) status("cart-status", "可修改购物车，完成后重新预览。");
   };
-  reviewTimer = setTimeout(() => {
+  const stage = card.querySelector(".order-state"), expiresAt = result.expiresAt ?? Date.now() + 3e5;
+  function tick() {
     if (state.review !== result || state.submitting) return;
-    confirm.disabled = true;
-    confirm.textContent = "预览已过期";
-    status("cart-status", "请重新预览后再确认。", "error");
-  }, Math.max(0, finite(result.expiresInSeconds) ? Number(result.expiresInSeconds) : 300) * 1e3);
+    const seconds = Math.ceil((expiresAt - Date.now()) / 1e3);
+    stage.textContent = seconds > 0 ? `待确认 · ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}` : "已失效 → 重新预览";
+    if (seconds <= 0) {
+      clearInterval(reviewTimer);
+      confirm.textContent = "重新预览";
+      confirm.className = "primary";
+      dismiss.className = "secondary";
+      actions.replaceChildren(dismiss, confirm);
+      confirm.disabled = false;
+      confirm.onclick = async () => {
+        confirm.disabled = true;
+        try {
+          await sendForReview(isOrder ? "order" : "cancel", result.input && isOrder ? { deptId: result.input.deptId, productList: result.input.productList } : result.input);
+        } catch (error) {
+          status("cart-status", error.message, "error");
+        } finally {
+          confirm.disabled = false;
+        }
+      };
+    }
+  }
+  reviewTimer = setInterval(tick, 1e3);
   confirm.onclick = async () => {
     if (state.review !== result || state.submitting) return;
     state.submitting = true;
-    clearTimeout(reviewTimer);
+    stage.textContent = "提交中";
+    clearInterval(reviewTimer);
     confirm.disabled = dismiss.disabled = true;
     $("store-button").disabled = true;
     renderCart();
@@ -1493,12 +1592,14 @@ function renderPreview() {
         state.cart = [];
         invalidateReview();
         $("order-id").value = output.orderId || "";
-        renderOrder(output.orderId, { needPay: output.needPay, discountPrice: output.total, shopInfo: { deptName: summary.shop?.name, address: summary.shop?.address } }, summary.products);
+        renderOrder(output.orderId, output, summary.products);
+        void loadLocal();
         status("cart-status", "订单已创建。可在下方刷新状态。", "success");
       } else {
         box.replaceChildren();
         status("lookup-status", "取消请求已提交，正在刷新订单…");
-        await lookupOrder(summary.orderId);
+        renderOrder(summary.orderId, output);
+        status("lookup-status", output.warning || "已重新查询取消结果。", output.warning ? "error" : "success");
       }
     } catch (error) {
       state.review = null;
@@ -1511,21 +1612,61 @@ function renderPreview() {
       renderCart();
     }
   };
-  actions.append(dismiss, confirm);
+  actions.append(...(isOrder ? [dismiss, confirm] : [confirm, dismiss]));
   card.append(actions);
   box.append(card);
+  tick();
+  if (!isOrder) dismiss.focus();
+}
+async function pickupPresentation(visible) {
+  if (visible === pickupMode) return;
+  const mode = visible ? "pip" : "inline";
+  try {
+    let actual;
+    if (bridge.context.availableDisplayModes?.includes(mode)) actual = (await request("ui/request-display-mode", { mode })).mode;
+    else if (typeof window.openai?.requestDisplayMode === "function") actual = (await window.openai.requestDisplayMode({ mode }))?.mode;
+    if (actual === mode) {
+      pickupMode = visible;
+      document.body.dataset.pickup = String(visible);
+    }
+  } catch {
+  }
 }
 function renderOrder(orderId, order, products) {
-  const box = $("lookup-result"), card = el("div", "preview"), pending = order.needPay === true || /^(待付款|待支付|未支付)$/.test(order.orderStatusName || "");
+  clearTimeout(pickupTimer);
+  const pickup = order.pickup;
+  void pickupPresentation(pickup?.visible === true);
+  if (pickup?.visible) {
+    const card2 = el("div", "preview");
+    card2.append(el("span", "order-state", pickup.status));
+    if (pickup.full) {
+      card2.append(el("p", "", "取餐码"), el("div", "pickup-code", pickup.code), el("p", "", `预计 ${new Date(pickup.aboutTime).toLocaleTimeString("zh-CN", { timeZone: "Asia/Shanghai", hour: "2-digit", minute: "2-digit" })} 可取`));
+      const progress = el("ol", "pickup-progress");
+      ["下单成功", "制作中", "等待取餐", "已完成"].forEach((text, index) => progress.append(el("li", index <= pickup.step ? "done" : "", text)));
+      card2.append(progress);
+    }
+    card2.append(el("p", "", `更新于 ${new Date(pickup.updatedAt).toLocaleTimeString("zh-CN")}`));
+    const refresh2 = el("button", "secondary", "刷新");
+    refresh2.onclick = async () => {
+      refresh2.disabled = true;
+      await lookupOrder(orderId);
+      refresh2.disabled = false;
+    };
+    card2.append(refresh2);
+    $("lookup-result").replaceChildren(card2);
+    pickupTimer = setTimeout(() => lookupOrder(orderId), 45e3);
+    return;
+  }
+  const box = $("lookup-result"), card = el("div", "preview"), pending = order.orderStatus === 10 || order.needPay === true;
   const label = order.orderStatusName || (order.orderStatus === 100 ? "已取消" : pending ? "待付款" : order.orderStatus != null ? `订单状态：${order.orderStatus}` : "订单已创建 · 请刷新状态");
   card.append(el("span", `order-state${pending ? " pending" : ""}`, label), el("h3", "", order.shopInfo?.deptName || "瑞幸订单"));
   if (order.shopInfo?.address) card.append(el("p", "", order.shopInfo.address));
   if (pending) card.append(el("p", "", "尚未付款，请在瑞幸官方渠道查看支付时限并完成支付。"));
   const items = products || (Array.isArray(order.productInfoList) ? order.productInfoList.map((item) => ({ name: item.name, amount: item.amount, options: item.additionDesc, price: item.estimateTotalPrice ?? item.estimatePrice, imageUrl: item.breviaryPicUrl ?? item.bigPicUrl })) : []);
   for (const item of items) appendReviewProduct(card, item);
-  if (finite(order.discountPrice)) {
+  if (finite(order.total ?? order.discountPrice)) {
     const total = el("div", "line total");
-    total.append(el("span", "", pending ? "待支付金额" : "订单金额"), el("strong", "", money(order.discountPrice)));
+    total.append(el("span", "", pending ? "待支付金额" : "订单金额"), el("strong", "", money(order.total ?? order.discountPrice)));
     card.append(total);
   }
   card.append(el("p", "order-number", `订单号：${orderId || "暂未返回，请在瑞幸官方渠道查询"}`));
@@ -1538,7 +1679,17 @@ function renderOrder(orderId, order, products) {
     if (refresh.isConnected) refresh.disabled = false;
   };
   actions.append(refresh);
-  if (orderId && order.orderStatus !== 100) {
+  if (pending && order.payOrderUrl) {
+    const pay = el("button", "primary", "去瑞幸付款 ↗");
+    pay.onclick = async () => {
+      try {
+        await bridge.openLink(order.payOrderUrl);
+      } catch (error) {
+        status("lookup-status", error.message, "error");
+      }
+    };
+    actions.append(pay);
+  } else if (orderId && ![80, 100].includes(order.orderStatus)) {
     const cancel = el("button", "link-button", "申请取消");
     cancel.type = "button";
     cancel.onclick = async () => {
@@ -1554,14 +1705,25 @@ function renderOrder(orderId, order, products) {
     actions.append(cancel);
   }
   card.append(actions);
-  box.replaceChildren(card);
+  if (pending && orderId) {
+    const cancel = el("button", "link-button", "申请取消");
+    cancel.onclick = async () => {
+      try {
+        await sendForReview("cancel", { orderId });
+      } catch (error) {
+        status("lookup-status", error.message, "error");
+      }
+    };
+    box.replaceChildren(card, cancel);
+  } else box.replaceChildren(card);
 }
 async function lookupOrder(orderId) {
   status("lookup-status", "正在查询订单…");
   try {
     const result = await call("order_detail", { orderId });
     renderOrder(orderId, result.data || {});
-    status("lookup-status", "已更新订单状态。", "success");
+    status("lookup-status", result.data.warning || "已更新订单状态。", "success");
+    void loadLocal();
   } catch (error) {
     status("lookup-status", error.message, "error");
   }
@@ -1584,6 +1746,36 @@ $("lookup-form").onsubmit = async (event) => {
 };
 showEmptyDetail();
 renderCart();
+async function openInput(input = {}) {
+  await loadLocal();
+  if (input.deptId && state.shop?.deptId !== Number(input.deptId)) await selectShop({ deptId: Number(input.deptId) });
+  if (input.showShops || document.body.dataset.storesOnly) openStore();
+  if (input.productId && state.shop?.deptId === Number(input.deptId)) await selectProduct({ productId: Number(input.productId) });
+}
+bridge.onResult = (result) => {
+  if (result?.kind === "shop") void openInput(result).catch((error) => status("search-status", error.message, "error"));
+};
+bridge.onContext = (context) => {
+  const path = context["openai/deepLink"]?.url;
+  if (path) void openInput(Object.fromEntries(new URL(path, "https://local.invalid").searchParams)).catch((error) => status("search-status", error.message, "error"));
+};
+window.addEventListener("pagehide", () => {
+  clearTimeout(pickupTimer);
+  clearInterval(reviewTimer);
+});
+window.addEventListener("focus", () => {
+  if (!state.submitting) void loadLocal().catch(() => {
+  });
+});
+if (await bridge.ready) {
+  try {
+    const deepLink = bridge.context["openai/deepLink"]?.url;
+    const input = deepLink ? Object.fromEntries(new URL(deepLink, "https://local.invalid").searchParams) : {};
+    await openInput(input);
+  } catch (error) {
+    status("search-status", error.message, "error");
+  }
+} else $("auth-status").textContent = "客户端不支持确认界面，请在支持 MCP Apps 的客户端中打开。";
 </script>
 </body>
 </html>

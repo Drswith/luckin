@@ -1924,10 +1924,10 @@ var require_keyword = __commonJS({
       if (def.async && !schemaEnv.$async)
         throw new Error("async keyword in sync schema");
     }
-    function useKeyword(gen, keyword, result) {
-      if (result === void 0)
+    function useKeyword(gen, keyword, result2) {
+      if (result2 === void 0)
         throw new Error(`keyword "${keyword}" failed to compile`);
-      return gen.scopeValue("keyword", typeof result == "function" ? { ref: result } : { ref: result, code: (0, codegen_1.stringify)(result) });
+      return gen.scopeValue("keyword", typeof result2 == "function" ? { ref: result2 } : { ref: result2, code: (0, codegen_1.stringify)(result2) });
     }
     function validSchemaType(schema, schemaType, allowUndefined = false) {
       return !schemaType.length || schemaType.some((st2) => st2 === "array" ? Array.isArray(schema) : st2 === "object" ? schema && typeof schema == "object" && !Array.isArray(schema) : typeof schema == st2 || allowUndefined && typeof schema == "undefined");
@@ -7963,52 +7963,52 @@ function formatError(error2, _mapper) {
 // node_modules/.pnpm/zod@3.25.76/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
-  const result = schema._zod.run({ value, issues: [] }, ctx);
-  if (result instanceof Promise) {
+  const result2 = schema._zod.run({ value, issues: [] }, ctx);
+  if (result2 instanceof Promise) {
     throw new $ZodAsyncError();
   }
-  if (result.issues.length) {
-    const e = new (_params?.Err ?? _Err)(result.issues.map((iss) => finalizeIssue(iss, ctx, config())));
+  if (result2.issues.length) {
+    const e = new (_params?.Err ?? _Err)(result2.issues.map((iss) => finalizeIssue(iss, ctx, config())));
     captureStackTrace(e, _params?.callee);
     throw e;
   }
-  return result.value;
+  return result2.value;
 };
 var parse = /* @__PURE__ */ _parse($ZodRealError);
 var _parseAsync = (_Err) => async (schema, value, _ctx, params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
-  let result = schema._zod.run({ value, issues: [] }, ctx);
-  if (result instanceof Promise)
-    result = await result;
-  if (result.issues.length) {
-    const e = new (params?.Err ?? _Err)(result.issues.map((iss) => finalizeIssue(iss, ctx, config())));
+  let result2 = schema._zod.run({ value, issues: [] }, ctx);
+  if (result2 instanceof Promise)
+    result2 = await result2;
+  if (result2.issues.length) {
+    const e = new (params?.Err ?? _Err)(result2.issues.map((iss) => finalizeIssue(iss, ctx, config())));
     captureStackTrace(e, params?.callee);
     throw e;
   }
-  return result.value;
+  return result2.value;
 };
 var parseAsync = /* @__PURE__ */ _parseAsync($ZodRealError);
 var _safeParse = (_Err) => (schema, value, _ctx) => {
   const ctx = _ctx ? { ..._ctx, async: false } : { async: false };
-  const result = schema._zod.run({ value, issues: [] }, ctx);
-  if (result instanceof Promise) {
+  const result2 = schema._zod.run({ value, issues: [] }, ctx);
+  if (result2 instanceof Promise) {
     throw new $ZodAsyncError();
   }
-  return result.issues.length ? {
+  return result2.issues.length ? {
     success: false,
-    error: new (_Err ?? $ZodError)(result.issues.map((iss) => finalizeIssue(iss, ctx, config())))
-  } : { success: true, data: result.value };
+    error: new (_Err ?? $ZodError)(result2.issues.map((iss) => finalizeIssue(iss, ctx, config())))
+  } : { success: true, data: result2.value };
 };
 var safeParse = /* @__PURE__ */ _safeParse($ZodRealError);
 var _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
-  let result = schema._zod.run({ value, issues: [] }, ctx);
-  if (result instanceof Promise)
-    result = await result;
-  return result.issues.length ? {
+  let result2 = schema._zod.run({ value, issues: [] }, ctx);
+  if (result2 instanceof Promise)
+    result2 = await result2;
+  return result2.issues.length ? {
     success: false,
-    error: new _Err(result.issues.map((iss) => finalizeIssue(iss, ctx, config())))
-  } : { success: true, data: result.value };
+    error: new _Err(result2.issues.map((iss) => finalizeIssue(iss, ctx, config())))
+  } : { success: true, data: result2.value };
 };
 var safeParseAsync = /* @__PURE__ */ _safeParseAsync($ZodRealError);
 
@@ -8562,13 +8562,13 @@ var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
       return payload;
     };
     inst._zod.run = (payload, ctx) => {
-      const result = inst._zod.parse(payload, ctx);
-      if (result instanceof Promise) {
+      const result2 = inst._zod.parse(payload, ctx);
+      if (result2 instanceof Promise) {
         if (ctx.async === false)
           throw new $ZodAsyncError();
-        return result.then((result2) => runChecks(result2, checks, ctx));
+        return result2.then((result3) => runChecks(result3, checks, ctx));
       }
-      return runChecks(result, checks, ctx);
+      return runChecks(result2, checks, ctx);
     };
   }
   inst["~standard"] = {
@@ -9013,11 +9013,11 @@ var $ZodDate = /* @__PURE__ */ $constructor("$ZodDate", (inst, def) => {
     return payload;
   };
 });
-function handleArrayResult(result, final, index) {
-  if (result.issues.length) {
-    final.issues.push(...prefixIssues(index, result.issues));
+function handleArrayResult(result2, final, index) {
+  if (result2.issues.length) {
+    final.issues.push(...prefixIssues(index, result2.issues));
   }
-  final.value[index] = result.value;
+  final.value[index] = result2.value;
 }
 var $ZodArray = /* @__PURE__ */ $constructor("$ZodArray", (inst, def) => {
   $ZodType.init(inst, def);
@@ -9036,14 +9036,14 @@ var $ZodArray = /* @__PURE__ */ $constructor("$ZodArray", (inst, def) => {
     const proms = [];
     for (let i = 0; i < input.length; i++) {
       const item = input[i];
-      const result = def.element._zod.run({
+      const result2 = def.element._zod.run({
         value: item,
         issues: []
       }, ctx);
-      if (result instanceof Promise) {
-        proms.push(result.then((result2) => handleArrayResult(result2, payload, i)));
+      if (result2 instanceof Promise) {
+        proms.push(result2.then((result3) => handleArrayResult(result3, payload, i)));
       } else {
-        handleArrayResult(result, payload, i);
+        handleArrayResult(result2, payload, i);
       }
     }
     if (proms.length) {
@@ -9052,28 +9052,28 @@ var $ZodArray = /* @__PURE__ */ $constructor("$ZodArray", (inst, def) => {
     return payload;
   };
 });
-function handleObjectResult(result, final, key) {
-  if (result.issues.length) {
-    final.issues.push(...prefixIssues(key, result.issues));
+function handleObjectResult(result2, final, key) {
+  if (result2.issues.length) {
+    final.issues.push(...prefixIssues(key, result2.issues));
   }
-  final.value[key] = result.value;
+  final.value[key] = result2.value;
 }
-function handleOptionalObjectResult(result, final, key, input) {
-  if (result.issues.length) {
+function handleOptionalObjectResult(result2, final, key, input) {
+  if (result2.issues.length) {
     if (input[key] === void 0) {
       if (key in input) {
         final.value[key] = void 0;
       } else {
-        final.value[key] = result.value;
+        final.value[key] = result2.value;
       }
     } else {
-      final.issues.push(...prefixIssues(key, result.issues));
+      final.issues.push(...prefixIssues(key, result2.issues));
     }
-  } else if (result.value === void 0) {
+  } else if (result2.value === void 0) {
     if (key in input)
       final.value[key] = void 0;
   } else {
-    final.value[key] = result.value;
+    final.value[key] = result2.value;
   }
 }
 var $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
@@ -9239,9 +9239,9 @@ var $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
   };
 });
 function handleUnionResults(results, final, inst, ctx) {
-  for (const result of results) {
-    if (result.issues.length === 0) {
-      final.value = result.value;
+  for (const result2 of results) {
+    if (result2.issues.length === 0) {
+      final.value = result2.value;
       return final;
     }
   }
@@ -9249,7 +9249,7 @@ function handleUnionResults(results, final, inst, ctx) {
     code: "invalid_union",
     input: final.value,
     inst,
-    errors: results.map((result) => result.issues.map((iss) => finalizeIssue(iss, ctx, config())))
+    errors: results.map((result2) => result2.issues.map((iss) => finalizeIssue(iss, ctx, config())))
   });
   return final;
 }
@@ -9274,17 +9274,17 @@ var $ZodUnion = /* @__PURE__ */ $constructor("$ZodUnion", (inst, def) => {
     let async = false;
     const results = [];
     for (const option of def.options) {
-      const result = option._zod.run({
+      const result2 = option._zod.run({
         value: payload.value,
         issues: []
       }, ctx);
-      if (result instanceof Promise) {
-        results.push(result);
+      if (result2 instanceof Promise) {
+        results.push(result2);
         async = true;
       } else {
-        if (result.issues.length === 0)
-          return result;
-        results.push(result);
+        if (result2.issues.length === 0)
+          return result2;
+        results.push(result2);
       }
     }
     if (!async)
@@ -9417,21 +9417,21 @@ function mergeValues(a2, b2) {
   }
   return { valid: false, mergeErrorPath: [] };
 }
-function handleIntersectionResults(result, left, right) {
+function handleIntersectionResults(result2, left, right) {
   if (left.issues.length) {
-    result.issues.push(...left.issues);
+    result2.issues.push(...left.issues);
   }
   if (right.issues.length) {
-    result.issues.push(...right.issues);
+    result2.issues.push(...right.issues);
   }
-  if (aborted(result))
-    return result;
+  if (aborted(result2))
+    return result2;
   const merged = mergeValues(left.value, right.value);
   if (!merged.valid) {
     throw new Error(`Unmergable intersection. Error path: ${JSON.stringify(merged.mergeErrorPath)}`);
   }
-  result.value = merged.data;
-  return result;
+  result2.value = merged.data;
+  return result2;
 }
 var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
   $ZodType.init(inst, def);
@@ -9452,19 +9452,19 @@ var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
       payload.value = {};
       for (const key of values) {
         if (typeof key === "string" || typeof key === "number" || typeof key === "symbol") {
-          const result = def.valueType._zod.run({ value: input[key], issues: [] }, ctx);
-          if (result instanceof Promise) {
-            proms.push(result.then((result2) => {
-              if (result2.issues.length) {
-                payload.issues.push(...prefixIssues(key, result2.issues));
+          const result2 = def.valueType._zod.run({ value: input[key], issues: [] }, ctx);
+          if (result2 instanceof Promise) {
+            proms.push(result2.then((result3) => {
+              if (result3.issues.length) {
+                payload.issues.push(...prefixIssues(key, result3.issues));
               }
-              payload.value[key] = result2.value;
+              payload.value[key] = result3.value;
             }));
           } else {
-            if (result.issues.length) {
-              payload.issues.push(...prefixIssues(key, result.issues));
+            if (result2.issues.length) {
+              payload.issues.push(...prefixIssues(key, result2.issues));
             }
-            payload.value[key] = result.value;
+            payload.value[key] = result2.value;
           }
         }
       }
@@ -9504,19 +9504,19 @@ var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
           payload.value[keyResult.value] = keyResult.value;
           continue;
         }
-        const result = def.valueType._zod.run({ value: input[key], issues: [] }, ctx);
-        if (result instanceof Promise) {
-          proms.push(result.then((result2) => {
-            if (result2.issues.length) {
-              payload.issues.push(...prefixIssues(key, result2.issues));
+        const result2 = def.valueType._zod.run({ value: input[key], issues: [] }, ctx);
+        if (result2 instanceof Promise) {
+          proms.push(result2.then((result3) => {
+            if (result3.issues.length) {
+              payload.issues.push(...prefixIssues(key, result3.issues));
             }
-            payload.value[keyResult.value] = result2.value;
+            payload.value[keyResult.value] = result3.value;
           }));
         } else {
-          if (result.issues.length) {
-            payload.issues.push(...prefixIssues(key, result.issues));
+          if (result2.issues.length) {
+            payload.issues.push(...prefixIssues(key, result2.issues));
           }
-          payload.value[keyResult.value] = result.value;
+          payload.value[keyResult.value] = result2.value;
         }
       }
     }
@@ -9628,11 +9628,11 @@ var $ZodDefault = /* @__PURE__ */ $constructor("$ZodDefault", (inst, def) => {
       payload.value = def.defaultValue;
       return payload;
     }
-    const result = def.innerType._zod.run(payload, ctx);
-    if (result instanceof Promise) {
-      return result.then((result2) => handleDefaultResult(result2, def));
+    const result2 = def.innerType._zod.run(payload, ctx);
+    if (result2 instanceof Promise) {
+      return result2.then((result3) => handleDefaultResult(result3, def));
     }
-    return handleDefaultResult(result, def);
+    return handleDefaultResult(result2, def);
   };
 });
 function handleDefaultResult(payload, def) {
@@ -9659,11 +9659,11 @@ var $ZodNonOptional = /* @__PURE__ */ $constructor("$ZodNonOptional", (inst, def
     return v ? new Set([...v].filter((x2) => x2 !== void 0)) : void 0;
   });
   inst._zod.parse = (payload, ctx) => {
-    const result = def.innerType._zod.run(payload, ctx);
-    if (result instanceof Promise) {
-      return result.then((result2) => handleNonOptionalResult(result2, inst));
+    const result2 = def.innerType._zod.run(payload, ctx);
+    if (result2 instanceof Promise) {
+      return result2.then((result3) => handleNonOptionalResult(result3, inst));
     }
-    return handleNonOptionalResult(result, inst);
+    return handleNonOptionalResult(result2, inst);
   };
 });
 function handleNonOptionalResult(payload, inst) {
@@ -9683,15 +9683,15 @@ var $ZodCatch = /* @__PURE__ */ $constructor("$ZodCatch", (inst, def) => {
   defineLazy(inst._zod, "optout", () => def.innerType._zod.optout);
   defineLazy(inst._zod, "values", () => def.innerType._zod.values);
   inst._zod.parse = (payload, ctx) => {
-    const result = def.innerType._zod.run(payload, ctx);
-    if (result instanceof Promise) {
-      return result.then((result2) => {
-        payload.value = result2.value;
-        if (result2.issues.length) {
+    const result2 = def.innerType._zod.run(payload, ctx);
+    if (result2 instanceof Promise) {
+      return result2.then((result3) => {
+        payload.value = result3.value;
+        if (result3.issues.length) {
           payload.value = def.catchValue({
             ...payload,
             error: {
-              issues: result2.issues.map((iss) => finalizeIssue(iss, ctx, config()))
+              issues: result3.issues.map((iss) => finalizeIssue(iss, ctx, config()))
             },
             input: payload.value
           });
@@ -9700,12 +9700,12 @@ var $ZodCatch = /* @__PURE__ */ $constructor("$ZodCatch", (inst, def) => {
         return payload;
       });
     }
-    payload.value = result.value;
-    if (result.issues.length) {
+    payload.value = result2.value;
+    if (result2.issues.length) {
       payload.value = def.catchValue({
         ...payload,
         error: {
-          issues: result.issues.map((iss) => finalizeIssue(iss, ctx, config()))
+          issues: result2.issues.map((iss) => finalizeIssue(iss, ctx, config()))
         },
         input: payload.value
       });
@@ -9740,11 +9740,11 @@ var $ZodReadonly = /* @__PURE__ */ $constructor("$ZodReadonly", (inst, def) => {
   defineLazy(inst._zod, "optin", () => def.innerType._zod.optin);
   defineLazy(inst._zod, "optout", () => def.innerType._zod.optout);
   inst._zod.parse = (payload, ctx) => {
-    const result = def.innerType._zod.run(payload, ctx);
-    if (result instanceof Promise) {
-      return result.then(handleReadonlyResult);
+    const result2 = def.innerType._zod.run(payload, ctx);
+    if (result2 instanceof Promise) {
+      return result2.then(handleReadonlyResult);
     }
-    return handleReadonlyResult(result);
+    return handleReadonlyResult(result2);
   };
 });
 function handleReadonlyResult(payload) {
@@ -9767,8 +9767,8 @@ var $ZodCustom = /* @__PURE__ */ $constructor("$ZodCustom", (inst, def) => {
     return;
   };
 });
-function handleRefineResult(result, payload, input, inst) {
-  if (!result) {
+function handleRefineResult(result2, payload, input, inst) {
+  if (!result2) {
     const _iss = {
       code: "custom",
       input,
@@ -10463,11 +10463,11 @@ var JSONSchemaGenerator = class {
       }
       return seen.schema;
     }
-    const result = { schema: {}, count: 1, cycle: void 0, path: _params.path };
-    this.seen.set(schema, result);
+    const result2 = { schema: {}, count: 1, cycle: void 0, path: _params.path };
+    this.seen.set(schema, result2);
     const overrideSchema = schema._zod.toJSONSchema?.();
     if (overrideSchema) {
-      result.schema = overrideSchema;
+      result2.schema = overrideSchema;
     } else {
       const params = {
         ..._params,
@@ -10476,11 +10476,11 @@ var JSONSchemaGenerator = class {
       };
       const parent = schema._zod.parent;
       if (parent) {
-        result.ref = parent;
+        result2.ref = parent;
         this.process(parent, params);
         this.seen.get(parent).isParent = true;
       } else {
-        const _json = result.schema;
+        const _json = result2.schema;
         switch (def.type) {
           case "string": {
             const json = _json;
@@ -10502,7 +10502,7 @@ var JSONSchemaGenerator = class {
               if (regexes.length === 1)
                 json.pattern = regexes[0].source;
               else if (regexes.length > 1) {
-                result.schema.allOf = [
+                result2.schema.allOf = [
                   ...regexes.map((regex) => ({
                     ...this.target === "draft-7" ? { type: "string" } : {},
                     pattern: regex.source
@@ -10809,7 +10809,7 @@ var JSONSchemaGenerator = class {
           }
           case "nonoptional": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             break;
           }
           case "success": {
@@ -10819,20 +10819,20 @@ var JSONSchemaGenerator = class {
           }
           case "default": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             _json.default = JSON.parse(JSON.stringify(def.defaultValue));
             break;
           }
           case "prefault": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             if (this.io === "input")
               _json._prefault = JSON.parse(JSON.stringify(def.defaultValue));
             break;
           }
           case "catch": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             let catchValue;
             try {
               catchValue = def.catchValue(void 0);
@@ -10860,30 +10860,30 @@ var JSONSchemaGenerator = class {
           case "pipe": {
             const innerType = this.io === "input" ? def.in._zod.def.type === "transform" ? def.out : def.in : def.out;
             this.process(innerType, params);
-            result.ref = innerType;
+            result2.ref = innerType;
             break;
           }
           case "readonly": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             _json.readOnly = true;
             break;
           }
           // passthrough types
           case "promise": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             break;
           }
           case "optional": {
             this.process(def.innerType, params);
-            result.ref = def.innerType;
+            result2.ref = def.innerType;
             break;
           }
           case "lazy": {
             const innerType = schema._zod.innerType;
             this.process(innerType, params);
-            result.ref = innerType;
+            result2.ref = innerType;
             break;
           }
           case "custom": {
@@ -10900,14 +10900,14 @@ var JSONSchemaGenerator = class {
     }
     const meta = this.metadataRegistry.get(schema);
     if (meta)
-      Object.assign(result.schema, meta);
+      Object.assign(result2.schema, meta);
     if (this.io === "input" && isTransforming(schema)) {
-      delete result.schema.examples;
-      delete result.schema.default;
+      delete result2.schema.examples;
+      delete result2.schema.default;
     }
-    if (this.io === "input" && result.schema._prefault)
-      (_a = result.schema).default ?? (_a.default = result.schema._prefault);
-    delete result.schema._prefault;
+    if (this.io === "input" && result2.schema._prefault)
+      (_a = result2.schema).default ?? (_a.default = result2.schema._prefault);
+    delete result2.schema._prefault;
     const _result = this.seen.get(schema);
     return _result.schema;
   }
@@ -11026,11 +11026,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
     for (const entry of [...this.seen.entries()].reverse()) {
       flattenRef(entry[0], { target: this.target });
     }
-    const result = {};
+    const result2 = {};
     if (this.target === "draft-2020-12") {
-      result.$schema = "https://json-schema.org/draft/2020-12/schema";
+      result2.$schema = "https://json-schema.org/draft/2020-12/schema";
     } else if (this.target === "draft-7") {
-      result.$schema = "http://json-schema.org/draft-07/schema#";
+      result2.$schema = "http://json-schema.org/draft-07/schema#";
     } else {
       console.warn(`Invalid target: ${this.target}`);
     }
@@ -11038,9 +11038,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
       const id = params.external.registry.get(schema)?.id;
       if (!id)
         throw new Error("Schema is missing an `id` property");
-      result.$id = params.external.uri(id);
+      result2.$id = params.external.uri(id);
     }
-    Object.assign(result, root.def);
+    Object.assign(result2, root.def);
     const defs = params.external?.defs ?? {};
     for (const entry of this.seen.entries()) {
       const seen = entry[1];
@@ -11052,14 +11052,14 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
     } else {
       if (Object.keys(defs).length > 0) {
         if (this.target === "draft-2020-12") {
-          result.$defs = defs;
+          result2.$defs = defs;
         } else {
-          result.definitions = defs;
+          result2.definitions = defs;
         }
       }
     }
     try {
-      return JSON.parse(JSON.stringify(result));
+      return JSON.parse(JSON.stringify(result2));
     } catch (_err) {
       throw new Error("Error converting schema to JSON.");
     }
@@ -13610,7 +13610,7 @@ var StdioServerTransport = class {
 };
 
 // src/server.js
-import { readFileSync } from "node:fs";
+import { readFileSync as readFileSync2 } from "node:fs";
 import { createHash } from "node:crypto";
 
 // node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/external.js
@@ -14226,9 +14226,9 @@ var ParseInputLazyPath = class {
     return this._cachedPath;
   }
 };
-var handleResult = (ctx, result) => {
-  if (isValid(result)) {
-    return { success: true, data: result.value };
+var handleResult = (ctx, result2) => {
+  if (isValid(result2)) {
+    return { success: true, data: result2.value };
   } else {
     if (!ctx.common.issues.length) {
       throw new Error("Validation failed but no issues detected.");
@@ -14299,21 +14299,21 @@ var ZodType2 = class {
     };
   }
   _parseSync(input) {
-    const result = this._parse(input);
-    if (isAsync(result)) {
+    const result2 = this._parse(input);
+    if (isAsync(result2)) {
       throw new Error("Synchronous parse encountered promise.");
     }
-    return result;
+    return result2;
   }
   _parseAsync(input) {
-    const result = this._parse(input);
-    return Promise.resolve(result);
+    const result2 = this._parse(input);
+    return Promise.resolve(result2);
   }
   parse(data, params) {
-    const result = this.safeParse(data, params);
-    if (result.success)
-      return result.data;
-    throw result.error;
+    const result2 = this.safeParse(data, params);
+    if (result2.success)
+      return result2.data;
+    throw result2.error;
   }
   safeParse(data, params) {
     const ctx = {
@@ -14328,8 +14328,8 @@ var ZodType2 = class {
       data,
       parsedType: getParsedType2(data)
     };
-    const result = this._parseSync({ data, path: ctx.path, parent: ctx });
-    return handleResult(ctx, result);
+    const result2 = this._parseSync({ data, path: ctx.path, parent: ctx });
+    return handleResult(ctx, result2);
   }
   "~validate"(data) {
     const ctx = {
@@ -14345,9 +14345,9 @@ var ZodType2 = class {
     };
     if (!this["~standard"].async) {
       try {
-        const result = this._parseSync({ data, path: [], parent: ctx });
-        return isValid(result) ? {
-          value: result.value
+        const result2 = this._parseSync({ data, path: [], parent: ctx });
+        return isValid(result2) ? {
+          value: result2.value
         } : {
           issues: ctx.common.issues
         };
@@ -14361,17 +14361,17 @@ var ZodType2 = class {
         };
       }
     }
-    return this._parseAsync({ data, path: [], parent: ctx }).then((result) => isValid(result) ? {
-      value: result.value
+    return this._parseAsync({ data, path: [], parent: ctx }).then((result2) => isValid(result2) ? {
+      value: result2.value
     } : {
       issues: ctx.common.issues
     });
   }
   async parseAsync(data, params) {
-    const result = await this.safeParseAsync(data, params);
-    if (result.success)
-      return result.data;
-    throw result.error;
+    const result2 = await this.safeParseAsync(data, params);
+    if (result2.success)
+      return result2.data;
+    throw result2.error;
   }
   async safeParseAsync(data, params) {
     const ctx = {
@@ -14387,8 +14387,8 @@ var ZodType2 = class {
       parsedType: getParsedType2(data)
     };
     const maybeAsyncResult = this._parse({ data, path: ctx.path, parent: ctx });
-    const result = await (isAsync(maybeAsyncResult) ? maybeAsyncResult : Promise.resolve(maybeAsyncResult));
-    return handleResult(ctx, result);
+    const result2 = await (isAsync(maybeAsyncResult) ? maybeAsyncResult : Promise.resolve(maybeAsyncResult));
+    return handleResult(ctx, result2);
   }
   refine(check2, message) {
     const getIssueProperties = (val) => {
@@ -14401,13 +14401,13 @@ var ZodType2 = class {
       }
     };
     return this._refinement((val, ctx) => {
-      const result = check2(val);
+      const result2 = check2(val);
       const setError = () => ctx.addIssue({
         code: ZodIssueCode2.custom,
         ...getIssueProperties(val)
       });
-      if (typeof Promise !== "undefined" && result instanceof Promise) {
-        return result.then((data) => {
+      if (typeof Promise !== "undefined" && result2 instanceof Promise) {
+        return result2.then((data) => {
           if (!data) {
             setError();
             return false;
@@ -14416,7 +14416,7 @@ var ZodType2 = class {
           }
         });
       }
-      if (!result) {
+      if (!result2) {
         setError();
         return false;
       } else {
@@ -15911,14 +15911,14 @@ var ZodArray2 = class _ZodArray extends ZodType2 {
     if (ctx.common.async) {
       return Promise.all([...ctx.data].map((item, i) => {
         return def.type._parseAsync(new ParseInputLazyPath(ctx, item, ctx.path, i));
-      })).then((result2) => {
-        return ParseStatus.mergeArray(status, result2);
+      })).then((result3) => {
+        return ParseStatus.mergeArray(status, result3);
       });
     }
-    const result = [...ctx.data].map((item, i) => {
+    const result2 = [...ctx.data].map((item, i) => {
       return def.type._parseSync(new ParseInputLazyPath(ctx, item, ctx.path, i));
     });
-    return ParseStatus.mergeArray(status, result);
+    return ParseStatus.mergeArray(status, result2);
   }
   get element() {
     return this._def.type;
@@ -16324,18 +16324,18 @@ var ZodUnion2 = class extends ZodType2 {
     const { ctx } = this._processInputParams(input);
     const options = this._def.options;
     function handleResults(results) {
-      for (const result of results) {
-        if (result.result.status === "valid") {
-          return result.result;
+      for (const result2 of results) {
+        if (result2.result.status === "valid") {
+          return result2.result;
         }
       }
-      for (const result of results) {
-        if (result.result.status === "dirty") {
-          ctx.common.issues.push(...result.ctx.common.issues);
-          return result.result;
+      for (const result2 of results) {
+        if (result2.result.status === "dirty") {
+          ctx.common.issues.push(...result2.ctx.common.issues);
+          return result2.result;
         }
       }
-      const unionErrors = results.map((result) => new ZodError2(result.ctx.common.issues));
+      const unionErrors = results.map((result2) => new ZodError2(result2.ctx.common.issues));
       addIssueToContext(ctx, {
         code: ZodIssueCode2.invalid_union,
         unionErrors
@@ -16373,15 +16373,15 @@ var ZodUnion2 = class extends ZodType2 {
           },
           parent: null
         };
-        const result = option._parseSync({
+        const result2 = option._parseSync({
           data: ctx.data,
           path: ctx.path,
           parent: childCtx
         });
-        if (result.status === "valid") {
-          return result;
-        } else if (result.status === "dirty" && !dirty) {
-          dirty = { result, ctx: childCtx };
+        if (result2.status === "valid") {
+          return result2;
+        } else if (result2.status === "dirty" && !dirty) {
+          dirty = { result: result2, ctx: childCtx };
         }
         if (childCtx.common.issues.length) {
           issues.push(childCtx.common.issues);
@@ -16926,9 +16926,9 @@ var ZodFunction = class _ZodFunction extends ZodType2 {
           error2.addIssue(makeArgsIssue(args, e));
           throw error2;
         });
-        const result = await Reflect.apply(fn2, this, parsedArgs);
-        const parsedReturns = await me2._def.returns._def.type.parseAsync(result, params).catch((e) => {
-          error2.addIssue(makeReturnsIssue(result, e));
+        const result2 = await Reflect.apply(fn2, this, parsedArgs);
+        const parsedReturns = await me2._def.returns._def.type.parseAsync(result2, params).catch((e) => {
+          error2.addIssue(makeReturnsIssue(result2, e));
           throw error2;
         });
         return parsedReturns;
@@ -16940,10 +16940,10 @@ var ZodFunction = class _ZodFunction extends ZodType2 {
         if (!parsedArgs.success) {
           throw new ZodError2([makeArgsIssue(args, parsedArgs.error)]);
         }
-        const result = Reflect.apply(fn2, this, parsedArgs.data);
-        const parsedReturns = me2._def.returns.safeParse(result, params);
+        const result2 = Reflect.apply(fn2, this, parsedArgs.data);
+        const parsedReturns = me2._def.returns.safeParse(result2, params);
         if (!parsedReturns.success) {
-          throw new ZodError2([makeReturnsIssue(result, parsedReturns.error)]);
+          throw new ZodError2([makeReturnsIssue(result2, parsedReturns.error)]);
         }
         return parsedReturns.data;
       });
@@ -17195,43 +17195,43 @@ var ZodEffects = class extends ZodType2 {
         return Promise.resolve(processed).then(async (processed2) => {
           if (status.value === "aborted")
             return INVALID;
-          const result = await this._def.schema._parseAsync({
+          const result2 = await this._def.schema._parseAsync({
             data: processed2,
             path: ctx.path,
             parent: ctx
           });
-          if (result.status === "aborted")
+          if (result2.status === "aborted")
             return INVALID;
-          if (result.status === "dirty")
-            return DIRTY(result.value);
+          if (result2.status === "dirty")
+            return DIRTY(result2.value);
           if (status.value === "dirty")
-            return DIRTY(result.value);
-          return result;
+            return DIRTY(result2.value);
+          return result2;
         });
       } else {
         if (status.value === "aborted")
           return INVALID;
-        const result = this._def.schema._parseSync({
+        const result2 = this._def.schema._parseSync({
           data: processed,
           path: ctx.path,
           parent: ctx
         });
-        if (result.status === "aborted")
+        if (result2.status === "aborted")
           return INVALID;
-        if (result.status === "dirty")
-          return DIRTY(result.value);
+        if (result2.status === "dirty")
+          return DIRTY(result2.value);
         if (status.value === "dirty")
-          return DIRTY(result.value);
-        return result;
+          return DIRTY(result2.value);
+        return result2;
       }
     }
     if (effect.type === "refinement") {
       const executeRefinement = (acc) => {
-        const result = effect.refinement(acc, checkCtx);
+        const result2 = effect.refinement(acc, checkCtx);
         if (ctx.common.async) {
-          return Promise.resolve(result);
+          return Promise.resolve(result2);
         }
-        if (result instanceof Promise) {
+        if (result2 instanceof Promise) {
           throw new Error("Async refinement encountered during synchronous parse operation. Use .parseAsync instead.");
         }
         return acc;
@@ -17269,18 +17269,18 @@ var ZodEffects = class extends ZodType2 {
         });
         if (!isValid(base))
           return INVALID;
-        const result = effect.transform(base.value, checkCtx);
-        if (result instanceof Promise) {
+        const result2 = effect.transform(base.value, checkCtx);
+        if (result2 instanceof Promise) {
           throw new Error(`Asynchronous transform encountered during synchronous parse operation. Use .parseAsync instead.`);
         }
-        return { status: status.value, value: result };
+        return { status: status.value, value: result2 };
       } else {
         return this._def.schema._parseAsync({ data: ctx.data, path: ctx.path, parent: ctx }).then((base) => {
           if (!isValid(base))
             return INVALID;
-          return Promise.resolve(effect.transform(base.value, checkCtx)).then((result) => ({
+          return Promise.resolve(effect.transform(base.value, checkCtx)).then((result2) => ({
             status: status.value,
-            value: result
+            value: result2
           }));
         });
       }
@@ -17377,18 +17377,18 @@ var ZodCatch2 = class extends ZodType2 {
         issues: []
       }
     };
-    const result = this._def.innerType._parse({
+    const result2 = this._def.innerType._parse({
       data: newCtx.data,
       path: newCtx.path,
       parent: {
         ...newCtx
       }
     });
-    if (isAsync(result)) {
-      return result.then((result2) => {
+    if (isAsync(result2)) {
+      return result2.then((result3) => {
         return {
           status: "valid",
-          value: result2.status === "valid" ? result2.value : this._def.catchValue({
+          value: result3.status === "valid" ? result3.value : this._def.catchValue({
             get error() {
               return new ZodError2(newCtx.common.issues);
             },
@@ -17399,7 +17399,7 @@ var ZodCatch2 = class extends ZodType2 {
     } else {
       return {
         status: "valid",
-        value: result.status === "valid" ? result.value : this._def.catchValue({
+        value: result2.status === "valid" ? result2.value : this._def.catchValue({
           get error() {
             return new ZodError2(newCtx.common.issues);
           },
@@ -17513,14 +17513,14 @@ var ZodPipeline = class _ZodPipeline extends ZodType2 {
 };
 var ZodReadonly2 = class extends ZodType2 {
   _parse(input) {
-    const result = this._def.innerType._parse(input);
+    const result2 = this._def.innerType._parse(input);
     const freeze = (data) => {
       if (isValid(data)) {
         data.value = Object.freeze(data.value);
       }
       return data;
     };
-    return isAsync(result) ? result.then((data) => freeze(data)) : freeze(result);
+    return isAsync(result2) ? result2.then((data) => freeze(data)) : freeze(result2);
   }
   unwrap() {
     return this._def.innerType;
@@ -17719,21 +17719,21 @@ function objectFromShape(shape) {
 }
 function safeParse3(schema, data) {
   if (isZ4Schema(schema)) {
-    const result2 = safeParse(schema, data);
-    return result2;
+    const result3 = safeParse(schema, data);
+    return result3;
   }
   const v3Schema = schema;
-  const result = v3Schema.safeParse(data);
-  return result;
+  const result2 = v3Schema.safeParse(data);
+  return result2;
 }
 async function safeParseAsync3(schema, data) {
   if (isZ4Schema(schema)) {
-    const result2 = await safeParseAsync(schema, data);
-    return result2;
+    const result3 = await safeParseAsync(schema, data);
+    return result3;
   }
   const v3Schema = schema;
-  const result = await v3Schema.safeParseAsync(data);
-  return result;
+  const result2 = await v3Schema.safeParseAsync(data);
+  return result2;
 }
 function getObjectShape(schema) {
   if (!schema)
@@ -18375,14 +18375,14 @@ function escapeLiteralCheckValue(literal2, refs) {
 }
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 function escapeNonAlphaNumeric(source) {
-  let result = "";
+  let result2 = "";
   for (let i = 0; i < source.length; i++) {
     if (!ALPHA_NUMERIC.has(source[i])) {
-      result += "\\";
+      result2 += "\\";
     }
-    result += source[i];
+    result2 += source[i];
   }
-  return result;
+  return result2;
 }
 function addFormat(schema, value, message, refs) {
   if (schema.format || schema.anyOf?.some((x2) => x2.format)) {
@@ -18779,7 +18779,7 @@ function parseNumberDef(def, refs) {
 // node_modules/.pnpm/zod-to-json-schema@3.25.2_zod@3.25.76/node_modules/zod-to-json-schema/dist/esm/parsers/object.js
 function parseObjectDef(def, refs) {
   const forceOptionalIntoNullable = refs.target === "openAi";
-  const result = {
+  const result2 = {
     type: "object",
     properties: {}
   };
@@ -18808,19 +18808,19 @@ function parseObjectDef(def, refs) {
     if (parsedDef === void 0) {
       continue;
     }
-    result.properties[propName] = parsedDef;
+    result2.properties[propName] = parsedDef;
     if (!propOptional) {
       required2.push(propName);
     }
   }
   if (required2.length) {
-    result.required = required2;
+    result2.required = required2;
   }
   const additionalProperties = decideAdditionalProperties(def, refs);
   if (additionalProperties !== void 0) {
-    result.additionalProperties = additionalProperties;
+    result2.additionalProperties = additionalProperties;
   }
-  return result;
+  return result2;
 }
 function decideAdditionalProperties(def, refs) {
   if (def.catchall._def.typeName !== "ZodNever") {
@@ -19184,11 +19184,11 @@ function getMethodLiteral(schema) {
   return value;
 }
 function parseWithCompat(schema, data) {
-  const result = safeParse3(schema, data);
-  if (!result.success) {
-    throw result.error;
+  const result2 = safeParse3(schema, data);
+  if (!result2.success) {
+    throw result2.error;
   }
-  return result.data;
+  return result2.data;
 }
 
 // node_modules/.pnpm/@modelcontextprotocol+sdk@1.32.1_zod@3.25.76/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
@@ -19269,12 +19269,12 @@ var Protocol = class {
             return await handleTaskResult();
           }
           if (isTerminal(task.status)) {
-            const result = await this._taskStore.getTaskResult(taskId, extra.sessionId);
+            const result2 = await this._taskStore.getTaskResult(taskId, extra.sessionId);
             this._clearTaskQueue(taskId, extra.sessionId);
             return {
-              ...result,
+              ...result2,
               _meta: {
-                ...result._meta,
+                ...result2._meta,
                 [RELATED_TASK_META_KEY]: {
                   taskId
                 }
@@ -19518,12 +19518,12 @@ var Protocol = class {
       if (taskCreationParams) {
         this.assertTaskHandlerCapability(request.method);
       }
-    }).then(() => handler(request, fullExtra)).then(async (result) => {
+    }).then(() => handler(request, fullExtra)).then(async (result2) => {
       if (abortController.signal.aborted) {
         return;
       }
       const response = {
-        result,
+        result: result2,
         jsonrpc: "2.0",
         id: request.id
       };
@@ -19609,9 +19609,9 @@ var Protocol = class {
     this._cleanupTimeout(messageId);
     let isTaskResponse = false;
     if (isJSONRPCResultResponse(response) && response.result && typeof response.result === "object") {
-      const result = response.result;
-      if (result.task && typeof result.task === "object") {
-        const task = result.task;
+      const result2 = response.result;
+      if (result2.task && typeof result2.task === "object") {
+        const task = result2.task;
         if (typeof task.taskId === "string") {
           isTaskResponse = true;
           this._taskProgressTokens.set(task.taskId, messageId);
@@ -19668,8 +19668,8 @@ var Protocol = class {
     const { task } = options ?? {};
     if (!task) {
       try {
-        const result = await this.request(request, resultSchema, options);
-        yield { type: "result", result };
+        const result2 = await this.request(request, resultSchema, options);
+        yield { type: "result", result: result2 };
       } catch (error2) {
         yield {
           type: "error",
@@ -19692,8 +19692,8 @@ var Protocol = class {
         yield { type: "taskStatus", task: task2 };
         if (isTerminal(task2.status)) {
           if (task2.status === "completed") {
-            const result = await this.getTaskResult({ taskId }, resultSchema, options);
-            yield { type: "result", result };
+            const result2 = await this.getTaskResult({ taskId }, resultSchema, options);
+            yield { type: "result", result: result2 };
           } else if (task2.status === "failed") {
             yield {
               type: "error",
@@ -19708,8 +19708,8 @@ var Protocol = class {
           return;
         }
         if (task2.status === "input_required") {
-          const result = await this.getTaskResult({ taskId }, resultSchema, options);
-          yield { type: "result", result };
+          const result2 = await this.getTaskResult({ taskId }, resultSchema, options);
+          yield { type: "result", result: result2 };
           return;
         }
         const pollInterval = task2.pollInterval ?? this._options?.defaultTaskPollInterval ?? 1e3;
@@ -20104,8 +20104,8 @@ var Protocol = class {
         }
         return task;
       },
-      storeTaskResult: async (taskId, status, result) => {
-        await taskStore.storeTaskResult(taskId, status, result, sessionId);
+      storeTaskResult: async (taskId, status, result2) => {
+        await taskStore.storeTaskResult(taskId, status, result2, sessionId);
         const task = await taskStore.getTask(taskId, sessionId);
         if (task) {
           const notification = TaskStatusNotificationSchema.parse({
@@ -20152,20 +20152,20 @@ function isPlainObject2(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 function mergeCapabilities(base, additional) {
-  const result = { ...base };
+  const result2 = { ...base };
   for (const key in additional) {
     const k2 = key;
     const addValue = additional[k2];
     if (addValue === void 0)
       continue;
-    const baseValue = result[k2];
+    const baseValue = result2[k2];
     if (isPlainObject2(baseValue) && isPlainObject2(addValue)) {
-      result[k2] = { ...baseValue, ...addValue };
+      result2[k2] = { ...baseValue, ...addValue };
     } else {
-      result[k2] = addValue;
+      result2[k2] = addValue;
     }
   }
-  return result;
+  return result2;
 }
 
 // node_modules/.pnpm/@modelcontextprotocol+sdk@1.32.1_zod@3.25.76/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
@@ -20563,16 +20563,16 @@ var Server = class extends Protocol {
           throw new McpError(ErrorCode.InvalidParams, `Invalid tools/call request: ${errorMessage}`);
         }
         const { params } = validatedRequest.data;
-        const result = await Promise.resolve(handler(request, extra));
+        const result2 = await Promise.resolve(handler(request, extra));
         if (params.task) {
-          const taskValidationResult = safeParse3(CreateTaskResultSchema, result);
+          const taskValidationResult = safeParse3(CreateTaskResultSchema, result2);
           if (!taskValidationResult.success) {
             const errorMessage = taskValidationResult.error instanceof Error ? taskValidationResult.error.message : String(taskValidationResult.error);
             throw new McpError(ErrorCode.InvalidParams, `Invalid task creation result: ${errorMessage}`);
           }
           return taskValidationResult.data;
         }
-        const validationResult = safeParse3(CallToolResultSchema, result);
+        const validationResult = safeParse3(CallToolResultSchema, result2);
         if (!validationResult.success) {
           const errorMessage = validationResult.error instanceof Error ? validationResult.error.message : String(validationResult.error);
           throw new McpError(ErrorCode.InvalidParams, `Invalid tools/call result: ${errorMessage}`);
@@ -20781,11 +20781,11 @@ var Server = class extends Protocol {
           throw new Error("Client does not support form elicitation.");
         }
         const formParams = params.mode === "form" ? params : { ...params, mode: "form" };
-        const result = await this.request({ method: "elicitation/create", params: formParams }, ElicitResultSchema, options);
-        if (result.action === "accept" && result.content && formParams.requestedSchema) {
+        const result2 = await this.request({ method: "elicitation/create", params: formParams }, ElicitResultSchema, options);
+        if (result2.action === "accept" && result2.content && formParams.requestedSchema) {
           try {
             const validator = this._jsonSchemaValidator.getValidator(formParams.requestedSchema);
-            const validationResult = validator(result.content);
+            const validationResult = validator(result2.content);
             if (!validationResult.valid) {
               throw new McpError(ErrorCode.InvalidParams, `Elicitation response content does not match requested schema: ${validationResult.errorMessage}`);
             }
@@ -20796,7 +20796,7 @@ var Server = class extends Protocol {
             throw new McpError(ErrorCode.InternalError, `Error validating elicitation response: ${error2 instanceof Error ? error2.message : String(error2)}`);
           }
         }
-        return result;
+        return result2;
       }
     }
   }
@@ -20922,9 +20922,9 @@ function issueToolNameWarning(name, warnings) {
   }
 }
 function validateAndWarnToolName(name) {
-  const result = validateToolName(name);
-  issueToolNameWarning(name, result.warnings);
-  return result.isValid;
+  const result2 = validateToolName(name);
+  issueToolNameWarning(name, result2.warnings);
+  return result2.isValid;
 }
 
 // node_modules/.pnpm/@modelcontextprotocol+sdk@1.32.1_zod@3.25.76/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/mcp-server.js
@@ -21083,12 +21083,12 @@ var McpServer = class {
           return await this.handleAutomaticTaskPolling(tool, request, extra);
         }
         const args = await this.validateToolInput(tool, request.params.arguments, request.params.name);
-        const result = await this.executeToolHandler(tool, args, extra);
+        const result2 = await this.executeToolHandler(tool, args, extra);
         if (isTaskRequest) {
-          return result;
+          return result2;
         }
-        await this.validateToolOutput(tool, result, request.params.name);
-        return result;
+        await this.validateToolOutput(tool, result2, request.params.name);
+        return result2;
       } catch (error2) {
         if (error2 instanceof McpError) {
           if (error2.code === ErrorCode.UrlElicitationRequired) {
@@ -21140,21 +21140,21 @@ var McpServer = class {
   /**
    * Validates tool output against the tool's output schema.
    */
-  async validateToolOutput(tool, result, toolName) {
+  async validateToolOutput(tool, result2, toolName) {
     if (!tool.outputSchema) {
       return;
     }
-    if (!("content" in result)) {
+    if (!("content" in result2)) {
       return;
     }
-    if (result.isError) {
+    if (result2.isError) {
       return;
     }
-    if (!result.structuredContent) {
+    if (!result2.structuredContent) {
       throw new McpError(ErrorCode.InvalidParams, `Output validation error: Tool ${toolName} has an output schema but no structured content was provided`);
     }
     const outputObj = normalizeObjectSchema(tool.outputSchema);
-    const parseResult = await safeParseAsync3(outputObj, result.structuredContent);
+    const parseResult = await safeParseAsync3(outputObj, result2.structuredContent);
     if (!parseResult.success) {
       const error2 = "error" in parseResult ? parseResult.error : "Unknown error";
       const errorMessage = getParseErrorMessage(error2);
@@ -21298,8 +21298,8 @@ var McpServer = class {
         if (!template.resourceTemplate.listCallback) {
           continue;
         }
-        const result = await template.resourceTemplate.listCallback(extra);
-        for (const resource of result.resources) {
+        const result2 = await template.resourceTemplate.listCallback(extra);
+        for (const resource of result2.resources) {
           templateResources.push({
             ...template.metadata,
             // the defined resource metadata should override the template metadata if present
@@ -28235,17 +28235,17 @@ var ExperimentalClientTasks = class {
     const validator = clientInternal.getToolOutputValidator(params.name);
     for await (const message of stream) {
       if (message.type === "result" && validator) {
-        const result = message.result;
-        if (!result.structuredContent && !result.isError) {
+        const result2 = message.result;
+        if (!result2.structuredContent && !result2.isError) {
           yield {
             type: "error",
             error: new McpError(ErrorCode.InvalidRequest, `Tool ${params.name} has an output schema but did not return structured content`)
           };
           return;
         }
-        if (result.structuredContent) {
+        if (result2.structuredContent) {
           try {
-            const validationResult = validator(result.structuredContent);
+            const validationResult = validator(result2.structuredContent);
             if (!validationResult.valid) {
               yield {
                 type: "error",
@@ -28404,20 +28404,20 @@ var Client = class extends Protocol {
   _setupListChangedHandlers(config2) {
     if (config2.tools && this._serverCapabilities?.tools?.listChanged) {
       this._setupListChangedHandler("tools", ToolListChangedNotificationSchema, config2.tools, async () => {
-        const result = await this.listTools();
-        return result.tools;
+        const result2 = await this.listTools();
+        return result2.tools;
       });
     }
     if (config2.prompts && this._serverCapabilities?.prompts?.listChanged) {
       this._setupListChangedHandler("prompts", PromptListChangedNotificationSchema, config2.prompts, async () => {
-        const result = await this.listPrompts();
-        return result.prompts;
+        const result2 = await this.listPrompts();
+        return result2.prompts;
       });
     }
     if (config2.resources && this._serverCapabilities?.resources?.listChanged) {
       this._setupListChangedHandler("resources", ResourceListChangedNotificationSchema, config2.resources, async () => {
-        const result = await this.listResources();
-        return result.resources;
+        const result2 = await this.listResources();
+        return result2.resources;
       });
     }
   }
@@ -28477,16 +28477,16 @@ var Client = class extends Protocol {
         if (params.mode === "url" && !supportsUrlMode) {
           throw new McpError(ErrorCode.InvalidParams, "Client does not support URL-mode elicitation requests");
         }
-        const result = await Promise.resolve(handler(request, extra));
+        const result2 = await Promise.resolve(handler(request, extra));
         if (params.task) {
-          const taskValidationResult = safeParse3(CreateTaskResultSchema, result);
+          const taskValidationResult = safeParse3(CreateTaskResultSchema, result2);
           if (!taskValidationResult.success) {
             const errorMessage = taskValidationResult.error instanceof Error ? taskValidationResult.error.message : String(taskValidationResult.error);
             throw new McpError(ErrorCode.InvalidParams, `Invalid task creation result: ${errorMessage}`);
           }
           return taskValidationResult.data;
         }
-        const validationResult = safeParse3(ElicitResultSchema, result);
+        const validationResult = safeParse3(ElicitResultSchema, result2);
         if (!validationResult.success) {
           const errorMessage = validationResult.error instanceof Error ? validationResult.error.message : String(validationResult.error);
           throw new McpError(ErrorCode.InvalidParams, `Invalid elicitation result: ${errorMessage}`);
@@ -28513,9 +28513,9 @@ var Client = class extends Protocol {
           throw new McpError(ErrorCode.InvalidParams, `Invalid sampling request: ${errorMessage}`);
         }
         const { params } = validatedRequest.data;
-        const result = await Promise.resolve(handler(request, extra));
+        const result2 = await Promise.resolve(handler(request, extra));
         if (params.task) {
-          const taskValidationResult = safeParse3(CreateTaskResultSchema, result);
+          const taskValidationResult = safeParse3(CreateTaskResultSchema, result2);
           if (!taskValidationResult.success) {
             const errorMessage = taskValidationResult.error instanceof Error ? taskValidationResult.error.message : String(taskValidationResult.error);
             throw new McpError(ErrorCode.InvalidParams, `Invalid task creation result: ${errorMessage}`);
@@ -28524,7 +28524,7 @@ var Client = class extends Protocol {
         }
         const hasTools = params.tools || params.toolChoice;
         const resultSchema = hasTools ? CreateMessageResultWithToolsSchema : CreateMessageResultSchema;
-        const validationResult = safeParse3(resultSchema, result);
+        const validationResult = safeParse3(resultSchema, result2);
         if (!validationResult.success) {
           const errorMessage = validationResult.error instanceof Error ? validationResult.error.message : String(validationResult.error);
           throw new McpError(ErrorCode.InvalidParams, `Invalid sampling result: ${errorMessage}`);
@@ -28546,7 +28546,7 @@ var Client = class extends Protocol {
       return;
     }
     try {
-      const result = await this.request({
+      const result2 = await this.request({
         method: "initialize",
         params: {
           protocolVersion: LATEST_PROTOCOL_VERSION,
@@ -28554,18 +28554,18 @@ var Client = class extends Protocol {
           clientInfo: this._clientInfo
         }
       }, InitializeResultSchema, options);
-      if (result === void 0) {
-        throw new Error(`Server sent invalid initialize result: ${result}`);
+      if (result2 === void 0) {
+        throw new Error(`Server sent invalid initialize result: ${result2}`);
       }
-      if (!SUPPORTED_PROTOCOL_VERSIONS.includes(result.protocolVersion)) {
-        throw new Error(`Server's protocol version is not supported: ${result.protocolVersion}`);
+      if (!SUPPORTED_PROTOCOL_VERSIONS.includes(result2.protocolVersion)) {
+        throw new Error(`Server's protocol version is not supported: ${result2.protocolVersion}`);
       }
-      this._serverCapabilities = result.capabilities;
-      this._serverVersion = result.serverInfo;
+      this._serverCapabilities = result2.capabilities;
+      this._serverVersion = result2.serverInfo;
       if (transport2.setProtocolVersion) {
-        transport2.setProtocolVersion(result.protocolVersion);
+        transport2.setProtocolVersion(result2.protocolVersion);
       }
-      this._instructions = result.instructions;
+      this._instructions = result2.instructions;
       await this.notification({
         method: "notifications/initialized"
       });
@@ -28733,15 +28733,15 @@ var Client = class extends Protocol {
     if (this.isToolTaskRequired(params.name)) {
       throw new McpError(ErrorCode.InvalidRequest, `Tool "${params.name}" requires task-based execution. Use client.experimental.tasks.callToolStream() instead.`);
     }
-    const result = await this.request({ method: "tools/call", params }, resultSchema, options);
+    const result2 = await this.request({ method: "tools/call", params }, resultSchema, options);
     const validator = this.getToolOutputValidator(params.name);
     if (validator) {
-      if (!result.structuredContent && !result.isError) {
+      if (!result2.structuredContent && !result2.isError) {
         throw new McpError(ErrorCode.InvalidRequest, `Tool ${params.name} has an output schema but did not return structured content`);
       }
-      if (result.structuredContent) {
+      if (result2.structuredContent) {
         try {
-          const validationResult = validator(result.structuredContent);
+          const validationResult = validator(result2.structuredContent);
           if (!validationResult.valid) {
             throw new McpError(ErrorCode.InvalidParams, `Structured content does not match the tool's output schema: ${validationResult.errorMessage}`);
           }
@@ -28753,7 +28753,7 @@ var Client = class extends Protocol {
         }
       }
     }
-    return result;
+    return result2;
   }
   isToolTask(toolName) {
     if (!this._serverCapabilities?.tasks?.requests?.tools?.call) {
@@ -28797,9 +28797,9 @@ var Client = class extends Protocol {
     return this._cachedToolOutputValidators.get(toolName);
   }
   async listTools(params, options) {
-    const result = await this.request({ method: "tools/list", params }, ListToolsResultSchema, options);
-    this.cacheToolMetadata(result.tools);
-    return result;
+    const result2 = await this.request({ method: "tools/list", params }, ListToolsResultSchema, options);
+    this.cacheToolMetadata(result2.tools);
+    return result2;
   }
   /**
    * Set up a single list changed handler.
@@ -28964,16 +28964,16 @@ async function getRandomValues(size) {
 async function random(size) {
   const mask = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~";
   const evenDistCutoff = Math.pow(2, 8) - Math.pow(2, 8) % mask.length;
-  let result = "";
-  while (result.length < size) {
-    const randomBytes = await getRandomValues(size - result.length);
+  let result2 = "";
+  while (result2.length < size) {
+    const randomBytes = await getRandomValues(size - result2.length);
     for (const randomByte of randomBytes) {
       if (randomByte < evenDistCutoff) {
-        result += mask[randomByte % mask.length];
+        result2 += mask[randomByte % mask.length];
       }
     }
   }
-  return result;
+  return result2;
 }
 async function generateVerifier(length) {
   return await random(length);
@@ -29331,8 +29331,8 @@ async function parseErrorResponse(input) {
   const statusCode = input instanceof Response ? input.status : void 0;
   const body = input instanceof Response ? await input.text() : input;
   try {
-    const result = OAuthErrorResponseSchema.parse(JSON.parse(body));
-    const { error: error2, error_description, error_uri } = result;
+    const result2 = OAuthErrorResponseSchema.parse(JSON.parse(body));
+    const { error: error2, error_description, error_uri } = result2;
     const errorClass = OAUTH_ERRORS[error2] || ServerError;
     return new errorClass(error_description || "", error_uri);
   } catch (error2) {
@@ -30098,9 +30098,9 @@ var StreamableHTTPClientTransport = class {
     if (!this._authProvider) {
       throw new UnauthorizedError("No auth provider");
     }
-    let result;
+    let result2;
     try {
-      result = await auth(this._authProvider, {
+      result2 = await auth(this._authProvider, {
         serverUrl: this._url,
         resourceMetadataUrl: this._resourceMetadataUrl,
         scope: this._scope,
@@ -30110,7 +30110,7 @@ var StreamableHTTPClientTransport = class {
       this.onerror?.(error2);
       throw error2;
     }
-    if (result !== "AUTHORIZED") {
+    if (result2 !== "AUTHORIZED") {
       throw new UnauthorizedError();
     }
     return await this._startOrAuthSse({ resumptionToken: void 0 });
@@ -30285,14 +30285,14 @@ var StreamableHTTPClientTransport = class {
     if (!this._authProvider) {
       throw new UnauthorizedError("No auth provider");
     }
-    const result = await auth(this._authProvider, {
+    const result2 = await auth(this._authProvider, {
       serverUrl: this._url,
       authorizationCode,
       resourceMetadataUrl: this._resourceMetadataUrl,
       scope: this._scope,
       fetchFn: this._fetchWithInit
     });
-    if (result !== "AUTHORIZED") {
+    if (result2 !== "AUTHORIZED") {
       throw new UnauthorizedError("Failed to authorize");
     }
   }
@@ -30335,13 +30335,13 @@ var StreamableHTTPClientTransport = class {
           const { resourceMetadataUrl, scope } = extractWWWAuthenticateParams(response);
           this._resourceMetadataUrl = resourceMetadataUrl;
           this._scope = scope;
-          const result = await auth(this._authProvider, {
+          const result2 = await auth(this._authProvider, {
             serverUrl: this._url,
             resourceMetadataUrl: this._resourceMetadataUrl,
             scope: this._scope,
             fetchFn: this._fetchWithInit
           });
-          if (result !== "AUTHORIZED") {
+          if (result2 !== "AUTHORIZED") {
             throw new UnauthorizedError();
           }
           this._hasCompletedAuthFlow = true;
@@ -30361,13 +30361,13 @@ var StreamableHTTPClientTransport = class {
               this._resourceMetadataUrl = resourceMetadataUrl;
             }
             this._lastUpscopingHeader = wwwAuthHeader ?? void 0;
-            const result = await auth(this._authProvider, {
+            const result2 = await auth(this._authProvider, {
               serverUrl: this._url,
               resourceMetadataUrl: this._resourceMetadataUrl,
               scope: this._scope,
               fetchFn: this._fetch
             });
-            if (result !== "AUTHORIZED") {
+            if (result2 !== "AUTHORIZED") {
               throw new UnauthorizedError();
             }
             return this.send(message);
@@ -30469,20 +30469,29 @@ var StreamableHTTPClientTransport = class {
 
 // src/upstream.js
 var OFFICIAL_MCP_URL = "https://gwmcp.lkcoffee.com/order/user/mcp";
-function unwrapOfficialResult(result) {
-  if (result?.isError) throw new Error("\u745E\u5E78 MCP \u8FD4\u56DE\u5DE5\u5177\u9519\u8BEF\u3002\u8BF7\u68C0\u67E5\u8D26\u53F7\u6388\u6743\u53CA\u53C2\u6570\u3002 ");
-  let payload = result?.structuredContent;
+var OFFICIAL_TOOLS = ["queryShopList", "searchProductForMcp", "queryProductDetailInfo", "switchProduct", "previewOrder", "createOrder", "queryOrderDetailInfo", "cancelOrder"];
+var AuthError = class extends Error {
+  constructor(expired = true) {
+    super(expired ? "\u767B\u5F55\u5DF2\u5931\u6548 \u2192 \u91CD\u65B0\u767B\u5F55" : "\u5C1A\u672A\u8FDE\u63A5\u745E\u5E78\uFF0C\u8BF7\u5728\u754C\u9762\u4E2D\u8FDE\u63A5\u8D26\u53F7\u3002");
+    this.expired = expired;
+  }
+};
+var unauthorized = (error2) => [error2?.code, error2?.status, error2?.statusCode, error2?.response?.status].some((code) => Number(code) === 401) || /\b401\b|访问令牌无效|token.{0,20}(invalid|expired)/i.test(String(error2?.message ?? ""));
+function unwrapOfficialResult(result2) {
+  let payload = result2?.structuredContent;
   if (!payload) {
-    const text = result?.content?.find((part) => part.type === "text")?.text;
+    const text = result2?.content?.find((part) => part.type === "text")?.text;
     if (!text) throw new Error("\u745E\u5E78 MCP \u672A\u8FD4\u56DE\u53EF\u8BFB\u53D6\u7684\u7ED3\u679C\u3002");
     try {
       payload = JSON.parse(text);
     } catch {
+      if (unauthorized({ message: text })) throw new AuthError();
       throw new Error("\u745E\u5E78 MCP \u8FD4\u56DE\u683C\u5F0F\u65E0\u6CD5\u8BC6\u522B\u3002");
     }
   }
-  if (payload.success === false || payload.code !== void 0 && payload.code !== 0) {
-    throw new Error(`\u745E\u5E78\u8BF7\u6C42\u5931\u8D25\uFF1A${String(payload.msg ?? "\u672A\u77E5\u9519\u8BEF")}`);
+  if (unauthorized({ ...payload, message: payload.msg })) throw new AuthError();
+  if (result2?.isError || payload.success === false || payload.code !== void 0 && Number(payload.code) !== 0) {
+    throw new Error("\u745E\u5E78\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u8D26\u53F7\u6388\u6743\u53CA\u53C2\u6570\u3002");
   }
   return payload.data ?? payload;
 }
@@ -30491,11 +30500,36 @@ var LuckinUpstream = class {
     this.token = token;
     this.url = url2;
     this.client = null;
+    this.connecting = null;
+    this.expired = false;
+  }
+  authStatus() {
+    return { connected: Boolean(this.token) && !this.expired, expired: this.expired };
+  }
+  async setToken(token) {
+    await this.close();
+    this.token = token;
+    this.expired = false;
+    try {
+      await this.connect();
+    } catch (error2) {
+      this.token = void 0;
+      throw error2;
+    }
   }
   async connect() {
-    if (!this.token) throw new Error("\u7F3A\u5C11 LUCKIN_MCP_TOKEN\u3002\u8BF7\u5148\u5728\u745E\u5E78 AI \u5F00\u653E\u5E73\u53F0\u521B\u5EFA Token \u5E76\u914D\u7F6E\u5230\u672C\u5730\u8FDB\u7A0B\u73AF\u5883\u3002");
+    if (!this.token || this.expired) throw new AuthError(this.expired);
     if (this.client) return this.client;
-    const client = new Client({ name: "luckin", version: "0.1.8" });
+    if (this.connecting) return this.connecting;
+    this.connecting = this.open();
+    try {
+      return await this.connecting;
+    } finally {
+      this.connecting = null;
+    }
+  }
+  async open() {
+    const client = new Client({ name: "luckin", version: "0.2.0" });
     const transport2 = new StreamableHTTPClientTransport(new URL(this.url), {
       requestInit: { headers: { Authorization: `Bearer ${this.token}` } }
     });
@@ -30506,13 +30540,33 @@ var LuckinUpstream = class {
     } catch (error2) {
       await client.close().catch(() => {
       });
-      const detail = (error2 instanceof Error ? error2.message : String(error2)).replaceAll(this.token, "[REDACTED]");
-      throw new Error(`\u65E0\u6CD5\u8FDE\u63A5\u745E\u5E78 MCP\uFF1A${detail}`);
+      if (unauthorized(error2)) {
+        this.expired = true;
+        throw new AuthError();
+      }
+      throw new Error("\u65E0\u6CD5\u8FDE\u63A5\u745E\u5E78\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\u3002");
     }
   }
+  redact(value) {
+    if (typeof value === "string") return this.token ? value.replaceAll(this.token, "[\u5DF2\u9690\u85CF]") : value;
+    if (Array.isArray(value)) return value.map((item) => this.redact(item));
+    if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).filter(([key]) => !/token|authorization|cookie/i.test(key)).map(([key, item]) => [key, this.redact(item)]));
+    return value;
+  }
   async call(name, args) {
-    const client = await this.connect();
-    return unwrapOfficialResult(await client.callTool({ name, arguments: args }));
+    if (!OFFICIAL_TOOLS.includes(name)) throw new Error("\u4E0D\u652F\u6301\u6B64\u745E\u5E78\u5DE5\u5177\u3002");
+    try {
+      const client = await this.connect();
+      return this.redact(unwrapOfficialResult(await client.callTool({ name, arguments: args })));
+    } catch (error2) {
+      if (error2 instanceof AuthError || unauthorized(error2)) {
+        this.expired = error2.expired !== false;
+        await this.close().catch(() => {
+        });
+        throw new AuthError(this.expired);
+      }
+      throw new Error("\u65E0\u6CD5\u8FDE\u63A5\u745E\u5E78\u6216\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u4E0E\u53C2\u6570\u540E\u91CD\u8BD5\u3002");
+    }
   }
   async close() {
     await this.client?.close();
@@ -30537,12 +30591,13 @@ function officialProductImage(value) {
 }
 function catalogSummary(products) {
   if (!Array.isArray(products)) return [];
-  return products.map((product) => ({
-    productId: product.productId,
-    name: String(product.productName ?? "\u5546\u54C1"),
-    imageUrl: officialProductImage(product.pictureUrl),
-    price: Number(product.estimatePrice ?? product.initialPrice ?? NaN),
-    tags: Array.isArray(product.tags) ? product.tags.map(String).join(" \xB7 ") : ""
+  return products.map((product2) => ({
+    productId: product2.productId,
+    name: String(product2.productName ?? "\u5546\u54C1"),
+    imageUrl: officialProductImage(product2.pictureUrl),
+    price: product2.initialPrice ?? null,
+    estimatePrice: product2.estimatePrice ?? null,
+    tags: Array.isArray(product2.tags) ? product2.tags.map(String).join(" \xB7 ") : ""
   }));
 }
 
@@ -30552,6 +30607,21 @@ var ReviewStore = class {
   constructor({ now = () => Date.now() } = {}) {
     this.now = now;
     this.pending = /* @__PURE__ */ new Map();
+    this.revision = 0;
+  }
+  invalidateOrders() {
+    this.revision++;
+    for (const [id, item] of this.pending) if (item.kind === "order") this.pending.delete(id);
+  }
+  discard(id) {
+    this.pending.delete(id);
+  }
+  valid(id) {
+    const item = this.pending.get(id);
+    return Boolean(item && item.expiresAt > this.now());
+  }
+  expiresAt(id) {
+    return this.pending.get(id)?.expiresAt;
   }
   create(kind, payload) {
     for (const [id2, item] of this.pending) {
@@ -30572,7 +30642,7 @@ var ReviewStore = class {
 };
 function orderCreateArgs(input, preview) {
   const shop = preview?.shopInfo;
-  if (!Number.isFinite(shop?.longitude) || !Number.isFinite(shop?.latitude)) {
+  if (!Number.isFinite(shop?.longitude) || Math.abs(shop.longitude) > 180 || !Number.isFinite(shop?.latitude) || Math.abs(shop.latitude) > 90 || shop.deptId != null && Number(shop.deptId) !== input.deptId) {
     throw new Error("\u9884\u89C8\u672A\u8FD4\u56DE\u95E8\u5E97\u5750\u6807\uFF0C\u65E0\u6CD5\u5B89\u5168\u521B\u5EFA\u8BA2\u5355\u3002\u8BF7\u91CD\u65B0\u9009\u62E9\u95E8\u5E97\u3002");
   }
   return {
@@ -30585,208 +30655,335 @@ function orderCreateArgs(input, preview) {
 }
 function orderSummary(preview) {
   const total = Number(preview?.discountPrice);
-  if (preview?.discountPrice == null || !Number.isFinite(total) || total < 0) {
-    throw new Error("\u745E\u5E78\u9884\u89C8\u672A\u8FD4\u56DE\u6709\u6548\u5B9E\u4ED8\u91D1\u989D\uFF0C\u65E0\u6CD5\u7EE7\u7EED\u521B\u5EFA\u8BA2\u5355\u3002");
+  if (preview?.discountPrice == null || preview.discountPrice === "" || !Number.isFinite(total) || total < 0) {
+    throw new Error("\u745E\u5E78\u9884\u89C8\u672A\u8FD4\u56DE\u6709\u6548\u8BA2\u5355\u9884\u89C8\u91D1\u989D\uFF0C\u65E0\u6CD5\u7EE7\u7EED\u521B\u5EFA\u8BA2\u5355\u3002");
   }
   return {
     shop: {
+      deptId: preview.shopInfo?.deptId,
       name: String(preview.shopInfo?.deptName ?? "\u672A\u77E5\u95E8\u5E97"),
       address: String(preview.shopInfo?.address ?? "")
     },
     products: Array.isArray(preview.productInfoList) ? preview.productInfoList.map((p2) => ({
+      productId: p2.productId,
+      skuCode: p2.skuCode,
       name: String(p2.name ?? "\u5546\u54C1"),
       amount: Number(p2.amount ?? 1),
       options: String(p2.additionDesc ?? ""),
-      price: Number(p2.estimateTotalPrice ?? p2.estimatePrice ?? 0),
+      price: p2.estimateTotalPrice ?? p2.estimatePrice ?? null,
       imageUrl: officialProductImage(p2.breviaryPicUrl ?? p2.bigPicUrl)
     })) : [],
     total,
-    pickupAt: Number(preview.aboutTime ?? 0)
+    pickupAt: preview.aboutTime ?? null
   };
 }
 
+// src/local.js
+import { chmodSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { randomUUID as randomUUID2 } from "node:crypto";
+var LocalStore = class {
+  constructor({ directory = join(homedir(), ".config", "luckin-community") } = {}) {
+    this.directory = directory;
+  }
+  read(name, fallback) {
+    try {
+      return JSON.parse(readFileSync(join(this.directory, `${name}.json`), "utf8"));
+    } catch (error2) {
+      if (error2.code === "ENOENT") return fallback;
+      throw new Error("\u65E0\u6CD5\u8BFB\u53D6\u672C\u5730\u8BB0\u5F55\uFF0C\u8BF7\u68C0\u67E5\u6587\u4EF6\u6743\u9650\u6216\u683C\u5F0F\u3002");
+    }
+  }
+  write(name, value) {
+    mkdirSync(this.directory, { recursive: true, mode: 448 });
+    chmodSync(this.directory, 448);
+    const path = join(this.directory, `${name}.json`), temporary = `${path}.${randomUUID2()}.tmp`;
+    writeFileSync(temporary, JSON.stringify(value), { mode: 384, flag: "wx" });
+    renameSync(temporary, path);
+  }
+  remember(name, value, key, limit) {
+    const previous = this.read(name, []);
+    this.write(name, [value, ...previous.filter((item) => item[key] !== value[key])].slice(0, limit));
+  }
+  snapshot() {
+    return { shops: this.read("shops", []), searches: this.read("searches", []), orders: this.read("orders", []) };
+  }
+};
+
+// src/orders.js
+var states = { 10: "\u5F85\u4ED8\u6B3E", 20: "\u4E0B\u5355\u6210\u529F", 30: "\u5236\u4F5C\u4E2D", 60: "\u7B49\u5F85\u53D6\u9910", 80: "\u5DF2\u5B8C\u6210", 100: "\u5DF2\u53D6\u6D88" };
+function pickupState(order, now = Date.now()) {
+  const status = Number(order.orderStatus), code = order.takeMealCodeInfo?.code;
+  const about = Number(order.aboutTime), timestamp = about < 1e12 ? about * 1e3 : about;
+  const full = typeof code === "string" && code.trim() !== "" && about > 0 && Number.isFinite(timestamp) && !Number.isNaN(new Date(timestamp).getTime());
+  return {
+    visible: [20, 30, 60].includes(status),
+    status: states[status] || "\u72B6\u6001\u5F85\u786E\u8BA4",
+    updatedAt: now,
+    full,
+    code: full ? code : null,
+    aboutTime: full ? timestamp : null,
+    step: { 20: 0, 30: 1, 60: 2, 80: 3 }[status] ?? null
+  };
+}
+function paymentUrl(value) {
+  try {
+    const url2 = new URL(value);
+    return url2.protocol === "https:" && !url2.username && !url2.password && ["lkcoffee.com", "weixin.qq.com", "tenpay.com"].some((host) => url2.hostname === host || url2.hostname.endsWith(`.${host}`)) ? url2.href : null;
+  } catch {
+    return null;
+  }
+}
+function orderReceipt(data, orderId = "") {
+  const status = Number(data.orderStatus), pending = status === 10 || data.orderStatus == null && data.needPay === true;
+  const amount = data.discountPrice ?? data.orderPayAmount ?? data.total;
+  return {
+    orderId: String(data.orderIdStr ?? data.orderId ?? orderId),
+    orderStatus: Number.isFinite(status) ? status : null,
+    orderStatusName: states[status] || (pending ? "\u5F85\u4ED8\u6B3E" : "\u5DF2\u521B\u5EFA \xB7 \u8BF7\u5237\u65B0\u72B6\u6001"),
+    needPay: pending,
+    total: amount != null && amount !== "" && Number.isFinite(Number(amount)) && Number(amount) >= 0 ? Number(amount) : null,
+    payOrderUrl: paymentUrl(data.payOrderUrl),
+    shopInfo: data.shopInfo,
+    productInfoList: data.productInfoList,
+    pickup: pickupState(data)
+  };
+}
+function shopSummary(shop, now = Date.now()) {
+  const time3 = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Shanghai", hour: "2-digit", minute: "2-digit", hour12: false }).format(now);
+  const start = shop.workTimeStart, end = shop.workTimeEnd;
+  const hoursKnown = /^\d{2}:\d{2}$/.test(start) && /^\d{2}:\d{2}$/.test(end) && start !== end;
+  const open = hoursKnown ? start < end ? time3 >= start && time3 < end : time3 >= start || time3 < end : null;
+  return { deptId: Number(shop.deptId), deptName: String(shop.deptName ?? "\u95E8\u5E97"), address: String(shop.address ?? ""), longitude: shop.longitude, latitude: shop.latitude, workTimeStart: start, workTimeEnd: end, distance: shop.distance, open };
+}
+
 // src/server.js
-var serverIcon = `data:image/png;base64,${readFileSync(new URL("../assets/luckin-tool-icon.png", import.meta.url)).toString("base64")}`;
-var reviewWidget = readFileSync(new URL("../ui/app.html", import.meta.url), "utf8");
-var shopWidget = readFileSync(new URL("../ui/shop.html", import.meta.url), "utf8");
+var serverIcon = `data:image/png;base64,${readFileSync2(new URL("../assets/luckin-tool-icon.png", import.meta.url)).toString("base64")}`;
+var readUi = (name) => readFileSync2(new URL(`../ui/${name}`, import.meta.url), "utf8");
+var shared = readUi("shared.js");
+var shopWidget = readUi("shop.html").replace("/* LUCKIN_SHARED */", () => shared);
+var modalWidget = shopWidget.replace("<body>", '<body data-stores-only="true">');
 var uiUri = (name, html) => `ui://luckin/${name}-${createHash("sha256").update(html).digest("hex").slice(0, 12)}.html`;
-var REVIEW_UI_URI = uiUri("app", reviewWidget);
 var SHOP_UI_URI = uiUri("shop", shopWidget);
+var MODAL_UI_URI = uiUri("stores", modalWidget);
+var reviewWidget = readUi("app.html").replace("/* LUCKIN_SHARED */", () => shared).replaceAll("__LUCKIN_STORES_URI__", MODAL_UI_URI);
+var REVIEW_UI_URI = uiUri("app", reviewWidget);
 var imageCsp = { resourceDomains: ["https://*.luckincoffeecdn.com", "https://web.luckincdn.com"] };
 var positiveId = external_exports.number().int().positive();
-var productList = external_exports.array(external_exports.object({
-  amount: external_exports.number().int().positive(),
-  productId: positiveId,
-  skuCode: external_exports.string().min(1)
-})).min(1);
-function dataResult(data, message = "\u67E5\u8BE2\u6210\u529F") {
-  return { content: [{ type: "text", text: message }], structuredContent: { data } };
-}
-function errorResult(error2) {
-  return {
-    isError: true,
-    content: [{ type: "text", text: error2 instanceof Error ? error2.message : "\u745E\u5E78\u670D\u52A1\u8BF7\u6C42\u5931\u8D25\u3002" }]
+var product = external_exports.object({ amount: external_exports.number().int().positive().max(99), productId: positiveId, skuCode: external_exports.string().min(1).max(200) });
+var productList = external_exports.array(product).min(1).max(50);
+var appOnly = { ui: { resourceUri: REVIEW_UI_URI, visibility: ["app"] } };
+var result = (kind, values = {}, message = "\u67E5\u8BE2\u6210\u529F") => ({ content: [{ type: "text", text: message }], structuredContent: { kind, ...values } });
+function createLuckinServer({ upstream, reviews = new ReviewStore(), local = new LocalStore() } = {}) {
+  upstream ??= new LuckinUpstream({ token: process.env.LUCKIN_MCP_TOKEN || local.read("credentials", {}).token });
+  const server2 = new McpServer({ name: "luckin", version: "0.2.0", icons: [{ src: serverIcon, mimeType: "image/png", sizes: ["256x256"] }] });
+  const shops = /* @__PURE__ */ new Map();
+  let selectedShop = null, cart = null;
+  const auth2 = () => upstream.authStatus();
+  const localState = () => ({ ...local.snapshot(), selectedShop, revision: reviews.revision, auth: auth2() });
+  const invalidate = () => {
+    reviews.invalidateOrders();
+    cart = null;
   };
-}
-function safe(handler) {
-  return async (args) => {
-    try {
-      return await handler(args);
-    } catch (error2) {
-      return errorResult(error2);
-    }
-  };
-}
-function createLuckinServer({ upstream = new LuckinUpstream(), reviews = new ReviewStore() } = {}) {
-  const server2 = new McpServer({
-    name: "luckin",
-    version: "0.1.8",
-    icons: [{ src: serverIcon, mimeType: "image/png", sizes: ["256x256"] }]
-  });
-  cD(server2, "luckin-review", REVIEW_UI_URI, {}, async () => ({
-    contents: [{
-      uri: REVIEW_UI_URI,
-      mimeType: AI,
-      text: reviewWidget,
-      _meta: { ui: { csp: imageCsp }, "openai/ui": { availableDisplayModes: ["inline"] } }
-    }]
-  }));
-  cD(server2, "luckin-shop", SHOP_UI_URI, {}, async () => ({
-    contents: [{
-      uri: SHOP_UI_URI,
-      mimeType: AI,
-      text: shopWidget,
-      _meta: { ui: { csp: imageCsp }, "openai/ui": { availableDisplayModes: ["fullscreen", "inline"] } }
-    }]
-  }));
-  ID(server2, "open_luckin", {
-    title: "Luckin",
-    description: "\u6253\u5F00 Luckin \u5546\u54C1\u641C\u7D22\u548C\u8D2D\u7269\u8F66\u5E94\u7528\u3002",
-    inputSchema: {},
-    annotations: { readOnlyHint: true },
-    _meta: {
-      ui: { resourceUri: SHOP_UI_URI, visibility: ["app"] },
-      "openai/ui": { entrypoints: [{ type: "global" }, { type: "thread" }] }
-    }
-  }, async () => ({ content: [{ type: "text", text: "\u5DF2\u6253\u5F00 Luckin\u3002" }], structuredContent: { kind: "shop" } }));
-  server2.registerTool("query_shop_list", {
-    title: "\u67E5\u8BE2\u745E\u5E78\u95E8\u5E97",
-    description: "\u6309\u4F4D\u7F6E\u548C\u53EF\u9009\u95E8\u5E97\u540D\u79F0\u67E5\u8BE2\u745E\u5E78\u95E8\u5E97\u3002\u7ECF\u7EAC\u5EA6\u6765\u81EA\u7528\u6237\u660E\u786E\u63D0\u4F9B\u7684\u4F4D\u7F6E\u3002",
-    inputSchema: {
-      longitude: external_exports.number().min(-180).max(180),
-      latitude: external_exports.number().min(-90).max(90),
-      deptName: external_exports.string().optional()
-    },
-    annotations: { readOnlyHint: true }
-  }, safe(async (args) => dataResult(await upstream.call("queryShopList", args))));
-  server2.registerTool("search_products", {
-    title: "\u641C\u7D22\u745E\u5E78\u5546\u54C1",
-    description: "\u5728\u6307\u5B9A\u95E8\u5E97\u6309\u7528\u6237\u539F\u59CB\u63CF\u8FF0\u641C\u7D22\u5546\u54C1\u4E0E\u53EF\u9009\u89C4\u683C\u3002",
-    inputSchema: { deptId: positiveId, query: external_exports.string().min(1) },
-    annotations: { readOnlyHint: true }
-  }, safe(async (args) => {
-    const data = await upstream.call("searchProductForMcp", args);
-    return {
-      content: [{ type: "text", text: "\u5DF2\u627E\u5230\u745E\u5E78\u5546\u54C1\u3002\u8BF7\u6839\u636E\u5546\u54C1 ID \u548C\u89C4\u683C\u7EE7\u7EED\u9009\u62E9\u3002" }],
-      structuredContent: { kind: "catalog", data, products: catalogSummary(data) }
-    };
-  }));
-  server2.registerTool("product_detail", {
-    title: "\u67E5\u8BE2\u5546\u54C1\u8BE6\u60C5",
-    description: "\u8BFB\u53D6\u6307\u5B9A\u95E8\u5E97\u5546\u54C1\u7684\u8BE6\u60C5\u548C\u89C4\u683C\u3002",
-    inputSchema: { deptId: positiveId, productId: positiveId },
-    annotations: { readOnlyHint: true }
-  }, safe(async (args) => dataResult(await upstream.call("queryProductDetailInfo", args))));
-  server2.registerTool("switch_product", {
-    title: "\u5207\u6362\u5546\u54C1\u89C4\u683C",
-    description: "\u6839\u636E\u745E\u5E78\u8FD4\u56DE\u7684\u5C5E\u6027 ID \u9009\u62E9\u5546\u54C1\u89C4\u683C\uFF0C\u5F97\u5230\u66F4\u65B0\u540E\u7684 SKU\u3002operation \u9009\u4E2D\u503C\u4E3A 3\u3002",
-    inputSchema: {
-      deptId: positiveId,
-      productId: positiveId,
-      skuCode: external_exports.string().min(1),
-      attrOperationParam: external_exports.object({
-        attributeId: positiveId,
-        subAttr: external_exports.object({ attributeId: positiveId, operation: external_exports.literal(3) })
-      }),
-      amount: external_exports.number().int().positive()
-    },
-    annotations: { readOnlyHint: true }
-  }, safe(async (args) => dataResult(await upstream.call("switchProduct", args))));
-  server2.registerTool("order_detail", {
-    title: "\u67E5\u8BE2\u745E\u5E78\u8BA2\u5355",
-    description: "\u6309\u8BA2\u5355 ID \u67E5\u8BE2\u5F53\u524D\u8BA2\u5355\u72B6\u6001\u4E0E\u53D6\u9910\u4FE1\u606F\u3002",
-    inputSchema: { orderId: external_exports.string().min(1) },
-    annotations: { readOnlyHint: true }
-  }, safe(async (args) => dataResult(await upstream.call("queryOrderDetailInfo", args))));
-  ID(server2, "review_order", {
-    title: "\u9884\u89C8\u5F85\u786E\u8BA4\u8BA2\u5355",
-    description: "\u4ECE\u745E\u5E78\u83B7\u53D6\u5B9E\u65F6\u95E8\u5E97\u3001\u5546\u54C1\u548C\u91D1\u989D\u9884\u89C8\uFF0C\u5E76\u663E\u793A\u7ED9\u7528\u6237\u786E\u8BA4\u3002\u6B64\u5DE5\u5177\u4E0D\u521B\u5EFA\u8BA2\u5355\u3002",
-    inputSchema: { deptId: positiveId, productList },
-    annotations: { readOnlyHint: true },
-    _meta: { ui: { resourceUri: REVIEW_UI_URI } }
-  }, safe(async (args) => {
-    const preview = await upstream.call("previewOrder", args);
-    const createArgs = orderCreateArgs(args, preview);
-    const summary = orderSummary(preview);
-    const reviewId = reviews.create("order", createArgs);
-    return {
-      content: [{ type: "text", text: `\u8BF7\u7528\u6237\u6838\u5BF9\u95E8\u5E97\u3001\u5546\u54C1\u548C\u4EF7\u683C\u540E\uFF0C\u5728\u786E\u8BA4\u754C\u9762\u521B\u5EFA\u8BA2\u5355\u3002\u5F53\u524D\u9884\u4F30\u91D1\u989D \xA5${summary.total.toFixed(2)}\uFF1B\u5C1A\u672A\u521B\u5EFA\u8BA2\u5355\u6216\u4ED8\u6B3E\u3002` }],
-      structuredContent: { kind: "order", reviewId, summary, expiresInSeconds: 300 }
-    };
-  }));
-  ID(server2, "confirm_order", {
-    title: "\u7528\u6237\u786E\u8BA4\u521B\u5EFA\u8BA2\u5355",
-    description: "\u4EC5\u4F9B\u745E\u5E78\u786E\u8BA4\u754C\u9762\u5728\u7528\u6237\u70B9\u51FB\u540E\u8C03\u7528\uFF1B\u521B\u5EFA\u8BA2\u5355\uFF0C\u4E0D\u81EA\u52A8\u4ED8\u6B3E\u3002",
-    inputSchema: { reviewId: external_exports.string().uuid() },
-    annotations: { destructiveHint: true },
-    _meta: { ui: { resourceUri: REVIEW_UI_URI, visibility: ["app"] } }
-  }, safe(async ({ reviewId }) => {
-    const args = reviews.take("order", reviewId);
-    const data = await upstream.call("createOrder", args);
-    return dataResult({
-      orderId: String(data.orderIdStr ?? data.orderId ?? ""),
-      needPay: Boolean(data.needPay),
-      total: data.discountPrice != null && data.discountPrice !== "" && Number.isFinite(Number(data.discountPrice)) && Number(data.discountPrice) >= 0 ? Number(data.discountPrice) : null,
-      payOrderUrl: typeof data.payOrderUrl === "string" ? data.payOrderUrl : null
-    }, "\u8BA2\u5355\u5DF2\u521B\u5EFA\u3002\u82E5\u9700\u652F\u4ED8\uFF0C\u8BF7\u5728\u745E\u5E78\u63D0\u4F9B\u7684\u5B98\u65B9\u652F\u4ED8\u6E20\u9053\u5B8C\u6210\uFF1B\u672C\u63D2\u4EF6\u4E0D\u4F1A\u81EA\u52A8\u4ED8\u6B3E\u3002");
-  }));
-  ID(server2, "review_cancel", {
-    title: "\u9884\u89C8\u53D6\u6D88\u8BA2\u5355",
-    description: "\u67E5\u8BE2\u8BA2\u5355\u5F53\u524D\u72B6\u6001\uFF0C\u5E76\u663E\u793A\u53D6\u6D88\u786E\u8BA4\u754C\u9762\u3002\u6B64\u5DE5\u5177\u4E0D\u53D6\u6D88\u8BA2\u5355\u3002",
-    inputSchema: { orderId: external_exports.string().min(1) },
-    annotations: { readOnlyHint: true },
-    _meta: { ui: { resourceUri: REVIEW_UI_URI } }
-  }, safe(async ({ orderId }) => {
-    const order = await upstream.call("queryOrderDetailInfo", { orderId });
-    if (order.orderStatus === 100) throw new Error("\u6B64\u8BA2\u5355\u5DF2\u7ECF\u53D6\u6D88\u3002");
-    const reviewId = reviews.create("cancel", { orderId });
-    return {
-      content: [{ type: "text", text: `\u8BF7\u7528\u6237\u5728\u786E\u8BA4\u754C\u9762\u6838\u5BF9\u5E76\u51B3\u5B9A\u662F\u5426\u53D6\u6D88\u8BA2\u5355 ${orderId}\uFF1B\u5C1A\u672A\u53D6\u6D88\u3002` }],
-      structuredContent: {
-        kind: "cancel",
-        reviewId,
-        summary: {
-          orderId,
-          status: String(order.orderStatusName ?? order.orderStatus ?? "\u672A\u77E5"),
-          shop: String(order.shopInfo?.deptName ?? "")
-        },
-        expiresInSeconds: 300
+  function safe(handler, retryName) {
+    return async (args) => {
+      try {
+        return await handler(args);
+      } catch (error2) {
+        const authentication = error2 instanceof AuthError;
+        const message = authentication ? error2.message : error2 instanceof Error ? error2.message : "\u745E\u5E78\u8BF7\u6C42\u5931\u8D25\u3002";
+        return { ...result(authentication ? "auth" : "notice", {
+          message,
+          ...authentication ? { expired: error2.expired } : {},
+          ...retryName ? { retry: { name: retryName, args } } : {}
+        }, message), isError: true };
       }
     };
-  }));
-  ID(server2, "confirm_cancel", {
-    title: "\u7528\u6237\u786E\u8BA4\u53D6\u6D88\u8BA2\u5355",
-    description: "\u4EC5\u4F9B\u745E\u5E78\u786E\u8BA4\u754C\u9762\u5728\u7528\u6237\u70B9\u51FB\u540E\u8C03\u7528\uFF1B\u53D6\u6D88\u8BA2\u5355\u3002",
+  }
+  const register = (name, config2, handler, retry = true) => ID(server2, name, {
+    ...config2,
+    _meta: config2._meta || { ui: { resourceUri: REVIEW_UI_URI } }
+  }, safe(handler, retry ? name : void 0));
+  const remember = (name, value, key, limit) => {
+    try {
+      local.remember(name, value, key, limit);
+      return null;
+    } catch {
+      return "\u672C\u6B21\u64CD\u4F5C\u5DF2\u5B8C\u6210\uFF0C\u4F46\u672C\u673A\u8BB0\u5F55\u672A\u80FD\u4FDD\u5B58\u3002";
+    }
+  };
+  async function getOrder(orderId) {
+    const raw = await upstream.call("queryOrderDetailInfo", { orderId });
+    const data = orderReceipt(raw, orderId), existing = local.read("orders", []).find((item) => item.orderId === orderId);
+    if (existing) {
+      data.payOrderUrl ||= existing.payOrderUrl;
+      remember("orders", { ...existing, ...data, updatedAt: Date.now() }, "orderId", 50);
+    }
+    return data;
+  }
+  async function selectShop(deptId) {
+    let shop = shops.get(deptId);
+    if (!shop) {
+      const saved = local.read("shops", []).find((item) => item.deptId === deptId);
+      if (saved && Number.isFinite(saved.longitude) && Number.isFinite(saved.latitude)) {
+        const candidates = await upstream.call("queryShopList", { longitude: saved.longitude, latitude: saved.latitude, deptName: saved.deptName });
+        for (const item of Array.isArray(candidates) ? candidates : []) shops.set(Number(item.deptId), item);
+        shop = shops.get(deptId);
+      }
+    }
+    if (!shop) throw new Error("\u8BF7\u5148\u67E5\u8BE2\u95E8\u5E97\uFF0C\u518D\u9009\u62E9\u53D6\u9910\u95E8\u5E97\u3002");
+    shop = shopSummary(shop);
+    if (shop.open === false) throw new Error("\u8BE5\u95E8\u5E97\u5C1A\u672A\u8425\u4E1A\uFF0C\u8BF7\u9009\u62E9\u5176\u4ED6\u95E8\u5E97\u3002");
+    if (selectedShop?.deptId !== deptId) invalidate();
+    selectedShop = shop;
+    const warning = remember("shops", shop, "deptId", 8);
+    return result("selection", { data: shop, revision: reviews.revision, warning }, "\u5DF2\u9009\u62E9\u95E8\u5E97\uFF1B\u66F4\u6362\u95E8\u5E97\u4F1A\u6E05\u7A7A\u8D2D\u7269\u8F66\u5E76\u4F7F\u65E7\u9884\u89C8\u5931\u6548\u3002");
+  }
+  for (const [name, uri, html, modes] of [
+    ["luckin-review", REVIEW_UI_URI, reviewWidget, ["inline"]],
+    ["luckin-shop", SHOP_UI_URI, shopWidget, ["fullscreen", "inline"]],
+    ["luckin-stores", MODAL_UI_URI, modalWidget, ["inline", "fullscreen"]]
+  ]) cD(server2, name, uri, {}, async () => ({ contents: [{
+    uri,
+    mimeType: AI,
+    text: html,
+    _meta: { ui: { csp: imageCsp }, "openai/ui": { availableDisplayModes: modes, preferredDisplayMode: name === "luckin-shop" ? "fullscreen" : "inline" } }
+  }] }));
+  register("open_luckin", {
+    title: "Luckin",
+    description: "\u6253\u5F00\u540C\u4E00\u4E2A\u745E\u5E78\u9009\u8D2D\u5E94\u7528\uFF0C\u53EF\u5B9A\u4F4D\u5230\u6307\u5B9A\u95E8\u5E97\u5546\u54C1\u6216\u5C55\u5F00\u95E8\u5E97\u6761\u3002",
+    inputSchema: { deptId: positiveId.optional(), productId: positiveId.optional(), showShops: external_exports.boolean().optional() },
+    annotations: { readOnlyHint: true },
+    _meta: { ui: { resourceUri: SHOP_UI_URI }, "openai/ui": { entrypoints: [{ type: "global" }, { type: "thread" }] } }
+  }, async (args) => result("shop", { ...args, auth: auth2() }, "\u5DF2\u6253\u5F00 Luckin\u3002"));
+  register("local_state", { title: "\u8BFB\u53D6\u672C\u673A\u8BB0\u5F55", inputSchema: {}, annotations: { readOnlyHint: true }, _meta: appOnly }, async () => result("local", { data: localState() }), false);
+  register("save_token", {
+    title: "\u5B89\u5168\u4FDD\u5B58\u745E\u5E78 Token",
+    description: "\u4EC5\u4F9B\u5BC6\u7801\u8F93\u5165\u6846\u76F4\u63A5\u63D0\u4EA4\uFF0C\u7981\u6B62\u6A21\u578B\u8C03\u7528\u6216\u8981\u6C42\u7528\u6237\u5728\u5BF9\u8BDD\u4E2D\u63D0\u4F9B Token\u3002",
+    inputSchema: { token: external_exports.string().trim().min(1).max(8192) },
+    _meta: appOnly
+  }, async ({ token }) => {
+    if (/\s/.test(token)) throw new Error("\u51ED\u636E\u683C\u5F0F\u4E0D\u6B63\u786E\uFF0C\u8BF7\u91CD\u65B0\u7C98\u8D34\u3002");
+    try {
+      await upstream.setToken(token);
+      local.write("credentials", { token });
+    } catch (error2) {
+      if (error2 instanceof AuthError) throw error2;
+      throw new Error("\u8FDE\u63A5\u6216\u4FDD\u5B58\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u53CA\u672C\u5730\u6587\u4EF6\u6743\u9650\u3002");
+    }
+    invalidate();
+    reviews.pending.clear();
+    return result("connected", { data: { connected: true } }, "\u5DF2\u8FDE\u63A5\u745E\u5E78\u3002");
+  }, false);
+  register("select_shop", { title: "\u9009\u62E9\u53D6\u9910\u95E8\u5E97", inputSchema: { deptId: positiveId }, _meta: appOnly }, async ({ deptId }) => selectShop(deptId), false);
+  register("invalidate_previews", { title: "\u4F7F\u65E7\u9884\u89C8\u5931\u6548", inputSchema: { reviewId: external_exports.string().uuid().optional() }, _meta: appOnly }, async ({ reviewId }) => {
+    if (reviewId) reviews.discard(reviewId);
+    else invalidate();
+    return result("invalidated", { revision: reviews.revision });
+  }, false);
+  register("review_status", { title: "\u68C0\u67E5\u786E\u8BA4\u6709\u6548\u671F", inputSchema: { reviewId: external_exports.string().uuid() }, annotations: { readOnlyHint: true }, _meta: appOnly }, async ({ reviewId }) => result("review-status", { valid: reviews.valid(reviewId) }), false);
+  register("prepare_cart", { title: "\u56FA\u5B9A\u5F85\u9884\u89C8\u8D2D\u7269\u8F66", inputSchema: { deptId: positiveId, productList }, _meta: appOnly }, async (args) => {
+    if (selectedShop?.deptId !== args.deptId) throw new Error("\u95E8\u5E97\u5DF2\u53D8\u5316\uFF0C\u8BF7\u91CD\u65B0\u9009\u62E9\u95E8\u5E97\u3002");
+    invalidate();
+    cart = args;
+    return result("cart", { revision: reviews.revision });
+  }, false);
+  register("query_shop_list", {
+    title: "\u67E5\u8BE2\u745E\u5E78\u95E8\u5E97",
+    description: "\u6309\u7528\u6237\u63D0\u4F9B\u7684\u5750\u6807\u67E5\u8BE2\u95E8\u5E97\uFF0C\u663E\u793A\u6700\u591A\u4E94\u5BB6\u771F\u5B9E\u7ED3\u679C\u3002",
+    inputSchema: { longitude: external_exports.number().min(-180).max(180), latitude: external_exports.number().min(-90).max(90), deptName: external_exports.string().optional() },
+    annotations: { readOnlyHint: true }
+  }, async (args) => {
+    const data = await upstream.call("queryShopList", args);
+    const list = (Array.isArray(data) ? data : []).filter((item) => Number.isSafeInteger(Number(item.deptId)) && Number(item.deptId) > 0);
+    for (const shop of list) shops.set(Number(shop.deptId), shop);
+    return result("shops", { data: list.map((shop) => shopSummary(shop)), query: args });
+  });
+  register("search_products", {
+    title: "\u641C\u7D22\u745E\u5E78\u5546\u54C1",
+    description: "\u5728\u6307\u5B9A\u95E8\u5E97\u6309\u5173\u952E\u8BCD\u641C\u7D22\u5546\u54C1\uFF1B\u4E0D\u63D0\u4F9B\u5B8C\u6574\u83DC\u5355\u3002",
+    inputSchema: { deptId: positiveId, query: external_exports.string().min(1).max(200) },
+    annotations: { readOnlyHint: true }
+  }, async (args) => {
+    const data = await upstream.call("searchProductForMcp", args);
+    remember("searches", { query: args.query }, "query", 8);
+    return result("catalog", { data, deptId: args.deptId, products: catalogSummary(data) });
+  });
+  register("product_detail", {
+    title: "\u67E5\u8BE2\u5546\u54C1\u8BE6\u60C5",
+    inputSchema: { deptId: positiveId, productId: positiveId },
+    annotations: { readOnlyHint: true }
+  }, async (args) => result("product", { deptId: args.deptId, data: await upstream.call("queryProductDetailInfo", args) }));
+  register("switch_product", {
+    title: "\u5207\u6362\u5546\u54C1\u89C4\u683C",
+    description: "\u7528\u5B98\u65B9\u5C5E\u6027 ID \u5207\u6362\u89C4\u683C\uFF0C\u9009\u4E2D\u64CD\u4F5C\u503C\u4E3A 3\u3002",
+    inputSchema: { deptId: positiveId, productId: positiveId, skuCode: external_exports.string().min(1), attrOperationParam: external_exports.object({ attributeId: positiveId, subAttr: external_exports.object({ attributeId: positiveId, operation: external_exports.literal(3) }) }), amount: external_exports.number().int().positive().max(99) },
+    annotations: { readOnlyHint: true }
+  }, async (args) => result("product", { deptId: args.deptId, data: await upstream.call("switchProduct", args) }));
+  register("order_detail", { title: "\u67E5\u8BE2\u745E\u5E78\u8BA2\u5355", inputSchema: { orderId: external_exports.string().min(1) }, annotations: { readOnlyHint: true } }, async ({ orderId }) => result("receipt", { data: await getOrder(orderId) }));
+  register("review_order", {
+    title: "\u9884\u89C8\u5F85\u786E\u8BA4\u8BA2\u5355",
+    description: "\u5B9E\u65F6\u9884\u89C8\uFF0C\u5C1A\u672A\u521B\u5EFA\u6216\u652F\u4ED8\u3002\u82E5\u4ECE\u8D2D\u7269\u8F66\u53D1\u8D77\uFF0C\u5FC5\u987B\u539F\u6837\u4F20\u5165 cartRevision\uFF1B\u53EA\u80FD\u7531\u7528\u6237\u5728\u754C\u9762\u786E\u8BA4\u3002",
+    inputSchema: { deptId: positiveId, productList, cartRevision: external_exports.number().int().nonnegative().optional() },
+    annotations: { readOnlyHint: true }
+  }, async ({ cartRevision, ...args }) => {
+    const revision = reviews.revision;
+    if (cartRevision !== void 0 && (cartRevision !== revision || JSON.stringify(cart) !== JSON.stringify(args))) throw new Error("\u8D2D\u7269\u8F66\u6216\u95E8\u5E97\u5DF2\u53D8\u5316\uFF0C\u8BF7\u91CD\u65B0\u9884\u89C8\u3002");
+    if (selectedShop && selectedShop.deptId !== args.deptId) throw new Error("\u95E8\u5E97\u5DF2\u53D8\u5316\uFF0C\u8BF7\u91CD\u65B0\u9009\u62E9\u95E8\u5E97\u540E\u9884\u89C8\u3002");
+    const preview = await upstream.call("previewOrder", args);
+    if (reviews.revision !== revision) throw new Error("\u8D2D\u7269\u8F66\u6216\u95E8\u5E97\u5DF2\u53D8\u5316\uFF0C\u8BF7\u91CD\u65B0\u9884\u89C8\u3002");
+    const createArgs = orderCreateArgs(args, preview), summary = orderSummary(preview);
+    shops.set(args.deptId, preview.shopInfo);
+    const reviewId = reviews.create("order", { createArgs, summary });
+    return result("order", { reviewId, summary, input: { ...args, ...cartRevision !== void 0 ? { cartRevision } : {} }, expiresAt: reviews.expiresAt(reviewId), expiresInSeconds: 300 }, `\u8BA2\u5355\u9884\u89C8\u91D1\u989D \xA5${summary.total.toFixed(2)}\u3002\u8BF7\u5728\u786E\u8BA4\u754C\u9762\u6838\u5BF9\uFF1B\u5C1A\u672A\u521B\u5EFA\u8BA2\u5355\u6216\u4ED8\u6B3E\u3002\u5BA2\u6237\u7AEF\u4E0D\u652F\u6301\u786E\u8BA4\u754C\u9762\u65F6\u4E0D\u80FD\u63D0\u4EA4\u3002`);
+  });
+  register("confirm_order", {
+    title: "\u7528\u6237\u786E\u8BA4\u521B\u5EFA\u8BA2\u5355",
+    description: "\u4EC5\u4F9B\u754C\u9762\u5728\u7528\u6237\u70B9\u51FB\u540E\u8C03\u7528\uFF0C\u4E0D\u81EA\u52A8\u4ED8\u6B3E\u3002",
     inputSchema: { reviewId: external_exports.string().uuid() },
     annotations: { destructiveHint: true },
-    _meta: { ui: { resourceUri: REVIEW_UI_URI, visibility: ["app"] } }
-  }, safe(async ({ reviewId }) => {
+    _meta: appOnly
+  }, async ({ reviewId }) => {
+    const { createArgs, summary } = reviews.take("order", reviewId);
+    const raw = await upstream.call("createOrder", createArgs), data = orderReceipt(raw);
+    data.shopInfo ||= { deptId: createArgs.deptId, deptName: summary.shop.name, address: summary.shop.address };
+    remember("shops", { ...shops.get(createArgs.deptId), deptId: createArgs.deptId, longitude: createArgs.longitude, latitude: createArgs.latitude }, "deptId", 8);
+    if (data.orderId) data.warning = remember("orders", { ...data, products: summary.products, input: { deptId: createArgs.deptId, productList: createArgs.productList }, createdAt: Date.now() }, "orderId", 50);
+    return result("receipt", { data }, "\u8BA2\u5355\u5DF2\u521B\u5EFA\u3002\u5982\u9700\u4ED8\u6B3E\uFF0C\u8BF7\u524D\u5F80\u745E\u5E78\u5B98\u65B9\u6E20\u9053\uFF1B\u5C1A\u4E0D\u80FD\u636E\u6B64\u8BA4\u5B9A\u5DF2\u652F\u4ED8\u3002");
+  }, false);
+  register("review_cancel", {
+    title: "\u9884\u89C8\u53D6\u6D88\u8BA2\u5355",
+    description: "\u67E5\u8BE2\u73B0\u72B6\u5E76\u663E\u793A\u786E\u8BA4\u5361\uFF0C\u4E0D\u53D6\u6D88\u8BA2\u5355\u3002",
+    inputSchema: { orderId: external_exports.string().min(1) },
+    annotations: { readOnlyHint: true }
+  }, async ({ orderId }) => {
+    const order = await getOrder(orderId);
+    if ([80, 100].includes(order.orderStatus)) throw new Error("\u8BA2\u5355\u5DF2\u7ED3\u675F\uFF0C\u65E0\u9700\u53D6\u6D88\u3002");
+    const reviewId = reviews.create("cancel", { orderId });
+    return result("cancel", { reviewId, summary: { orderId, status: order.orderStatusName, shop: order.shopInfo?.deptName ?? "" }, input: { orderId }, expiresAt: reviews.expiresAt(reviewId), expiresInSeconds: 300 }, "\u8BF7\u5728\u754C\u9762\u51B3\u5B9A\u662F\u5426\u53D6\u6D88\uFF1B\u9ED8\u8BA4\u4FDD\u7559\u8BA2\u5355\u3002\u5BA2\u6237\u7AEF\u4E0D\u652F\u6301\u786E\u8BA4\u754C\u9762\u65F6\u4E0D\u80FD\u63D0\u4EA4\u3002");
+  });
+  register("confirm_cancel", {
+    title: "\u7528\u6237\u786E\u8BA4\u53D6\u6D88\u8BA2\u5355",
+    description: "\u4EC5\u4F9B\u7528\u6237\u70B9\u51FB\u786E\u8BA4\u53D6\u6D88\u540E\u8C03\u7528\uFF1B\u63D0\u4EA4\u540E\u81EA\u52A8\u67E5\u4E00\u6B21\u6700\u7EC8\u72B6\u6001\u3002",
+    inputSchema: { reviewId: external_exports.string().uuid() },
+    annotations: { destructiveHint: true },
+    _meta: appOnly
+  }, async ({ reviewId }) => {
     const { orderId } = reviews.take("cancel", reviewId);
     const cancelled = await upstream.call("cancelOrder", { orderId });
-    const success = cancelled === true || cancelled?.data === true;
-    if (!success) throw new Error("\u745E\u5E78\u672A\u786E\u8BA4\u8BA2\u5355\u53D6\u6D88\u6210\u529F\u3002\u8BF7\u67E5\u8BE2\u8BA2\u5355\u72B6\u6001\u540E\u518D\u5904\u7406\u3002");
-    return dataResult({ orderId, cancelled: true }, "\u5DF2\u5411\u745E\u5E78\u63D0\u4EA4\u53D6\u6D88\u8BF7\u6C42\u3002\u8BF7\u67E5\u8BE2\u8BA2\u5355\u72B6\u6001\u786E\u8BA4\u6700\u7EC8\u7ED3\u679C\u3002");
-  }));
+    if (cancelled !== true && cancelled?.data !== true) throw new Error("\u745E\u5E78\u672A\u786E\u8BA4\u53D6\u6D88\u6210\u529F\uFF0C\u8BF7\u5237\u65B0\u8BA2\u5355\u72B6\u6001\u3002");
+    try {
+      return result("receipt", { data: { ...await getOrder(orderId), cancelled: true } }, "\u53D6\u6D88\u8BF7\u6C42\u5DF2\u63D0\u4EA4\uFF0C\u5DF2\u91CD\u65B0\u67E5\u8BE2\u8BA2\u5355\u72B6\u6001\u3002");
+    } catch {
+      return result("receipt", { data: { orderId, cancelled: true, warning: "\u53D6\u6D88\u8BF7\u6C42\u5DF2\u63D0\u4EA4\uFF0C\u4F46\u72B6\u6001\u5237\u65B0\u5931\u8D25\uFF0C\u8BF7\u5237\u65B0\u6838\u5B9E\u3002" } }, "\u53D6\u6D88\u8BF7\u6C42\u5DF2\u63D0\u4EA4\uFF0C\u6700\u7EC8\u72B6\u6001\u5F85\u6838\u5B9E\u3002");
+    }
+  }, false);
+  register("reorder", { title: "\u5E26\u5165\u672C\u673A\u8BA2\u5355\u5546\u54C1", description: "\u53EA\u8FD4\u56DE\u539F\u5546\u54C1\u548C\u89C4\u683C\u7528\u4E8E\u91CD\u65B0\u9884\u89C8\uFF0C\u4E0D\u521B\u5EFA\u8BA2\u5355\u3002", inputSchema: { orderId: external_exports.string().min(1) }, annotations: { readOnlyHint: true }, _meta: appOnly }, async ({ orderId }) => {
+    const order = local.read("orders", []).find((item) => item.orderId === orderId);
+    if (!order?.input) throw new Error("\u6CA1\u6709\u6B64\u8BA2\u5355\u7684\u672C\u673A\u5546\u54C1\u8BB0\u5F55\u3002");
+    return result("reorder", { data: { input: order.input, products: order.products } });
+  }, false);
   return server2;
 }
 
